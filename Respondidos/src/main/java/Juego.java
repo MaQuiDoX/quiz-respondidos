@@ -5,6 +5,13 @@ public class Juego {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
+        Pregunta pregunta = Pregunta.obtenerPregunta();
+
+        System.out.println(pregunta.getPregunta());
+        System.out.println(pregunta.getRespuestaCorrecta());
+        for (String respIn : pregunta.getRespuestasIncorrectas()){
+            System.out.println(respIn);
+        }
 
     }
 

@@ -41,8 +41,10 @@ public class Pregunta {
         if (conn != null) {
             try {
 
-                int numCategoria = new Random().nextInt(6)+1;
-                int numPregunta = new Random().nextInt(20)+1;
+                //int numCategoria = new Random().nextInt(6)+1;
+                int numCategoria = 5;
+
+                int numPregunta = new Random().nextInt(25)+1;
 
                 switch(numCategoria){
                     case 1:
@@ -98,6 +100,35 @@ public class Pregunta {
     }
 
 
+    public int getIndicadorCategoria() {
+        return indicadorCategoria;
+    }
 
+    public void setIndicadorCategoria(int indicadorCategoria) {
+        this.indicadorCategoria = indicadorCategoria;
+    }
 
+    public String getPregunta() {
+        return pregunta;
+    }
+
+    public void setPregunta(String pregunta) {
+        this.pregunta = pregunta;
+    }
+
+    public String getRespuestaCorrecta() {
+        return respuestaCorrecta;
+    }
+
+    public void setRespuestaCorrecta(String respuestaCorrecta) {
+        this.respuestaCorrecta = respuestaCorrecta;
+    }
+
+    public ArrayList<String> getRespuestasIncorrectas() {
+        return respuestasIncorrectas;
+    }
+
+    public void setRespuestasIncorrectas(ArrayList<String> respuestasIncorrectas) {
+        this.respuestasIncorrectas = respuestasIncorrectas;
+    }
 }
