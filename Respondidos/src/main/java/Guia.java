@@ -1,20 +1,11 @@
-package org.example;
+/**
+ * CLASE DE GUIA PARA SQLITE
+ */
 
-import org.example.models.ConnectDB;
-
-import javax.xml.transform.Result;
-import java.sql.*;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
-
-import java.util.Random;
-
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
+public class Guia {
+    /*
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
 
 
@@ -31,19 +22,18 @@ public class Main {
                 Statement statement = connection.createStatement();
 
                 // No tener en cuenta, la uso para arrancar de 0 el programa sin que se dupliquen los elementos que inserto.
-                statement.executeUpdate("DROP TABLE IF EXISTS pregunta");
+                //statement.executeUpdate("DROP TABLE IF EXISTS pregunta");
 
                 // Creo una tabla llamada students si no existe previamente
                 String createTable = "CREATE TABLE IF NOT EXISTS pregunta (id INTEGER PRIMARY KEY, pregunta TEXT, respuestacorrecta TEXT, respuestafallida1 TEXT, respuestafallida2 TEXT, respuestafallida3 TEXT)";
                 statement.executeUpdate(createTable);
 
                 // INSERTAR INFO A LA BASE DE DATOS
-                statement.executeUpdate("INSERT INTO pregunta (pregunta, respuestacorrecta,respuestafallida1,respuestafallida2,respuestafallida3) VALUES ('Como me llamo?','Matias','Martiniano','Rodrigo','Samuel')");
-                statement.executeUpdate("INSERT INTO pregunta (pregunta, respuestacorrecta,respuestafallida1,respuestafallida2,respuestafallida3) VALUES ('Como estamos?','Bien','Resfriado','Mareado','Contento')");
-                statement.executeUpdate("INSERT INTO pregunta (pregunta, respuestacorrecta,respuestafallida1,respuestafallida2,respuestafallida3) VALUES ('Que dia es hoy?','Domingo','Lunes','Martes','Miercoles')");
+                //statement.executeUpdate("INSERT INTO pregunta (pregunta, respuestacorrecta,respuestafallida1,respuestafallida2,respuestafallida3) VALUES ('Como me llamo?','Matias','Martiniano','Rodrigo','Samuel')");
+                //statement.executeUpdate("INSERT INTO pregunta (pregunta, respuestacorrecta,respuestafallida1,respuestafallida2,respuestafallida3) VALUES ('Como estamos?','Bien','Resfriado','Mareado','Contento')");
+                //statement.executeUpdate("INSERT INTO pregunta (pregunta, respuestacorrecta,respuestafallida1,respuestafallida2,respuestafallida3) VALUES ('Que dia es hoy?','Domingo','Lunes','Martes','Miercoles')");
 
                 // IMPRIMIR INFO DE LA BASE DE DATOS
-
                 // Copio la base de datos todos los elementos
                 ResultSet resultSet = statement.executeQuery("SELECT * FROM pregunta");
 
@@ -77,7 +67,7 @@ public class Main {
                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM pregunta WHERE id = ?");
 
                 // Al segundo valor le añado el ID al que deseo ingresar, randomizo un numero del 1 al 3 (solo tengo 3 preguntas en la base de datos)
-                int random = new Random().nextInt(3) + 1;
+                int random = new Random().nextInt(20) + 1;
                 preparedStatement.setInt(1,random);
 
                 // Accedo a la fila con el statement preparado
@@ -145,5 +135,8 @@ public class Main {
         } else {
             System.out.println("Conexion a la base de datos fallida");
         }
+
     }
+
+     */
 }

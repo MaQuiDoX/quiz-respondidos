@@ -1,5 +1,3 @@
-package org.example;
-
 public class Tupla<A, B> {
     private final A primero;
     private final B segundo;
