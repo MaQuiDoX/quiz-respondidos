@@ -44,6 +44,7 @@ public class Pregunta {
                 //int numCategoria = new Random().nextInt(6)+1;
                 int numCategoria = 5;
 
+                // La tabla maneja a partir del uno, y el random del 0, por eso le sumamos 1
                 int numPregunta = new Random().nextInt(25)+1;
 
                 switch(numCategoria){
@@ -90,6 +91,8 @@ public class Pregunta {
                     respuestasIncorr.add(rs.getString("respuestaincorrecta2"));
                     respuestasIncorr.add(rs.getString("respuestaincorrecta3"));
                     Pregunta pregunta = new Pregunta(numCategoria, preg, respuestaCorrecta, respuestasIncorr);
+
+                    conn.close();
                     return pregunta;
                 }
 
