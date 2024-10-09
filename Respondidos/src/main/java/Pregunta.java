@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class Pregunta {
     private int indicadorCategoria;
+    private int idPregunta;
 
     // 1: Arte
     // 2: Entretenimiento
@@ -20,8 +21,9 @@ public class Pregunta {
     private ArrayList<String> respuestasIncorrectas;
 
 
-    public Pregunta(int indicador, String preg, String respCorr,ArrayList<String> respIncorr){
+    public Pregunta(int indicador, int id, String preg, String respCorr,ArrayList<String> respIncorr){
         this.indicadorCategoria = indicador;
+        this.idPregunta = id;
         this.pregunta = preg;
         this.respuestaCorrecta = respCorr;
         this.respuestasIncorrectas = respIncorr;
@@ -90,7 +92,7 @@ public class Pregunta {
                     respuestasIncorr.add(rs.getString("respuestaincorrecta1"));
                     respuestasIncorr.add(rs.getString("respuestaincorrecta2"));
                     respuestasIncorr.add(rs.getString("respuestaincorrecta3"));
-                    Pregunta pregunta = new Pregunta(numCategoria, preg, respuestaCorrecta, respuestasIncorr);
+                    Pregunta pregunta = new Pregunta(numCategoria, numPregunta, preg, respuestaCorrecta, respuestasIncorr);
 
                     conn.close();
                     return pregunta;
@@ -133,6 +135,14 @@ public class Pregunta {
 
     public void setRespuestasIncorrectas(ArrayList<String> respuestasIncorrectas) {
         this.respuestasIncorrectas = respuestasIncorrectas;
+    }
+
+    public int getIdPregunta() {
+        return idPregunta;
+    }
+
+    public void setIdPregunta(int idPregunta) {
+        this.idPregunta = idPregunta;
     }
 }
 

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -6,7 +7,7 @@ public class Juego {
         Scanner sc = new Scanner(System.in);
 
         Jugador samu = new Jugador();
-        Partida partida = new Partida(null, null, samu);
+        Partida partida = new Partida(new ArrayList<>(), null, samu);
 
         partida.iniciarPartida(samu);
 

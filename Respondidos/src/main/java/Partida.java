@@ -21,57 +21,97 @@ public class Partida {
     }
 
     public void iniciarPartida(Jugador jugador){
-        System.out.println(" === PARTIDA INDIVIDUAL ===");
-        System.out.println("1. Iniciar");
-        System.out.println("2. Consultar Puntajes");
-        System.out.println("3. Salir");
-        boolean salir = false;
+        int puntajeRonda = 0;
+        int contadorPuntaje = 0;
+        boolean salir1 = false;
+        boolean salir2 = false;
+        boolean comprobarExistencia = false;
         ArrayList<String> listaRespuestas = new ArrayList<>();
         ArrayList<Tupla<Integer,String>> listaRespuestasTuplas = new ArrayList<>();
-        int opcion = Libreria.catchInt(1,3);
 
-        switch (opcion){
-            case 1:
-                while (!salir){
-                    Pregunta pregunta = Pregunta.obtenerPregunta();
-                    listaRespuestas.add(pregunta.getRespuestaCorrecta());
-                    listaRespuestas.addAll(pregunta.getRespuestasIncorrectas());
+        while (!salir1){
+            System.out.println(" === PARTIDA INDIVIDUAL ===");
+            System.out.println("Puntaje: " + puntajeRonda);
+            System.out.println("1. Responder");
+            System.out.println("2. Salir");
+            int opcion = Libreria.catchInt(1,2);
 
-                    int contador = 1;
+            salir2 = false;
+            switch (opcion){
+                case 1:
+                    while (!salir2){
 
-                    Collections.shuffle(listaRespuestas);
-
-                    for (String respuesta : listaRespuestas){
-                        Tupla<Integer, String> tupla = new Tupla<>(contador, respuesta);
-                        listaRespuestasTuplas.add(tupla);
-                        contador++;
-                    }
-
-                    Libreria.imprimirPregunta(pregunta.getPregunta(), listaRespuestasTuplas);
-
-                    int enteroRespuesta = Libreria.catchInt(1,5);
-                    int numero;
-
-                    for (Tupla tuplas : listaRespuestasTuplas) {
-                        numero = ((Integer) tuplas.getPrimero()).intValue();
-                        if (numero == enteroRespuesta) {
-                            if (tuplas.getSegundo() == pregunta.getRespuestaCorrecta()) {
-                                System.out.println("Respuesta correcta");
-                            } else {
-                                System.out.println("Respuesta fallida");
-                            }
+                        Pregunta pregunta = Pregunta.obtenerPregunta();
+                        System.out.println("Preguntas realizadas antes:");
+                        for (Tupla tupla : preguntasRealizadas){
+                            System.out.print("<"+tupla.getPrimero()+","+tupla.getSegundo()+">    ");
                         }
-                    }
+                        System.out.println();
+                        do {
+                            Tupla tuplaExistencia = new Tupla(pregunta.getIndicadorCategoria(),pregunta.getIndicadorCategoria());
+                            if (!preguntasRealizadas.isEmpty()){
+                                if (preguntasRealizadas.contains(tuplaExistencia)){
+                                    comprobarExistencia = false;
+                                    pregunta = Pregunta.obtenerPregunta();
+                                } else {
+                                    comprobarExistencia = true;
+                                }
+                            } else {
+                                comprobarExistencia = true;
+                            }
+                        } while (!comprobarExistencia);
+                        comprobarExistencia = false;
 
-                    salir = true;
+                        listaRespuestas.add(pregunta.getRespuestaCorrecta());
+                        listaRespuestas.addAll(pregunta.getRespuestasIncorrectas());
+
+                        int contador = 1;
+
+                        Collections.shuffle(listaRespuestas);
+
+                        for (String respuesta : listaRespuestas){
+                            Tupla<Integer, String> tupla = new Tupla<>(contador, respuesta);
+                            listaRespuestasTuplas.add(tupla);
+                            contador++;
+                        }
+
+                        Libreria.imprimirPregunta(pregunta.getPregunta(), listaRespuestasTuplas);
+
+                        int enteroRespuesta = Libreria.catchInt(1,5);
+                        int numero;
+
+                        for (Tupla tuplas : listaRespuestasTuplas) {
+                            numero = ((Integer) tuplas.getPrimero()).intValue();
+                            if (numero == enteroRespuesta) {
+                                if (tuplas.getSegundo() == pregunta.getRespuestaCorrecta()) {
+                                    System.out.println("Respuesta correcta");
+                                    contadorPuntaje++;
+                                    puntajeRonda = puntajeRonda + contadorPuntaje;
+                                    preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
+                                } else {
+                                    //System.out.println("Respuesta fallida");
+                                    //contadorPuntaje = 0;
+                                    //salir2 = true;
+                                    //salir1 = true;
+                                    preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
+
+                                }
+                            }
+
+                        }
+                        listaRespuestas  = new ArrayList<>();
+                        listaRespuestasTuplas = new ArrayList<>();
+                        salir2 = true;
+                        break;
+                    }
                     break;
-                }
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
+                case 2:
+                    salir1 = true;
+                    break;
+            }
         }
+
+
     }
 
     public void iniciarPartida(Jugador jugador1, Jugador jugador2){
