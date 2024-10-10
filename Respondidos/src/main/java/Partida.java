@@ -25,7 +25,6 @@ public class Partida {
         int contadorPuntaje = 0;
         boolean salir1 = false;
         boolean salir2 = false;
-        boolean comprobarExistencia = false;
         ArrayList<String> listaRespuestas = new ArrayList<>();
         ArrayList<Tupla<Integer,String>> listaRespuestasTuplas = new ArrayList<>();
 
@@ -41,27 +40,20 @@ public class Partida {
                 case 1:
                     while (!salir2){
 
+                        // Obtengo pregunta
                         Pregunta pregunta = Pregunta.obtenerPregunta();
-                        System.out.println("Preguntas realizadas antes:");
-                        for (Tupla tupla : preguntasRealizadas){
-                            System.out.print("<"+tupla.getPrimero()+","+tupla.getSegundo()+">    ");
-                        }
-                        System.out.println();
-                        do {
-                            Tupla tuplaExistencia = new Tupla(pregunta.getIndicadorCategoria(),pregunta.getIndicadorCategoria());
-                            if (!preguntasRealizadas.isEmpty()){
-                                if (preguntasRealizadas.contains(tuplaExistencia)){
-                                    comprobarExistencia = false;
-                                    pregunta = Pregunta.obtenerPregunta();
-                                } else {
-                                    comprobarExistencia = true;
-                                }
-                            } else {
-                                comprobarExistencia = true;
-                            }
-                        } while (!comprobarExistencia);
-                        comprobarExistencia = false;
 
+                        // Chequeo que la pregunta no se repita, ingreso a la lista del objeto Partida y busco la tupla dentro de la lista, si se encuentra repetida repito la creacion de pregunta
+                        if (!(preguntasRealizadas.isEmpty())){
+                            Tupla tuplaExistencia = new Tupla(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta());
+
+                            while (!checkTuplas(tuplaExistencia)){
+                                pregunta = Pregunta.obtenerPregunta();
+                                tuplaExistencia = new Tupla(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta());
+                            }
+                        }
+
+                        // Añado respuestas a una lista para mezclarlas y asignarles un numero
                         listaRespuestas.add(pregunta.getRespuestaCorrecta());
                         listaRespuestas.addAll(pregunta.getRespuestasIncorrectas());
 
@@ -77,9 +69,12 @@ public class Partida {
 
                         Libreria.imprimirPregunta(pregunta.getPregunta(), listaRespuestasTuplas);
 
+                        // 1 al 4 respuestas, 5 para poderes (aún implementar)
                         int enteroRespuesta = Libreria.catchInt(1,5);
                         int numero;
 
+                        // Transito las tuplas y si la tupla con el numero ingresado coinside con la respuesta correcta, añado los puntajes y el juego sigue
+                        // En caso de fallar, la partida es eliminada y lo unico que haría (todavia queda implementarlo) seria sumarle los puntos totales al jugador.
                         for (Tupla tuplas : listaRespuestasTuplas) {
                             numero = ((Integer) tuplas.getPrimero()).intValue();
                             if (numero == enteroRespuesta) {
@@ -89,11 +84,11 @@ public class Partida {
                                     puntajeRonda = puntajeRonda + contadorPuntaje;
                                     preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
                                 } else {
-                                    //System.out.println("Respuesta fallida");
-                                    //contadorPuntaje = 0;
-                                    //salir2 = true;
-                                    //salir1 = true;
                                     preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
+                                    System.out.println("Respuesta fallida");
+                                    contadorPuntaje = 0;
+                                    salir2 = true;
+                                    salir1 = true;
 
                                 }
                             }
@@ -117,7 +112,14 @@ public class Partida {
     public void iniciarPartida(Jugador jugador1, Jugador jugador2){
     }
 
-
+    private boolean checkTuplas(Tupla tuplaExistencia){
+        for (Tupla tuplaEx : preguntasRealizadas){
+            if ((tuplaEx.getPrimero() == tuplaExistencia.getPrimero())&&(tuplaEx.getSegundo() == tuplaExistencia.getSegundo())){
+                return false;
+            }
+        }
+        return true;
+    }
 
     public ArrayList<Tupla<Integer, Integer>> getPreguntasRealizadas() {
         return preguntasRealizadas;
