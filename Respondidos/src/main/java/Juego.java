@@ -6,11 +6,10 @@ public class Juego {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        Jugador samu = new Jugador();
+        Jugador samu = new Jugador("Samu", 0);
         Partida partida = new Partida(new ArrayList<>(), null, samu);
 
         partida.iniciarPartida(samu);
-
 
     }
 
