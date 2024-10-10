@@ -40,4 +40,29 @@ public class Jugador{
         System.out.println("Puntaje: "+ this.puntaje);
         System.out.println(" ");
     }
+
+    //Metodo para verificar si el jugador ya tiene el logro
+    // public Logros buscarLogro(String nombreLogro) {
+    //    for (Logros logro : logros) {
+    //        if (logro.getNombre().equals(nombreLogro)) {
+    //            return logro;
+    //        }
+    //    }
+    //    return null;
+    //    }
+
+    //Añadir el logro si mo existe
+    // public boolean añadirLogro(Logro logro) {
+    //   if (existe = null) {
+    //      logros.add(logro);
+    //      return aumentar = true;
+    //  } else {return aumentar = false;}
+    //}
+
+
+
+
+
 }
+
+

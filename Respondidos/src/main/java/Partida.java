@@ -83,6 +83,16 @@ public class Partida {
                                     contadorPuntaje++;
                                     puntajeRonda = puntajeRonda + contadorPuntaje;
                                     preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
+
+                                    //Verifica si el jugador desbloqueó algún logro después de cada pregunta
+                                    //LogroPorRacha logro = new LogroPorRacha(preguntasRealizadas.size())
+                                    //Logro existe = jugadorActivo.buscarLogro(logro.getNombre());
+                                    //comprueba si se añadió un nuevo logro o no, en base a eso cambia el próximo logro a conseguir
+                                    //logro.comprobar(jugadorActivo.añadirLogro(existe));
+
+
+
+
                                 } else {
                                     preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
                                     System.out.println("Respuesta fallida");
@@ -91,6 +101,12 @@ public class Partida {
                                     salir1 = true;
 
                                 }
+
+                                //Verifica si el jugador desbloqueó algún logro después de sumar nuevos puntos
+                                //LogroPorPuntos logro = new LogroPorPuntos(contadorPuntaje);
+                                //Logro existe = jugadorActivo.buscarLogro(logro.getNombre());
+                                //logro.comprobar(jugadorActivo.añadirLogro(existe));
+
                             }
 
                         }
