@@ -1,3 +1,6 @@
+
+import java.util.ArrayList;
+
 public abstract class Poder {
     protected String nombre;
     protected String descripcion;
@@ -6,6 +9,10 @@ public abstract class Poder {
     
     protected void gastarPoder(){
         
+    }
+    
+    protected void gastarPoder(ArrayList<Tupla<Integer,String>> listaTuplas){
+        System.out.println("Entra aca");
     }
     
     protected void imprimirInfo(){
