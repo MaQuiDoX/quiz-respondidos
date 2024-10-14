@@ -11,10 +11,11 @@ public class Ranking {
     }
 
     /**
-     * Imprime el ranking del primer al último elemento de la lista.
+     * Ordena e imprime el ranking del primer al último elemento de la lista. (de mayor a menor puntaje).
      * @author Nacho
      */
     public void imprimirRanking() {
+        this.ordenarRanking();
         System.out.println("-----------------------");
         System.out.println("Ranking de Jugadores:");
         System.out.println("-----------------------");

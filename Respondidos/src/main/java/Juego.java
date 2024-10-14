@@ -10,7 +10,10 @@ public class Juego {
         ranking.agregarJugador(samu);
         Jugador jug2 = new Jugador("JUGADOR 2", 50);
         ranking.agregarJugador(jug2);
-        ranking.ordenarRanking();
+        Jugador jug3 = new Jugador("ILLOJUAN", 100);
+        ranking.agregarJugador(jug3);
+
+
         ranking.imprimirRanking();
 
         Partida partida = new Partida(new ArrayList<>(), null, samu);
