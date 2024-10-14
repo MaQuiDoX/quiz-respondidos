@@ -10,7 +10,7 @@ public class Jugador{
         this.nombre = nombre;
         this.puntaje = puntaje;
         this.logros= new ArrayList<Logro>();
-        //AGREGAR METODO "AGREGARJUGADOR" DE PODIO.
+
     }
     //GETTERS
     public String getNombre() {

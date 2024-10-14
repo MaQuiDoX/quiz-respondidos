@@ -1,15 +1,21 @@
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Juego {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        Ranking ranking = new Ranking();
 
         Jugador samu = new Jugador("Samu", 0);
-        Partida partida = new Partida(new ArrayList<>(), null, samu);
+        ranking.agregarJugador(samu);
+        Jugador jug2 = new Jugador("JUGADOR 2", 50);
+        ranking.agregarJugador(jug2);
+        ranking.ordenarRanking();
+        ranking.imprimirRanking();
 
-        partida.iniciarPartida(samu);
+        //Partida partida = new Partida(new ArrayList<>(), null, samu);
+
+        //partida.iniciarPartida(samu);
 
     }
 
