@@ -7,7 +7,6 @@ public class Jugador{
     public ArrayList<Logro> logros;
 
     public Jugador(String nombre, int puntaje) {
-
         this.nombre = nombre;
         this.puntaje = puntaje;
         this.logros= new ArrayList<Logro>();

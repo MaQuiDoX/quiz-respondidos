@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collections;
 
 /*
 REVISAR MEJOR FORMA DE OPTIMIZARLO.
@@ -19,5 +19,9 @@ public class Podio{
     public void agregarJugador(Jugador jugador){
         ranking.add(jugador);
     }
-    //En el caso de que se asignen mal, la funcion es llamada en el constructor de "Jugador".
+
+    public void ordenarRanking(){
+        Collections.sort(this.ranking, (Jugador a, Jugador b)->a.getPuntaje().compareTo(b.getPuntaje()));
+    }
+
 }

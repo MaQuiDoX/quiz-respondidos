@@ -16,8 +16,7 @@ import java.util.Iterator;
 public abstract class Bomba extends Poder {
     protected String respuestaCorrecta; //PARA IDENTIFICAR AQUELLA LA QUE NO TENEMOS QUE ELIMINAR
     
-    
-    
+
     @Override
     protected void gastarPoder(ArrayList<Tupla<Integer,String>> respuestas){
         int i = 0;
