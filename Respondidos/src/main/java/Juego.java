@@ -13,9 +13,9 @@ public class Juego {
         ranking.ordenarRanking();
         ranking.imprimirRanking();
 
-        //Partida partida = new Partida(new ArrayList<>(), null, samu);
+        Partida partida = new Partida(new ArrayList<>(), null, samu);
 
-        //partida.iniciarPartida(samu);
+        partida.iniciarPartida(samu);
 
     }
 
