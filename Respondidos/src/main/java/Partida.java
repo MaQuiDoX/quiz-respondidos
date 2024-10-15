@@ -85,10 +85,9 @@ public class Partida {
                                     preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
 
                                     //Verifica si el jugador desbloqueó algún logro después de cada pregunta
-                                    //LogroPorRacha logro = new LogroPorRacha(preguntasRealizadas.size())
-                                    //Logro existe = jugadorActivo.buscarLogro(logro.getNombre());
-                                    //comprueba si se añadió un nuevo logro o no, en base a eso cambia el próximo logro a conseguir
-                                    //logro.comprobar(jugadorActivo.añadirLogro(existe));
+                                    Logros logro = new LogrosPorRacha(preguntasRealizadas.size());
+                                    logro.comprobar(jugadorActivo, logro);
+
 
 
 
@@ -103,9 +102,8 @@ public class Partida {
                                 }
 
                                 //Verifica si el jugador desbloqueó algún logro después de sumar nuevos puntos
-                                //LogroPorPuntos logro = new LogroPorPuntos(contadorPuntaje);
-                                //Logro existe = jugadorActivo.buscarLogro(logro.getNombre());
-                                //logro.comprobar(jugadorActivo.añadirLogro(existe));
+                                Logros logro = new LogrosPorPuntos(contadorPuntaje);
+                                logro.comprobar(jugadorActivo, logro);
 
                             }
 
