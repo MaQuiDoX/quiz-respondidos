@@ -1,5 +1,15 @@
+import Game.Pregunta;
+import utilities.Tupla;
+import utilities.Libreria;
+import powers.OtraOportunidad;
+import powers.TNT;
+import powers.Dinamita;
+import powers.Poder;
+import powers.Bombita;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
+import powers.CambioPregunta;
 
 public class Partida {
     private ArrayList<Tupla<Integer, Integer>> preguntasRealizadas;
@@ -21,6 +31,7 @@ public class Partida {
     }
 
     public void iniciarPartida(Jugador jugador){
+        Scanner sc = new Scanner(System.in);
         int puntajeRonda = 0;
         int contadorPuntaje = 0;
         boolean salir1 = false;
@@ -39,16 +50,16 @@ public class Partida {
             switch (opcion){
                 case 1:
                     while (!salir2){
-
+                        Poder poderAUsar = null;
                         // Obtengo pregunta
-                        Pregunta pregunta = Pregunta.obtenerPregunta();
+                        Pregunta pregunta = Pregunta.obtenerPregunta(-1);
 
                         // Chequeo que la pregunta no se repita, ingreso a la lista del objeto Partida y busco la tupla dentro de la lista, si se encuentra repetida repito la creacion de pregunta
                         if (!(preguntasRealizadas.isEmpty())){
                             Tupla tuplaExistencia = new Tupla(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta());
 
                             while (!checkTuplas(tuplaExistencia)){
-                                pregunta = Pregunta.obtenerPregunta();
+                                pregunta = Pregunta.obtenerPregunta(-1);
                                 tuplaExistencia = new Tupla(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta());
                             }
                         }
@@ -75,18 +86,18 @@ public class Partida {
                             // 1 al 4 respuestas, 5 para poderes (aún implementar)
                             int enteroRespuesta = Libreria.catchInt(1,5);
                             int numero;
-                            Poder poderAUsar;
+                            
                             if (enteroRespuesta == 5){
                                 System.out.println(" === MENU DE PODERES ===");
                                 System.out.println("¿Que poder desea usar?:");
                                 System.out.println("1. Bombita (10p)");
-                                System.out.println("2. Dinamita (20p)");
-                                System.out.println("3. TNT (30p)");
-                                System.out.println("4. Responder (35p)");
-                                System.out.println("5. Reintento (15p)");
-                                System.out.println("6. MorePoints (50p)");
+                                System.out.println("2. Dinamita (25p)");
+                                System.out.println("3. TNT (35p)");
+                                System.out.println("4. cambioPregunta (15p)");
+                                System.out.println("5. Otra Oportunidad (20p)");
+
                                 
-                                enteroRespuesta = Libreria.catchInt(1, 4);
+                                enteroRespuesta = Libreria.catchInt(1, 6);
                                 
                                 switch(enteroRespuesta){
                                     case 1:
@@ -101,7 +112,37 @@ public class Partida {
                                         poderAUsar = new TNT(pregunta.getRespuestaCorrecta());
                                         poderAUsar.gastarPoder(listaRespuestasTuplas);
                                         break;
-                                    
+                                    case 4:
+                                        System.out.println("¿De que categoria desea la pregunta?");
+                                        System.out.println("1. Arte");
+                                        System.out.println("2. Entretenimiento");
+                                        System.out.println("3. Deporte");
+                                        System.out.println("4. Ciencia");
+                                        System.out.println("5. Historia");
+                                        System.out.println("6. UNCuyo");
+                                        enteroRespuesta = Libreria.catchInt(1, 6);
+                                        poderAUsar = new CambioPregunta(enteroRespuesta);
+                                        pregunta = poderAUsar.gastarPoder(enteroRespuesta, pregunta);
+                                        
+                                        listaRespuestas = new ArrayList<>();
+                                        listaRespuestasTuplas = new ArrayList<>();
+                                        // Añado respuestas a una lista para mezclarlas y asignarles un numero
+                                        listaRespuestas.add(pregunta.getRespuestaCorrecta());
+                                        listaRespuestas.addAll(pregunta.getRespuestasIncorrectas());
+
+                                        contador = 1;
+
+                                        Collections.shuffle(listaRespuestas);
+
+                                        for (String respuesta : listaRespuestas){
+                                            Tupla<Integer, String> tupla = new Tupla<>(contador, respuesta);
+                                            listaRespuestasTuplas.add(tupla);
+                                            contador++;
+                                        }
+                                        break;
+                                    case 5:
+                                        poderAUsar = new OtraOportunidad();
+                                        break;
                                     
                                 }
                                 usoPoder = true;
@@ -117,11 +158,34 @@ public class Partida {
                                             puntajeRonda = puntajeRonda + contadorPuntaje;
                                             preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
                                         } else {
-                                            preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
-                                            System.out.println("Respuesta fallida");
-                                            contadorPuntaje = 0;
-                                            salir2 = true;
-                                            salir1 = true;
+                                            if (poderAUsar instanceof OtraOportunidad){
+                                                System.out.println("¡Intentalo otra vez!");
+                                                Tupla<Integer, String>[] otraChance = listaRespuestasTuplas.toArray(new Tupla[listaRespuestasTuplas.size()]);
+                                                
+                                                enteroRespuesta = Libreria.catchInt(1,4);
+                                                enteroRespuesta -= 1;
+                                                
+                                                if (otraChance[enteroRespuesta].getSegundo() == pregunta.getRespuestaCorrecta()){
+                                                    System.out.println("Respuesta correcta");
+                                                    contadorPuntaje++;
+                                                    puntajeRonda = puntajeRonda + contadorPuntaje;
+                                                    preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));                                                    
+                                                } else {
+                                                    preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
+                                                    System.out.println("Respuesta fallida");
+                                                    contadorPuntaje = 0;
+                                                    salir2 = true;
+                                                    salir1 = true;
+                                                }
+                                            } else {
+                                                preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
+                                                System.out.println("Respuesta fallida");
+                                                contadorPuntaje = 0;
+                                                salir2 = true;
+                                                salir1 = true;                                                
+                                            }
+                                            
+
 
                                         }
                                     }
