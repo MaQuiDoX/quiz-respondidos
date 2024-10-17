@@ -112,6 +112,10 @@ public class Partida {
                                     numero = ((Integer) tuplas.getPrimero()).intValue();
                                     if (numero == enteroRespuesta) {
                                         if (tuplas.getSegundo() == pregunta.getRespuestaCorrecta()) {
+                                            //Verifica si el jugador desbloqueó algún logro después de cada pregunta
+                                            Logros logro = new LogrosPorRacha(preguntasRealizadas.size());
+
+                                            logro.comprobar(jugadorActivo, logro);
                                             System.out.println("Respuesta correcta");
                                             contadorPuntaje++;
                                             puntajeRonda = puntajeRonda + contadorPuntaje;
@@ -124,6 +128,9 @@ public class Partida {
                                             salir1 = true;
 
                                         }
+                                        //Verifica si el jugador desbloqueó algún logro después de sumar nuevos puntos
+                                        Logros logro = new LogrosPorPuntos(contadorPuntaje);
+                                        logro.comprobar(jugadorActivo, logro);
                                     }
 
                                 }
@@ -131,6 +138,7 @@ public class Partida {
                                 listaRespuestasTuplas = new ArrayList<>();
                                 salir2 = true;
                                 break;                                
+
                             }
                         
                         }while(usoPoder);
