@@ -67,51 +67,82 @@ public class Partida {
                             contador++;
                         }
 
-                        Libreria.imprimirPregunta(pregunta.getPregunta(), listaRespuestasTuplas);
+                        //INTRODUCCION LOGICA PARA OPCION 5
+                        boolean usoPoder = false;
+                        do{
+                            Libreria.imprimirPregunta(pregunta.getPregunta(), listaRespuestasTuplas);
 
-                        // 1 al 4 respuestas, 5 para poderes (aún implementar)
-                        int enteroRespuesta = Libreria.catchInt(1,5);
-                        int numero;
+                            // 1 al 4 respuestas, 5 para poderes (aún implementar)
+                            int enteroRespuesta = Libreria.catchInt(1,5);
+                            int numero;
+                            Poder poderAUsar;
+                            if (enteroRespuesta == 5){
+                                System.out.println(" === MENU DE PODERES ===");
+                                System.out.println("¿Que poder desea usar?:");
+                                System.out.println("1. Bombita (10p)");
+                                System.out.println("2. Dinamita (20p)");
+                                System.out.println("3. TNT (30p)");
+                                System.out.println("4. Responder (35p)");
+                                System.out.println("5. Reintento (15p)");
+                                System.out.println("6. MorePoints (50p)");
+                                
+                                enteroRespuesta = Libreria.catchInt(1, 4);
+                                
+                                switch(enteroRespuesta){
+                                    case 1:
+                                        poderAUsar = new Bombita(pregunta.getRespuestaCorrecta());
+                                        poderAUsar.gastarPoder(listaRespuestasTuplas);
+                                        break;
+                                    case 2:
+                                        poderAUsar = new Dinamita(pregunta.getRespuestaCorrecta());
+                                        poderAUsar.gastarPoder(listaRespuestasTuplas);
+                                        break;
+                                    case 3:
+                                        poderAUsar = new TNT(pregunta.getRespuestaCorrecta());
+                                        poderAUsar.gastarPoder(listaRespuestasTuplas);
+                                        break;
+                                    
+                                    
+                                }
+                                usoPoder = true;
+                            } else{
+                                // Transito las tuplas y si la tupla con el numero ingresado coinside con la respuesta correcta, añado los puntajes y el juego sigue
+                                // En caso de fallar, la partida es eliminada y lo unico que haría (todavia queda implementarlo) seria sumarle los puntos totales al jugador.
+                                for (Tupla tuplas : listaRespuestasTuplas) {
+                                    numero = ((Integer) tuplas.getPrimero()).intValue();
+                                    if (numero == enteroRespuesta) {
+                                        if (tuplas.getSegundo() == pregunta.getRespuestaCorrecta()) {
+                                            //Verifica si el jugador desbloqueó algún logro después de cada pregunta
+                                            Logros logro = new LogrosPorRacha(preguntasRealizadas.size());
 
-                        // Transito las tuplas y si la tupla con el numero ingresado coinside con la respuesta correcta, añado los puntajes y el juego sigue
-                        // En caso de fallar, la partida es eliminada y lo unico que haría (todavia queda implementarlo) seria sumarle los puntos totales al jugador.
-                        for (Tupla tuplas : listaRespuestasTuplas) {
-                            numero = ((Integer) tuplas.getPrimero()).intValue();
-                            if (numero == enteroRespuesta) {
-                                if (tuplas.getSegundo() == pregunta.getRespuestaCorrecta()) {
-                                    System.out.println("Respuesta correcta");
-                                    contadorPuntaje++;
-                                    puntajeRonda = puntajeRonda + contadorPuntaje;
-                                    preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
+                                            logro.comprobar(jugadorActivo, logro);
+                                            System.out.println("Respuesta correcta");
+                                            contadorPuntaje++;
+                                            puntajeRonda = puntajeRonda + contadorPuntaje;
+                                            preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
+                                        } else {
+                                            preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
+                                            System.out.println("Respuesta fallida");
+                                            contadorPuntaje = 0;
+                                            salir2 = true;
+                                            salir1 = true;
 
-                                    //Verifica si el jugador desbloqueó algún logro después de cada pregunta
-                                    Logros logro = new LogrosPorRacha(preguntasRealizadas.size());
-                                    logro.comprobar(jugadorActivo, logro);
-
-
-
-
-
-                                } else {
-                                    preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
-                                    System.out.println("Respuesta fallida");
-                                    contadorPuntaje = 0;
-                                    salir2 = true;
-                                    salir1 = true;
+                                        }
+                                        //Verifica si el jugador desbloqueó algún logro después de sumar nuevos puntos
+                                        Logros logro = new LogrosPorPuntos(contadorPuntaje);
+                                        logro.comprobar(jugadorActivo, logro);
+                                    }
 
                                 }
-
-                                //Verifica si el jugador desbloqueó algún logro después de sumar nuevos puntos
-                                Logros logro = new LogrosPorPuntos(contadorPuntaje);
-                                logro.comprobar(jugadorActivo, logro);
+                                listaRespuestas  = new ArrayList<>();
+                                listaRespuestasTuplas = new ArrayList<>();
+                                salir2 = true;
+                                break;                                
 
                             }
+                        
+                        }while(usoPoder);
 
-                        }
-                        listaRespuestas  = new ArrayList<>();
-                        listaRespuestasTuplas = new ArrayList<>();
-                        salir2 = true;
-                        break;
                     }
                     break;
                 case 2:

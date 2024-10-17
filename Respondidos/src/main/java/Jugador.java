@@ -4,15 +4,18 @@ import java.util.ArrayList;
 public class Jugador {
     private String nombre;
     private int puntaje;
+
+
+    private int racha=0;
     public ArrayList<Poder> poderes; //Los poderes no los ibamos a aplicar en el momento??? Borrar en ese caso. (NACHO)
     public ArrayList<Logros> logros;
 
-    public Jugador(String nombre, int puntaje) {
 
+    public Jugador(String nombre, int puntaje) {
         this.nombre = nombre;
         this.puntaje = puntaje;
         this.logros = new ArrayList<Logros>();
-        //AGREGAR METODO "AGREGARJUGADOR" DE PODIO.
+
     }
 
     //GETTERS
@@ -24,9 +27,6 @@ public class Jugador {
         return puntaje;
     }
 
-    public ArrayList<Poder> getPoderes() {
-        return poderes;
-    }
 
     public ArrayList<Logros> getLogros() {
         return logros;
@@ -49,7 +49,22 @@ public class Jugador {
     }
 
 
+    /**
+     * El primer método incrementa en uno la racha(será utilizado cuando responda una pregunta correctamente)
+     * El segundo método resetea la racha (será utilizado cuando el jugador responda mal una pregunta)
+     * El tercer y último método nos brinda la racha.
+     */
+    public void incrementarRacha(){
+        this.racha+=1;
+    }
 
+    public void resetRacha(){
+        this.racha=0;
+    }
+
+    public int getRacha(){
+        return this.racha;
+    }
 }
 
 
