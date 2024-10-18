@@ -45,6 +45,13 @@ public class Partida {
             System.out.println("1. Responder");
             System.out.println("2. Salir");
             int opcion = Libreria.catchInt(1,2);
+            ////////////////////////////////////////////////////////////////
+            Bombita bombitaMenu = new Bombita();
+            Dinamita dinamitaMenu = new Dinamita();
+            TNT tntMenu = new TNT();
+            CambioPregunta cambioPreguntaMenu = new CambioPregunta();
+            OtraOportunidad otraOportunidadMenu = new OtraOportunidad();
+            ////////////////////////////////////////////////////////////////
 
             salir2 = false;
             switch (opcion){
@@ -78,10 +85,12 @@ public class Partida {
                             contador++;
                         }
 
+
                         //INTRODUCCION LOGICA PARA OPCION 5
                         boolean usoPoder = false;
                         do{
                             Libreria.imprimirPregunta(pregunta.getPregunta(), listaRespuestasTuplas);
+                            System.out.println("5: Comprar poder");
 
                             // 1 al 4 respuestas, 5 para poderes (aún implementar)
                             int enteroRespuesta = Libreria.catchInt(1,5);
@@ -90,12 +99,11 @@ public class Partida {
                             if (enteroRespuesta == 5){
                                 System.out.println(" === MENU DE PODERES ===");
                                 System.out.println("¿Que poder desea usar?:");
-                                System.out.println("1. Bombita (10p)");
-                                System.out.println("2. Dinamita (25p)");
-                                System.out.println("3. TNT (35p)");
-                                System.out.println("4. cambioPregunta (15p)");
-                                System.out.println("5. Otra Oportunidad (20p)");
-
+                                System.out.println("1. Bombita ("+bombitaMenu.getPrecio()+"p)");
+                                System.out.println("2. Dinamita ("+dinamitaMenu.getPrecio()+"p)");
+                                System.out.println("3. TNT ("+tntMenu.getPrecio()+"p)");
+                                System.out.println("4. cambioPregunta ("+cambioPreguntaMenu.getPrecio()+"p)");
+                                System.out.println("5. Otra Oportunidad ("+otraOportunidadMenu.getPrecio()+"p)");
                                 
                                 enteroRespuesta = Libreria.catchInt(1, 6);
                                 
@@ -145,6 +153,7 @@ public class Partida {
                                         break;
                                     
                                 }
+                                jugador.restarPuntaje(poderAUsar.getPrecio());
                                 usoPoder = true;
                             } else{
                                 // Transito las tuplas y si la tupla con el numero ingresado coinside con la respuesta correcta, añado los puntajes y el juego sigue

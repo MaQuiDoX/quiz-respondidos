@@ -14,13 +14,16 @@ import powers.Bomba;
  */
 public class Bombita extends Bomba {
     private static final int cantExplosiones = 1;
-    
+
+    public Bombita(){
+        this.precio = 15;
+    }
     public Bombita(String respuestaCorrecta){
-       this.nombre = "bombita";
-       this.descripcion = "¡Explota 1 respuesta incorrecta!";
-       this.precio = 20;
-       this.usos = 0;
-       this.respuestaCorrecta = respuestaCorrecta;
+        this.nombre = "bombita";
+        this.descripcion = "¡Explota 1 respuesta incorrecta!";
+        this.precio = 15;
+        this.usos = 0;
+        this.respuestaCorrecta = respuestaCorrecta;
     }
     
     @Override

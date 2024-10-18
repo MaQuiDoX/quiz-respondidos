@@ -34,4 +34,6 @@ public abstract class Poder {
     public int getUsos(){
         return usos;
     }
+
+   public int getPrecio(){ return this.precio; }
 }

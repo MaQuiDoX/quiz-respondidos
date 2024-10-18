@@ -28,6 +28,9 @@ public class Jugador {
         return puntaje;
     }
 
+    public void restarPuntaje(int precio){
+        this.puntaje-=precio;
+    }
 
     public ArrayList<Logros> getLogros() {
         return logros;

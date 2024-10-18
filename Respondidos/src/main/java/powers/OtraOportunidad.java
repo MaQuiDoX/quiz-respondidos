@@ -13,7 +13,10 @@ import powers.Poder;
  * @author Usuario
  */
 public class OtraOportunidad extends Poder{
-    
+
+    public OtraOportunidad(){
+        this.precio = 30;
+    }
     @Override
     public void gastarPoder(){
         

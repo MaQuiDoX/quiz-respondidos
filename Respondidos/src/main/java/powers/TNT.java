@@ -14,11 +14,14 @@ import powers.Bomba;
  */
 public class TNT extends Bomba {
     private static final int cantExplosiones = 3;
-    
+
+    public TNT(){
+        this.precio = 45;
+    }
     public TNT(String respuestaCorrecta){
        this.nombre = "TNT";
        this.descripcion = "¡Explota 3 respuestas incorrectas!";
-       this.precio = 80;
+       this.precio = 45;
        this.usos = 0;
        this.respuestaCorrecta = respuestaCorrecta;
     }

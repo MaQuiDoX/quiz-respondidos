@@ -13,9 +13,13 @@ import Game.Pregunta;
  */
 public class CambioPregunta extends Poder {
     private int categoriaElegida;
-    
+
+    public CambioPregunta(){
+        this.precio = 25;
+    }
     public CambioPregunta(int respuestaUsuario){
         this.categoriaElegida = respuestaUsuario;
+        this.precio = 25;
     }
 
     public int getCategoriaElegida() {
