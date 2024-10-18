@@ -1,3 +1,5 @@
+package Game;
+
 
 import models.ConnectDB;
 
@@ -34,7 +36,7 @@ public class Pregunta {
      * Función que al ser llamada devuelve un objeto Pregunta construído a partir del acceso aleatorio a cualquier lista de preguntas de la base de datos.
      * @return Objeto pregunta
      */
-    public static Pregunta obtenerPregunta(){
+    public static Pregunta obtenerPregunta(int validarNumero){
         Connection conn = new ConnectDB().getConnection();
 
         ResultSet rs = null;
@@ -42,9 +44,14 @@ public class Pregunta {
 
         if (conn != null) {
             try {
-
+                int numCategoria;
                 //int numCategoria = new Random().nextInt(6)+1;
-                int numCategoria = 5;
+                if (validarNumero == -1){
+                    numCategoria = 5;
+                } else {
+                    numCategoria = validarNumero;
+                }
+                
 
                 // La tabla maneja a partir del uno, y el random del 0, por eso le sumamos 1
                 int numPregunta = new Random().nextInt(25)+1;
@@ -103,8 +110,7 @@ public class Pregunta {
             }
         } return null;
     }
-
-
+    
     public int getIndicadorCategoria() {
         return indicadorCategoria;
     }

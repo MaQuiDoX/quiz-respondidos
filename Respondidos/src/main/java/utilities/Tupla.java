@@ -1,6 +1,8 @@
+package utilities;
+
 public class Tupla<A, B> {
     private final A primero;
-    private final B segundo;
+    private B segundo;
 
     public Tupla(A primero, B segundo) {
         this.primero = primero;
@@ -13,6 +15,10 @@ public class Tupla<A, B> {
 
     public B getSegundo() {
         return segundo;
+    }
+    
+    public void setSegundo(B segundo){
+        this.segundo = segundo;
     }
 }
 
