@@ -6,6 +6,8 @@ import powers.TNT;
 import powers.Dinamita;
 import powers.Poder;
 import powers.Bombita;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -36,6 +38,7 @@ public class Partida {
 
         ventanaPregunta vPregunta = new ventanaPregunta();
         VentanaMenu vMenu = new VentanaMenu();
+        MenuPoderes vPoderes = new MenuPoderes();
 
         vPregunta.setVisible(false);
         vMenu.setVisible(true);
@@ -130,19 +133,30 @@ public class Partida {
                             // 1 al 4 respuestas, 5 para poderes (aún implementar)
                             //int enteroRespuesta = Libreria.catchInt(1,5);
                             int numero;
-                            
+
                             if (vPregunta.numeroGlobalPregunta == 5){
-                                System.out.println(" === MENU DE PODERES ===");
-                                System.out.println("¿Que poder desea usar?:");
-                                System.out.println("1. Bombita ("+bombitaMenu.getPrecio()+"p)");
-                                System.out.println("2. Dinamita ("+dinamitaMenu.getPrecio()+"p)");
-                                System.out.println("3. TNT ("+tntMenu.getPrecio()+"p)");
-                                System.out.println("4. cambioPregunta ("+cambioPreguntaMenu.getPrecio()+"p)");
-                                System.out.println("5. Otra Oportunidad ("+otraOportunidadMenu.getPrecio()+"p)");
-                                
+
+                                vPregunta.setVisible(false);
+                                vPoderes.setVisible(true);
+                                vPregunta.numeroGlobalPregunta = 0;
+
+                                do {
+                                    try {
+                                        Thread.sleep(100);
+                                    } catch (InterruptedException e) {
+                                        Thread.currentThread().interrupt();
+                                    }
+                                } while (vMenu.numeroGlobalMenuPartida == 0);
+
+                                vPoderes.button1.setText("Bombita ("+bombitaMenu.getPrecio()+"p)");
+                                vPoderes.button2.setText("Dinamita ("+dinamitaMenu.getPrecio()+"p)");
+                                vPoderes.button3.setText("TNT ("+tntMenu.getPrecio()+"p)");
+                                vPoderes.button4.setText("cambioPregunta ("+cambioPreguntaMenu.getPrecio()+"p)");
+                                vPoderes.button5.setText("Otra Oportunidad ("+otraOportunidadMenu.getPrecio()+"p)");
+
                                 //enteroRespuesta = Libreria.catchInt(1, 6);
-                                /*
-                                switch(enteroRespuesta){
+
+                                switch(vPoderes.numeroGlobalMenuPoderes){
                                     case 1:
                                         poderAUsar = new Bombita(pregunta.getRespuestaCorrecta());
                                         poderAUsar.gastarPoder(listaRespuestasTuplas);
@@ -156,6 +170,7 @@ public class Partida {
                                         poderAUsar.gastarPoder(listaRespuestasTuplas);
                                         break;
                                     case 4:
+                                        /*
                                         System.out.println("¿De que categoria desea la pregunta?");
                                         System.out.println("1. Arte");
                                         System.out.println("2. Entretenimiento");
@@ -183,15 +198,17 @@ public class Partida {
                                             contador++;
                                         }
                                         break;
+
+                                         */
                                     case 5:
                                         poderAUsar = new OtraOportunidad();
                                         break;
-                                    
+
                                 }
                                 jugador.restarPuntaje(poderAUsar.getPrecio());
                                 usoPoder = true;
 
-                                 */
+
                             } else{
                                 // Transito las tuplas y si la tupla con el numero ingresado coinside con la respuesta correcta, añado los puntajes y el juego sigue
                                 // En caso de fallar, la partida es eliminada y lo unico que haría (todavia queda implementarlo) seria sumarle los puntos totales al jugador.
@@ -242,11 +259,12 @@ public class Partida {
                                                     salir1 = true;
                                                 }
                                             } else {
+                                            
                                                 preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
                                                 System.out.println("Respuesta fallida");
                                                 contadorPuntaje = 0;
                                                 salir2 = true;
-                                                salir1 = true;                                                
+                                                salir1 = true;
                                             }
 
 
@@ -265,7 +283,7 @@ public class Partida {
                                 listaRespuestas  = new ArrayList<>();
                                 listaRespuestasTuplas = new ArrayList<>();
                                 salir2 = true;
-                                break;                                
+                                break;
 
                             }
                         
