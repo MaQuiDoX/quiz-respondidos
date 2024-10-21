@@ -110,54 +110,88 @@ public class Partida {
                                 switch(enteroRespuesta){
                                     case 1:
                                         poderAUsar = new Bombita(pregunta.getRespuestaCorrecta());
-                                        poderAUsar.gastarPoder(listaRespuestasTuplas);
+                                        if (jugador.getPuntaje()>=poderAUsar.getPrecio()){
+                                            jugador.restarPuntaje(poderAUsar.getPrecio());
+                                            poderAUsar.gastarPoder(listaRespuestasTuplas);
+                                        }else{
+                                            System.out.println(" ");System.out.println("PUNTAJE INSUFICIENTE");
+                                            System.out.println(" ");
+                                        }
                                         break;
                                     case 2:
                                         poderAUsar = new Dinamita(pregunta.getRespuestaCorrecta());
-                                        poderAUsar.gastarPoder(listaRespuestasTuplas);
+                                        if (jugador.getPuntaje()>=poderAUsar.getPrecio()){
+                                            jugador.restarPuntaje(poderAUsar.getPrecio());
+                                            poderAUsar.gastarPoder(listaRespuestasTuplas);
+                                        }else{
+                                            System.out.println(" ");System.out.println("PUNTAJE INSUFICIENTE");
+                                            System.out.println(" ");
+                                        }
                                         break;
                                     case 3:
                                         poderAUsar = new TNT(pregunta.getRespuestaCorrecta());
-                                        poderAUsar.gastarPoder(listaRespuestasTuplas);
+                                        if (jugador.getPuntaje()>=poderAUsar.getPrecio()){
+                                            jugador.restarPuntaje(poderAUsar.getPrecio());
+                                            poderAUsar.gastarPoder(listaRespuestasTuplas);
+                                        }else{
+                                            System.out.println(" ");System.out.println("PUNTAJE INSUFICIENTE");
+                                            System.out.println(" ");
+                                        }
                                         break;
                                     case 4:
-                                        System.out.println("¿De que categoria desea la pregunta?");
-                                        System.out.println("1. Arte");
-                                        System.out.println("2. Entretenimiento");
-                                        System.out.println("3. Deporte");
-                                        System.out.println("4. Ciencia");
-                                        System.out.println("5. Historia");
-                                        System.out.println("6. UNCuyo");
-                                        enteroRespuesta = Libreria.catchInt(1, 6);
                                         poderAUsar = new CambioPregunta(enteroRespuesta);
-                                        pregunta = poderAUsar.gastarPoder(enteroRespuesta, pregunta);
-                                        
-                                        listaRespuestas = new ArrayList<>();
-                                        listaRespuestasTuplas = new ArrayList<>();
-                                        // Añado respuestas a una lista para mezclarlas y asignarles un numero
-                                        listaRespuestas.add(pregunta.getRespuestaCorrecta());
-                                        listaRespuestas.addAll(pregunta.getRespuestasIncorrectas());
+                                        if (jugador.getPuntaje()>=poderAUsar.getPrecio()){
 
-                                        contador = 1;
+                                            jugador.restarPuntaje(poderAUsar.getPrecio());
+                                            System.out.println("¿De que categoria desea la pregunta?");
+                                            System.out.println("1. Arte");
+                                            System.out.println("2. Entretenimiento");
+                                            System.out.println("3. Deporte");
+                                            System.out.println("4. Ciencia");
+                                            System.out.println("5. Historia");
+                                            System.out.println("6. UNCuyo");
+                                            enteroRespuesta = Libreria.catchInt(1, 6);
+                                            pregunta = poderAUsar.gastarPoder(enteroRespuesta, pregunta);
 
-                                        Collections.shuffle(listaRespuestas);
+                                            listaRespuestas = new ArrayList<>();
+                                            listaRespuestasTuplas = new ArrayList<>();
+                                            // Añado respuestas a una lista para mezclarlas y asignarles un numero
+                                            listaRespuestas.add(pregunta.getRespuestaCorrecta());
+                                            listaRespuestas.addAll(pregunta.getRespuestasIncorrectas());
 
-                                        for (String respuesta : listaRespuestas){
-                                            Tupla<Integer, String> tupla = new Tupla<>(contador, respuesta);
-                                            listaRespuestasTuplas.add(tupla);
-                                            contador++;
+                                            contador = 1;
+
+                                            Collections.shuffle(listaRespuestas);
+
+                                            for (String respuesta : listaRespuestas){
+                                                Tupla<Integer, String> tupla = new Tupla<>(contador, respuesta);
+                                                listaRespuestasTuplas.add(tupla);
+                                                contador++;
+                                            }
+
+                                        }else{
+                                            System.out.println(" ");System.out.println("PUNTAJE INSUFICIENTE");
+                                            System.out.println(" ");
                                         }
+
                                         break;
                                     case 5:
                                         poderAUsar = new OtraOportunidad();
+                                        if (jugador.getPuntaje()>=poderAUsar.getPrecio()){
+                                            jugador.restarPuntaje(poderAUsar.getPrecio());
+                                        }else{
+                                            System.out.println(" ");System.out.println("PUNTAJE INSUFICIENTE");
+                                            System.out.println(" ");
+                                        }
                                         break;
                                     
                                 }
-                                jugador.restarPuntaje(poderAUsar.getPrecio());
+
                                 usoPoder = true;
                             } else{
                                 // Transito las tuplas y si la tupla con el numero ingresado coinside con la respuesta correcta, añado los puntajes y el juego sigue
-                                // En caso de fallar, la partida es eliminada y lo unico que haría (todavia queda implementarlo) seria sumarle los puntos totales al jugador.
+                                // En caso de fallar, la partida es el
+                                // iminada y lo unico que haría (todavia queda implementarlo) seria sumarle los puntos totales al jugador.
                                 for (Tupla tuplas : listaRespuestasTuplas) {
                                     numero = ((Integer) tuplas.getPrimero()).intValue();
                                     if (numero == enteroRespuesta) {

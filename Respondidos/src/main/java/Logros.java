@@ -8,11 +8,8 @@ public abstract class Logros {
 
 
     public Logros() {
-
         necesitaComprobar = false;
         this.meta= meta;
-
-
     }
 
     public int getMeta() {

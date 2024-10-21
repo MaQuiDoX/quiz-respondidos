@@ -5,8 +5,6 @@ import java.util.ArrayList;
 public class Jugador {
     private String nombre;
     private int puntaje;
-
-
     private int racha=0;
     public ArrayList<Poder> poderes; //Los poderes no los ibamos a aplicar en el momento??? Borrar en ese caso. (NACHO)
     public ArrayList<Logros> logros;

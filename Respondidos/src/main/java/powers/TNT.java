@@ -30,6 +30,6 @@ public class TNT extends Bomba {
     public int getCantExplosiones(){
         return cantExplosiones;
     }
-    
+
 
 }
