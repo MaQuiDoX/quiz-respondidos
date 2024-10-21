@@ -162,14 +162,20 @@ public class Partida {
                                     numero = ((Integer) tuplas.getPrimero()).intValue();
                                     if (numero == enteroRespuesta) {
                                         if (tuplas.getSegundo() == pregunta.getRespuestaCorrecta()) {
-                                            //Verifica si el jugador desbloqueó algún logro después de cada pregunta
-                                            Logros logro = new LogrosPorRacha(preguntasRealizadas.size());
 
-                                            logro.comprobar(jugadorActivo, logro);
                                             System.out.println("Respuesta correcta");
                                             contadorPuntaje++;
                                             puntajeRonda = puntajeRonda + contadorPuntaje;
                                             preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
+
+                                            //Verifica si el jugador desbloqueó algún logro después de cada pregunta
+                                            Logros logro = new LogrosPorRacha();
+                                            logro.elegirNombre(jugadorActivo, preguntasRealizadas.size());
+                                            if (logro.isNecesitaComprobar()) {
+
+                                                logro.comprobar(jugadorActivo, logro);
+                                            }
+
                                         } else {
                                             if (poderAUsar instanceof OtraOportunidad){
                                                 System.out.println("¡Intentalo otra vez!");
@@ -201,9 +207,11 @@ public class Partida {
 
 
                                         }
+
                                         //Verifica si el jugador desbloqueó algún logro después de sumar nuevos puntos
-                                        Logros logro = new LogrosPorPuntos(contadorPuntaje);
-                                        logro.comprobar(jugadorActivo, logro);
+                                        Logros logro1 = new LogrosPorPuntos();
+                                        logro1.elegirNombre(jugadorActivo, puntajeRonda);
+                                        logro1.comprobar(jugadorActivo, logro1);
                                     }
 
                                 }

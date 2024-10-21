@@ -16,6 +16,7 @@ public class Jugador {
         this.nombre = nombre;
         this.puntaje = puntaje;
         this.logros = new ArrayList<Logros>();
+        //uno para racha y otro para puntos?
 
     }
 

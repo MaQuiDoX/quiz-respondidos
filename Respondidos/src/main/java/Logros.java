@@ -3,27 +3,41 @@ import java.util.ArrayList;
 public abstract class Logros {
     protected String nombre;
     protected int meta;
-    protected static int total = 1;
+    protected boolean necesitaComprobar;
 
 
-    public Logros(int num) {
 
-        elegirNombre(num);
+    public Logros() {
+
+        necesitaComprobar = false;
+        this.meta= meta;
 
 
+    }
+
+    public int getMeta() {
+        return meta;
     }
 
     public String getNombre() {
+
         return nombre;
     }
 
-    public void elegirNombre(int num) {
+    public boolean isNecesitaComprobar() {
+        return necesitaComprobar;
+    }
+
+    public void elegirNombre(Jugador jugador, int num) {
 
     }
 
+    public void buscarMeta(Jugador jugador){
+
+    }
 
     public void mostrarLogro(){
-        System.out.println(nombre);
+        System.out.println("LOGRO OBTENIDO: " +nombre);
     }
 
     public void comprobar(Jugador jugador, Logros logro) {
@@ -31,9 +45,10 @@ public abstract class Logros {
         if (!jugador.getLogros().contains(logro)) {
             jugador.getLogros().add(logro);
 
-            meta += meta;
-            total ++;
+
+
             mostrarLogro();
+
         }
 
 
