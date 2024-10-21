@@ -31,6 +31,13 @@ public class Partida {
     }
 
     public void iniciarPartida(Jugador jugador){
+
+        ventanaPregunta vPregunta = new ventanaPregunta();
+        VentanaMenu vMenu = new VentanaMenu();
+
+        vPregunta.setVisible(false);
+        vMenu.setVisible(true);
+
         Scanner sc = new Scanner(System.in);
         int puntajeRonda = 0;
         int contadorPuntaje = 0;
@@ -44,18 +51,23 @@ public class Partida {
             System.out.println("Puntaje: " + puntajeRonda);
             System.out.println("1. Responder");
             System.out.println("2. Salir");
-            int opcion = Libreria.catchInt(1,2);
-            ////////////////////////////////////////////////////////////////
+            //int opcion = Libreria.catchInt(1,2);
+
             Bombita bombitaMenu = new Bombita();
             Dinamita dinamitaMenu = new Dinamita();
             TNT tntMenu = new TNT();
             CambioPregunta cambioPreguntaMenu = new CambioPregunta();
             OtraOportunidad otraOportunidadMenu = new OtraOportunidad();
-            ////////////////////////////////////////////////////////////////
 
             salir2 = false;
-            switch (opcion){
+            System.out.println(vMenu.getNumeroGlobalMenuPartida());
+
+
+            switch (vMenu.getNumeroGlobalMenuPartida()){
                 case 1:
+                    vMenu.setVisible(false);
+                    vPregunta.setVisible(true);
+
                     while (!salir2){
                         Poder poderAUsar = null;
                         // Obtengo pregunta
