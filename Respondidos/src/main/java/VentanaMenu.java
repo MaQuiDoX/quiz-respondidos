@@ -1,14 +1,15 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
 
 
 public class VentanaMenu extends JFrame {
-    private JLabel Respondidos;
+    private JLabel PartidaIndividual;
     private JButton Iniciar;
     private JPanel MainPanel;
     private JButton salirButton;
+    public JLabel Puntaje;
+
 
     public int numeroGlobalMenuPartida;
 

@@ -47,10 +47,10 @@
       </component>
       <component id="50a36" class="javax.swing.JLabel" binding="Pregunta">
         <constraints>
-          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <font name="Artifakt Element Black" size="48" style="1"/>
+          <font name="Artifakt Element Black" style="1"/>
           <text value="Hola"/>
         </properties>
       </component>

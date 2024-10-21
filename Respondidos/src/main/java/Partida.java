@@ -11,6 +11,8 @@ import java.util.Collections;
 import java.util.Scanner;
 import powers.CambioPregunta;
 
+import static java.lang.Thread.sleep;
+
 public class Partida {
     private ArrayList<Tupla<Integer, Integer>> preguntasRealizadas;
     private ArrayList<Jugador> listaJugadores;
@@ -62,6 +64,13 @@ public class Partida {
             salir2 = false;
             System.out.println(vMenu.getNumeroGlobalMenuPartida());
 
+            do {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            } while (vMenu.numeroGlobalMenuPartida != 1);
 
             switch (vMenu.getNumeroGlobalMenuPartida()){
                 case 1:
@@ -104,11 +113,25 @@ public class Partida {
                             Libreria.imprimirPregunta(pregunta.getPregunta(), listaRespuestasTuplas);
                             System.out.println("5: Comprar poder");
 
+                            vPregunta.Pregunta.setText(pregunta.getPregunta());
+                            vPregunta.pregunta1Button.setText(listaRespuestasTuplas.get(0).getSegundo().toString());
+                            vPregunta.pregunta2Button.setText(listaRespuestasTuplas.get(1).getSegundo().toString());
+                            vPregunta.pregunta3Button.setText(listaRespuestasTuplas.get(2).getSegundo().toString());
+                            vPregunta.pregunta4Button.setText(listaRespuestasTuplas.get(3).getSegundo().toString());
+
+                            do {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException e) {
+                                    Thread.currentThread().interrupt();
+                                }
+                            } while (vPregunta.numeroGlobalPregunta == 0);
+
                             // 1 al 4 respuestas, 5 para poderes (aún implementar)
-                            int enteroRespuesta = Libreria.catchInt(1,5);
+                            //int enteroRespuesta = Libreria.catchInt(1,5);
                             int numero;
                             
-                            if (enteroRespuesta == 5){
+                            if (vPregunta.numeroGlobalPregunta == 5){
                                 System.out.println(" === MENU DE PODERES ===");
                                 System.out.println("¿Que poder desea usar?:");
                                 System.out.println("1. Bombita ("+bombitaMenu.getPrecio()+"p)");
@@ -117,8 +140,8 @@ public class Partida {
                                 System.out.println("4. cambioPregunta ("+cambioPreguntaMenu.getPrecio()+"p)");
                                 System.out.println("5. Otra Oportunidad ("+otraOportunidadMenu.getPrecio()+"p)");
                                 
-                                enteroRespuesta = Libreria.catchInt(1, 6);
-                                
+                                //enteroRespuesta = Libreria.catchInt(1, 6);
+                                /*
                                 switch(enteroRespuesta){
                                     case 1:
                                         poderAUsar = new Bombita(pregunta.getRespuestaCorrecta());
@@ -167,18 +190,27 @@ public class Partida {
                                 }
                                 jugador.restarPuntaje(poderAUsar.getPrecio());
                                 usoPoder = true;
+
+                                 */
                             } else{
                                 // Transito las tuplas y si la tupla con el numero ingresado coinside con la respuesta correcta, añado los puntajes y el juego sigue
                                 // En caso de fallar, la partida es eliminada y lo unico que haría (todavia queda implementarlo) seria sumarle los puntos totales al jugador.
                                 for (Tupla tuplas : listaRespuestasTuplas) {
                                     numero = ((Integer) tuplas.getPrimero()).intValue();
-                                    if (numero == enteroRespuesta) {
+                                    if (numero == vPregunta.numeroGlobalPregunta) {
                                         if (tuplas.getSegundo() == pregunta.getRespuestaCorrecta()) {
 
                                             System.out.println("Respuesta correcta");
+                                            vPregunta.numeroGlobalPregunta = 0;
                                             contadorPuntaje++;
                                             puntajeRonda = puntajeRonda + contadorPuntaje;
                                             preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
+
+                                            vPregunta.setVisible(false);
+                                            vMenu.setVisible(true);
+                                            vMenu.Puntaje.setText("Puntaje: "+puntajeRonda);
+                                            vMenu.numeroGlobalMenuPartida = 0;
+                                            vPregunta.numeroGlobalPregunta = 0;
 
                                             //Verifica si el jugador desbloqueó algún logro después de cada pregunta
                                             Logros logro = new LogrosPorRacha();
@@ -189,6 +221,7 @@ public class Partida {
                                             }
 
                                         } else {
+                                            /*
                                             if (poderAUsar instanceof OtraOportunidad){
                                                 System.out.println("¡Intentalo otra vez!");
                                                 Tupla<Integer, String>[] otraChance = listaRespuestasTuplas.toArray(new Tupla[listaRespuestasTuplas.size()]);
@@ -215,7 +248,9 @@ public class Partida {
                                                 salir2 = true;
                                                 salir1 = true;                                                
                                             }
-                                            
+
+
+                                             */
 
 
                                         }
