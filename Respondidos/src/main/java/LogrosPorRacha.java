@@ -1,12 +1,18 @@
 
 public class LogrosPorRacha extends Logros{
 
+    protected  int identificador;
 
+    public LogrosPorRacha(int id) {
+        this.identificador = id;
+    }
 
+    public int getIdentificador() {
+        return identificador;
+    }
 
-
-
-    public void elegirNombre(Jugador jugador, int racha) {
+    @Override
+    public boolean elegirNombre(Jugador jugador, int racha) {
 
         if (jugador.getLogros().isEmpty()) {
             this.meta = 5;
@@ -14,16 +20,11 @@ public class LogrosPorRacha extends Logros{
             buscarMeta(jugador);
         }
 
-        System.out.println("NUEVA META: "+meta);
-
         if (racha == meta) {
             this.nombre = "Contestar " +meta+ "  preguntas seguidas";
-            necesitaComprobar = true;
+            return true;
 
-
-        }
-
-
+        } else {return false; }
     }
 
     @Override
@@ -31,10 +32,17 @@ public class LogrosPorRacha extends Logros{
 
         int buscar = jugador.getLogros().size()-1;
 
-        this.meta = jugador.getLogros().get(buscar).getMeta() +5;
-
-
+        if (jugador.getLogros().get(buscar) instanceof LogrosPorRacha) {
+            this.meta = jugador.getLogros().get(buscar).getMeta() + 5;
+        }
     }
+
+
+
+
+
+
+
 }
 
 

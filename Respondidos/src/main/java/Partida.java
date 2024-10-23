@@ -38,6 +38,7 @@ public class Partida {
         boolean salir2 = false;
         ArrayList<String> listaRespuestas = new ArrayList<>();
         ArrayList<Tupla<Integer,String>> listaRespuestasTuplas = new ArrayList<>();
+        LogrosPorPuntos logroDeBusqueda = new LogrosPorPuntos();
 
         while (!salir1){
             System.out.println(" === PARTIDA INDIVIDUAL ===");
@@ -203,12 +204,24 @@ public class Partida {
                                             preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
 
                                             //Verifica si el jugador desbloqueó algún logro después de cada pregunta
-                                            Logros logro = new LogrosPorRacha();
-                                            logro.elegirNombre(jugadorActivo, preguntasRealizadas.size());
-                                            if (logro.isNecesitaComprobar()) {
+                                            Logros logro = new LogrosPorRacha(pregunta.getIndicadorCategoria());
+                                            boolean comprobar = logro.elegirNombre(jugadorActivo, preguntasRealizadas.size());
+                                            if (comprobar) {
 
                                                 logro.comprobar(jugadorActivo, logro);
                                             }
+
+
+
+                                            //Nos aseguramos de que se creen todos los logros por puntaje, en caso de que la partida
+                                            //termine con más puntos que la meta inicial (50 puntos)
+                                            Logros logro1 = new LogrosPorPuntos();
+                                            boolean comprobar1 =logro1.elegirNombre(jugadorActivo, puntajeRonda);
+                                            if (comprobar1) {
+                                                logro1.comprobar(jugadorActivo, logro1);
+
+                                            }
+
 
                                         } else {
                                             if (poderAUsar instanceof OtraOportunidad){
@@ -239,13 +252,16 @@ public class Partida {
                                             }
                                             
 
+                                            //nos interesa el puntaje una vez que termina la ronda, así que ahora mostramos los logros obtenidos
+                                            //por puntaje
+                                             logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
+
+
 
                                         }
 
-                                        //Verifica si el jugador desbloqueó algún logro después de sumar nuevos puntos
-                                        Logros logro1 = new LogrosPorPuntos();
-                                        logro1.elegirNombre(jugadorActivo, puntajeRonda);
-                                        logro1.comprobar(jugadorActivo, logro1);
+
+
                                     }
 
                                 }
