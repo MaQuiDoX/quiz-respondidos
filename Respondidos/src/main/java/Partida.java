@@ -193,78 +193,60 @@ public class Partida {
                                 // Transito las tuplas y si la tupla con el numero ingresado coinside con la respuesta correcta, añado los puntajes y el juego sigue
                                 // En caso de fallar, la partida es el
                                 // iminada y lo unico que haría (todavia queda implementarlo) seria sumarle los puntos totales al jugador.
-                                for (Tupla tuplas : listaRespuestasTuplas) {
-                                    numero = ((Integer) tuplas.getPrimero()).intValue();
-                                    if (numero == enteroRespuesta) {
-                                        if (tuplas.getSegundo() == pregunta.getRespuestaCorrecta()) {
+                                boolean flagOtroIntento = false;
+                                do{
+                                  for (Tupla tuplas : listaRespuestasTuplas){
+                                      numero = ((Integer) tuplas.getPrimero()).intValue();
+                                      if (numero == enteroRespuesta){
+                                          if (tuplas.getSegundo() == pregunta.getRespuestaCorrecta()){
+                                              System.out.println("Respuesta correcta");
+                                              contadorPuntaje++;
+                                              puntajeRonda = puntajeRonda + contadorPuntaje;
+                                              preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
 
-                                            System.out.println("Respuesta correcta");
-                                            contadorPuntaje++;
-                                            puntajeRonda = puntajeRonda + contadorPuntaje;
-                                            preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
-
-                                            //Verifica si el jugador desbloqueó algún logro después de cada pregunta
-                                            Logros logro = new LogrosPorRacha(pregunta.getIndicadorCategoria());
-                                            boolean comprobar = logro.elegirNombre(jugadorActivo, preguntasRealizadas.size());
-                                            if (comprobar) {
+                                              //Verifica si el jugador desbloqueó algún logro después de cada pregunta
+                                              Logros logro = new LogrosPorRacha(pregunta.getIndicadorCategoria());
+                                              boolean comprobar = logro.elegirNombre(jugadorActivo, preguntasRealizadas.size());
+                                              if (comprobar) {
 
                                                 logro.comprobar(jugadorActivo, logro);
-                                            }
+                                              }
 
 
 
-                                            //Nos aseguramos de que se creen todos los logros por puntaje, en caso de que la partida
-                                            //termine con más puntos que la meta inicial (50 puntos)
-                                            Logros logro1 = new LogrosPorPuntos();
-                                            boolean comprobar1 =logro1.elegirNombre(jugadorActivo, puntajeRonda);
-                                            if (comprobar1) {
+                                             //Nos aseguramos de que se creen todos los logros por puntaje, en caso de que la partida
+                                             //termine con más puntos que la meta inicial (50 puntos)
+                                             Logros logro1 = new LogrosPorPuntos();
+                                             boolean comprobar1 =logro1.elegirNombre(jugadorActivo, puntajeRonda);
+                                             if (comprobar1) {
                                                 logro1.comprobar(jugadorActivo, logro1);
 
-                                            }
-
-
-                                        } else {
-                                            if (poderAUsar instanceof OtraOportunidad){
-                                                System.out.println("¡Intentalo otra vez!");
-                                                Tupla<Integer, String>[] otraChance = listaRespuestasTuplas.toArray(new Tupla[listaRespuestasTuplas.size()]);
-                                                
-                                                enteroRespuesta = Libreria.catchInt(1,4);
-                                                enteroRespuesta -= 1;
-                                                
-                                                if (otraChance[enteroRespuesta].getSegundo() == pregunta.getRespuestaCorrecta()){
-                                                    System.out.println("Respuesta correcta");
-                                                    contadorPuntaje++;
-                                                    puntajeRonda = puntajeRonda + contadorPuntaje;
-                                                    preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));                                                    
-                                                } else {
-                                                    preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
-                                                    System.out.println("Respuesta fallida");
+                                             }
+                                             flagOtroIntento = false;
+                                            }else {
+                                                preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
+                                                System.out.println("Respuesta fallida");
+                                          
+                                                if (poderAUsar instanceof OtraOportunidad){
+                                                    System.out.println("¡Tienes otro intento!, Responder otra vez:");
+                                                    flagOtroIntento = true;
+                                                    poderAUsar = null;
+                                                    enteroRespuesta = Libreria.catchInt(1, 4);
+                                                } else{
                                                     contadorPuntaje = 0;
                                                     salir2 = true;
                                                     salir1 = true;
+                                                    flagOtroIntento = false;
                                                 }
-                                            } else {
-                                                preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
-                                                System.out.println("Respuesta fallida");
-                                                contadorPuntaje = 0;
-                                                salir2 = true;
-                                                salir1 = true;                                                
                                             }
-                                            
-
-                                            //nos interesa el puntaje una vez que termina la ronda, así que ahora mostramos los logros obtenidos
-                                            //por puntaje
-                                             logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
-
-
-
                                         }
-
-
-
                                     }
+                                }while (flagOtroIntento);
+                                       
 
-                                }
+                                //nos interesa el puntaje una vez que termina la ronda, así que ahora mostramos los logros obtenidos
+                                //por puntaje
+                                logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
                                 listaRespuestas  = new ArrayList<>();
                                 listaRespuestasTuplas = new ArrayList<>();
                                 salir2 = true;
