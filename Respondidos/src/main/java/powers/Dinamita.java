@@ -9,7 +9,7 @@ import powers.Bomba;
  */
 
 /**
- *
+ * Dinamita es la clase de mediano nivel de Bomba, la cual solo puede explotar 2 respuestas incorrectas.
  * @author Usuario
  */
 public class Dinamita extends Bomba {
@@ -22,7 +22,6 @@ public class Dinamita extends Bomba {
        this.nombre = "dinamita";
        this.descripcion = "¡Explota 2 respuestas incorrectas!";
        this.precio = 25;
-       this.usos = 0;
        this.respuestaCorrecta = respuestaCorrecta;
     }
     

@@ -9,7 +9,7 @@ import powers.Bomba;
  */
 
 /**
- *
+ * Bombita es la clase de menor nivel de Bomba, la cual solo puede explotar 1 respuesta incorrecta.
  * @author Usuario
  */
 public class Bombita extends Bomba {
@@ -22,7 +22,6 @@ public class Bombita extends Bomba {
         this.nombre = "bombita";
         this.descripcion = "¡Explota 1 respuesta incorrecta!";
         this.precio = 15;
-        this.usos = 0;
         this.respuestaCorrecta = respuestaCorrecta;
     }
     

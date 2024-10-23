@@ -9,7 +9,7 @@ import powers.Bomba;
  */
 
 /**
- *
+ * TNT es la clase de maximo nivel de Bomba, la cual puede explotar 3 respuestas incorrectas.
  * @author Usuario
  */
 public class TNT extends Bomba {
@@ -22,7 +22,6 @@ public class TNT extends Bomba {
        this.nombre = "TNT";
        this.descripcion = "¡Explota 3 respuestas incorrectas!";
        this.precio = 45;
-       this.usos = 0;
        this.respuestaCorrecta = respuestaCorrecta;
     }
     
