@@ -17,6 +17,12 @@ public class Juego {
         Jugador jug3 = new Jugador("ILLOJUAN", 100);
         ranking.agregarJugador(jug3);
 
+        // ----- TESTEOS USUARIOS -----
+        Usuarios usu = new Usuarios();
+        usu.addUsuarioDB(samu, "el777boy$exy");
+        usu.addUsuarioDB(jug2, "fuaLocaz0");
+        usu.addUsuarioDB(jug3, "gatitoTravieso69");
+        // ----- FIN TESTEOS USARIOS -----
 
         ranking.imprimirRanking();
 
