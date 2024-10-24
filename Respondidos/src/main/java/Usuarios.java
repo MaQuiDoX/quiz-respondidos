@@ -1,11 +1,74 @@
 import models.ConnectDB;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.Scanner;
 
 public class Usuarios {
 
+    public Jugador registerUsuario(){
+        ConnectDB db = new ConnectDB();
+        Connection connection = db.getConnection();
+        Boolean flag = true;
+        Scanner sc = new Scanner(System.in);
+        String nombreDB = "";
+        while(flag){
+            System.out.println("Ingrese su nombre de usuario");
+            nombreDB = sc.next();
+            if (connection != null) {
+                try {
+                    Statement statement = connection.createStatement();
+                    ResultSet namesInDB = statement.executeQuery("SELECT * FROM usuarios WHERE nombre = '"+nombreDB+"'");
+                    if (!namesInDB.next()) {
+                        flag = false;
+                        System.out.println("Nombre disponible! Puede ingresar la contraseña");
+                    }
+                    statement.close();
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    db.closeConnection();
+                }
+            } else {
+                System.out.println("Conexion a la base de datos fallida, no se puede verificar la disponibilidad del nombre de usuario");
+                // -----$%&$%&-----$%&$%&-----$%&$%&----- Hacer que salga de acá xd -----$%&$%&-----$%&$%&-----$%&$%&-----
+            }
+        }
+        System.out.println("Ingrese la contrasena");
+        String contrasenaDB = sc.next();
+        // Añadir que la escriba 2 veces o algo así no se :S
+        Jugador jugador = new Jugador(nombreDB, 0);
+        addUsuarioDB(jugador, contrasenaDB);
+        return jugador;
+    }
+    public Jugador loadUsuario(String nombreDB, String contrasenaDB){
+        ConnectDB db = new ConnectDB();
+        Connection connection = db.getConnection();
+        System.out.println("ESTAMOS EN CARGAR USUARIO JAJAJAJAJJAS QUE LOCOS");
+        int puntajeDB = 0;
+        if (connection != null) {
+            try {
+                Statement statement = connection.createStatement();
+                ResultSet nombreInDB = statement.executeQuery("SELECT * FROM usuarios WHERE nombre = '"+nombreDB+"'");
+                ResultSet contrasenaInDB = statement.executeQuery("SELECT * FROM usuarios WHERE contrasena = '"+contrasenaDB+"'");
+                if (nombreInDB.next() && contrasenaInDB.next()) {
+                    System.out.println("Usuario cargado correctamente");
+                    System.out.println(nombreInDB.getString("nombre")+"+"+nombreInDB.getString("contrasena")+"+"+nombreInDB.getInt("puntaje"));
+                    puntajeDB = nombreInDB.getInt("puntaje");
+                }
+                statement.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                db.closeConnection();
+            }
+        } else {
+            System.out.println("Conexion a la base de datos fallida, no se puede cargar el usuario");
+            // -----$%&$%&-----$%&$%&-----$%&$%&----- Hacer que salga de acá xd -----$%&$%&-----$%&$%&-----$%&$%&-----
+        }
+        return new Jugador(nombreDB,puntajeDB);
+    }
     public void addUsuarioDB(Jugador jugador, String contrasenaDB){
         // Preparar variables para insertar dentro de la base de datos
         String nombreDB = jugador.getNombre();

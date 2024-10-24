@@ -22,6 +22,13 @@ public class Juego {
         usu.addUsuarioDB(samu, "el777boy$exy");
         usu.addUsuarioDB(jug2, "fuaLocaz0");
         usu.addUsuarioDB(jug3, "gatitoTravieso69");
+        Jugador jugadorRegistrado = usu.registerUsuario();
+
+        Jugador jugadorCargado = usu.loadUsuario(jugadorRegistrado.getNombre(), "draukeo");
+        System.out.println("Nombre jugador Cargado: "+jugadorCargado.getNombre()+"\n Puntuación jugador Cargado: "+jugadorCargado.getPuntaje());
+        Jugador jugadorCargado2 = usu.loadUsuario("Samu", "el777boy$exy");
+        System.out.println("Nombre jugador Cargado2: "+jugadorCargado2.getNombre()+"\n Puntuación jugador Cargado2: "+jugadorCargado2.getPuntaje());
+
         // ----- FIN TESTEOS USARIOS -----
 
         ranking.imprimirRanking();
