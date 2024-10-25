@@ -39,6 +39,8 @@ public class Partida {
         ArrayList<String> listaRespuestas = new ArrayList<>();
         ArrayList<Tupla<Integer,String>> listaRespuestasTuplas = new ArrayList<>();
         LogrosPorPuntos logroDeBusqueda = new LogrosPorPuntos();
+        LogrosRachaCatgoria iniciar = new LogrosRachaCatgoria(0);
+        iniciar.inicializarContadores();
 
         while (!salir1){
             System.out.println(" === PARTIDA INDIVIDUAL ===");
@@ -205,7 +207,7 @@ public class Partida {
                                               preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
 
                                               //Verifica si el jugador desbloqueó algún logro después de cada pregunta
-                                              Logros logro = new LogrosPorRacha(pregunta.getIndicadorCategoria());
+                                              Logros logro = new LogrosPorRacha();
                                               boolean comprobar = logro.elegirNombre(jugadorActivo, preguntasRealizadas.size());
                                               if (comprobar) {
 
@@ -250,6 +252,15 @@ public class Partida {
                                 listaRespuestas  = new ArrayList<>();
                                 listaRespuestasTuplas = new ArrayList<>();
                                 salir2 = true;
+
+                                for (int i= 0; i<=preguntasRealizadas.size()-2;i++){
+                                    LogrosRachaCatgoria logro2= new LogrosRachaCatgoria(preguntasRealizadas.get(i).getPrimero());
+                                    boolean comprobar2 = logro2.elegirNombre(jugadorActivo, preguntasRealizadas.get(i).getPrimero());
+                                    if (comprobar2) {
+                                        logro2.comprobar(jugadorActivo, logro2);
+                                    }
+                                }
+
                                 break;                                
 
                             }
