@@ -7,11 +7,11 @@ public class LogrosRachaCatgoria extends LogrosPorRacha{
     protected String categoria;
     protected ArrayList<Tupla<Integer, Integer>> contadores;
 
-    public LogrosRachaCatgoria(int id) {
-        gestionContadores(id);
-
-
-    }
+//    public LogrosRachaCatgoria(int id) {
+//        gestionContadores(id);
+//
+//
+//    }
 
     public void inicializarContadores(){
         contadores = new ArrayList<>();
@@ -21,11 +21,11 @@ public class LogrosRachaCatgoria extends LogrosPorRacha{
         }
     }
 
-    public void gestionContadores(int num) {
-        Integer aumentar = contadores.get(num-1).getSegundo();
-        contadores.get(num-1).setSegundo(aumentar++);
-
-    }
+//    public void gestionContadores(int num) {
+//        Integer aumentar = contadores.get(num-1).getSegundo();
+//        contadores.get(num-1).setSegundo(aumentar++);
+//
+//    }
 
 
     public void definirCategoria(int numero) {
