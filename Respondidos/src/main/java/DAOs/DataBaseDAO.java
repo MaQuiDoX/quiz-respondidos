@@ -20,15 +20,12 @@ public class DataBaseDAO {
     public void disconnectDB() throws Exception {
         try {
             if (resultset != null) {
-                System.out.println("Cerrando conexion");
                 resultset.close();
             }
             if (statement != null) {
-                System.out.println("Cerrando conexion");
                 statement.close();
             }
             if (connection != null) {
-                System.out.println("Cerrando conexion");
                 connection.close();
             }
         } catch (Exception ex) {

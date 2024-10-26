@@ -1,3 +1,5 @@
+import DAOs.UsuariosDAO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,17 +20,20 @@ public class Juego {
         ranking.agregarJugador(jug3);
 
         // ----- TESTEOS USUARIOS -----
+        // UsuariosDAO usuDAO = new UsuariosDAO();
+        // usuDAO.borrarBaseDatosUsuarios();
         Usuarios usu = new Usuarios();
-        /*usu.addUsuarioDB(samu, "el777boy$exy");
-        usu.addUsuarioDB(jug2, "fuaLocaz0");
-        usu.addUsuarioDB(jug3, "gatitoTravieso69");*/
+        usu.printUsuarios();
+        // usu.addUsuarioDB(samu, "el777boy$exy");
+        // usu.addUsuarioDB(jug2, "fuaLocaz0");
+        // usu.addUsuarioDB(jug3, "gatitoTravieso69");
         Jugador jugadorRegistrado = usu.registerUsuario();
 
-        /*Jugador jugadorCargado = usu.loadUsuario(jugadorRegistrado.getNombre(), "draukeo");
+        Jugador jugadorCargado = usu.loadUsuario(jugadorRegistrado.getNombre(), "draukeo");
         System.out.println("Nombre jugador Cargado: "+jugadorCargado.getNombre()+"\n Puntuación jugador Cargado: "+jugadorCargado.getPuntaje());
         Jugador jugadorCargado2 = usu.loadUsuario("Samu", "el777boy$exy");
         System.out.println("Nombre jugador Cargado2: "+jugadorCargado2.getNombre()+"\n Puntuación jugador Cargado2: "+jugadorCargado2.getPuntaje());
-        */// ----- FIN TESTEOS USARIOS -----
+        // ----- FIN TESTEOS USARIOS -----
 
         ranking.imprimirRanking();
 
