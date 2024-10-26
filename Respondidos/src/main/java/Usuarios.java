@@ -1,47 +1,46 @@
-import models.ConnectDB;
+import DAOs.DataBaseDAO;
+import DAOs.UsuariosDAO;
 
 import java.sql.*;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Usuarios {
-
-    public Jugador registerUsuario(){
-        ConnectDB db = new ConnectDB();
-        Connection connection = db.getConnection();
-        Boolean flag = true;
+    public Jugador registerUsuario() throws Exception {
+        UsuariosDAO db = new UsuariosDAO();
         Scanner sc = new Scanner(System.in);
-        String nombreDB = "";
-        while(flag){
-            System.out.println("Ingrese su nombre de usuario");
-            nombreDB = sc.next();
-            if (connection != null) {
-                try {
-                    Statement statement = connection.createStatement();
-                    ResultSet namesInDB = statement.executeQuery("SELECT * FROM usuarios WHERE nombre = '"+nombreDB+"'");
-                    if (!namesInDB.next()) {
-                        flag = false;
-                        System.out.println("Nombre disponible! Puede ingresar la contraseña");
-                    }
-                    statement.close();
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    db.closeConnection();
-                }
+        Boolean salir = false;
+        String nombre = "";
+        String contrasena = "";
+        System.out.println("Ingrese su nombre de usuario:");
+        while(!salir){
+            nombre = sc.nextLine();
+            Boolean nameAvailable = db.searchUserName(nombre);
+            if (nameAvailable) {
+                salir = true;
+                System.out.println("Nombre disponible. Puede ingresar la contraseña.");
             } else {
-                System.out.println("Conexion a la base de datos fallida, no se puede verificar la disponibilidad del nombre de usuario");
-                // -----$%&$%&-----$%&$%&-----$%&$%&----- Hacer que salga de acá xd -----$%&$%&-----$%&$%&-----$%&$%&-----
+                System.out.println("Nombre no disponible. Intente con otro.");
             }
         }
-        System.out.println("Ingrese la contrasena");
-        String contrasenaDB = sc.next();
-        // Añadir que la escriba 2 veces o algo así no se :S
-        Jugador jugador = new Jugador(nombreDB, 0);
-        addUsuarioDB(jugador, contrasenaDB);
+        System.out.println("Ingrese la contrasena:");
+        salir = false;
+        while(!salir){
+            contrasena = sc.nextLine();
+            System.out.println("Confirme su contrasena:");
+            String contrasenaConfirm = sc.nextLine();
+            if (Objects.equals(contrasena, contrasenaConfirm)){
+                salir = true;
+                System.out.println("Contraseña confirmada. Su usuario ha sido creado.");
+            } else {
+                System.out.println("Las contraseñas no coinciden. Intente de nuevo.");
+            }
+        }
+        Jugador jugador = new Jugador(nombre, 0);
+        // addUsuarioDB(jugador, contrasena);
         return jugador;
     }
-    public Jugador loadUsuario(String nombreDB, String contrasenaDB){
+    /*public Jugador loadUsuario(String nombreDB, String contrasenaDB){
         ConnectDB db = new ConnectDB();
         Connection connection = db.getConnection();
         System.out.println("ESTAMOS EN CARGAR USUARIO JAJAJAJAJJAS QUE LOCOS");
@@ -133,5 +132,5 @@ public class Usuarios {
         } else {
             System.out.println("Conexion a la base de datos fallida");
         }
-    }
+    }*/
 }

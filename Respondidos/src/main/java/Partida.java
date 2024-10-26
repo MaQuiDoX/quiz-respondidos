@@ -30,7 +30,7 @@ public class Partida {
         }
     }
 
-    public void iniciarPartida(Jugador jugador){
+    public void iniciarPartida(Jugador jugador) throws Exception {
         Scanner sc = new Scanner(System.in);
         int puntajeRonda = 0;
         int contadorPuntaje = 0;
