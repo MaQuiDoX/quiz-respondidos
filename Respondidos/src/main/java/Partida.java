@@ -295,9 +295,9 @@ public class Partida {
 
 
 
-//                                for (int i= 0; i<=preguntasRealizadas.size()-2;i++){
-//                                    LogrosRachaCatgoria logro2= new LogrosRachaCatgoria(preguntasRealizadas.get(i).getPrimero());
-//                                    boolean comprobar2 = logro2.elegirNombre(jugadorActivo, preguntasRealizadas.get(i).getPrimero());
+//                                for (int i=0; i<= arrayDeCategoria.size()-1; i++){
+//                                    Logro logro2 = new LogrosRachaCategoria(arrayDeCategoria.get(i));
+//                                    boolean comprobar2 = logro2.elegirNombre(jugadorActivo, arrayDePreguntasRespondidasDeEsaCategoria.size());
 //                                    if (comprobar2) {
 //                                        logro2.comprobar(jugadorActivo, logro2);
 //                                    }

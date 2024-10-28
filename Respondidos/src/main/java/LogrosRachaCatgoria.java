@@ -2,30 +2,17 @@ import utilities.Tupla;
 
 import java.util.ArrayList;
 
-public class LogrosRachaCatgoria extends LogrosPorRacha{
+public class LogrosRachaCatgoria extends Logros{
 
-    protected String categoria;
-    protected ArrayList<Tupla<Integer, Integer>> contadores;
+    //String categoria;
 
-//    public LogrosRachaCatgoria(int id) {
-//        gestionContadores(id);
+
+// public LogrosRachaCatgoria(int id, int preguntasRespondidas){
+//    definirCategoria(id);
 //
-//
-//    }
+//          }
 
-    public void inicializarContadores(){
-        contadores = new ArrayList<>();
 
-        for (int i = 0; i <= 5; i++) {
-            contadores.add(new Tupla<>(i, 0));
-        }
-    }
-
-//    public void gestionContadores(int num) {
-//        Integer aumentar = contadores.get(num-1).getSegundo();
-//        contadores.get(num-1).setSegundo(aumentar++);
-//
-//    }
 
 
     public void definirCategoria(int numero) {
@@ -48,7 +35,13 @@ public class LogrosRachaCatgoria extends LogrosPorRacha{
 
 
     @Override
-    public boolean elegirNombre(Jugador jugador, int id) {
+    public boolean elegirNombre(Jugador jugador, int tamanioArray) {
+
+        // buscarMeta(preguntasRespondidas);
+        //if (tamanioArray == this.meta) {
+        //   this.nombre= "LOGRO OBTENIDO: Contestar "+this.meta+" preguntas de "+this.categoria+"en una partida";
+        //   return true
+        //  }else{return false;}
 
             int rachaActual = contadores.get(id-1).getSegundo();
             definirCategoria(id);
@@ -61,8 +54,15 @@ public class LogrosRachaCatgoria extends LogrosPorRacha{
     }
 
 
-    public void buscarMeta(Jugador jugador, int id) {
 
+    public void buscarMeta(Jugador jugador, String categoria) {
+
+        //if (jugador.getLogros())
+        //for(int i = 0; i<=jugador.getLogros.size()-1; i++) {
+        //      if(jugador.getLogros.get(i) instanceof LogrosRachaCatgoria && jugador.getLogros.get(i).getCategoria = categoria) {
+        //         this.meta = jugador.getLogros.get(i).getMeta +5
+        //      }else{this.meta = 5}
+        //   }
             int rachaActual=contadores.get(id-1).getSegundo();
             if (rachaActual<5) {
                 this.meta= 5;
