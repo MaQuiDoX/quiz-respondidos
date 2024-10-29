@@ -8,6 +8,7 @@ public class PartidaIndividual extends Partida {
 
     public void iniciarPartida(Jugador jugador) {
         LogrosPorPuntos logroDeBusqueda = new LogrosPorPuntos();
+        ArrayList<Tupla<Integer, String>> listaRespuestasTuplas;
         for (int i = 0; i < 6; i++) {
             ArrayList<Integer> subLista = new ArrayList<>();
             preguntasRealizadas.add(subLista);
@@ -21,19 +22,19 @@ public class PartidaIndividual extends Partida {
             if (preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).contains(pregunta.getIdPregunta())) {
                 pregunta = Pregunta.obtenerPregunta(-1);
             }
-            ArrayList<Tupla<Integer, String>> listaRespuestasTuplas = generarRespuestasyPregunta(pregunta);
+            listaRespuestasTuplas = generarRespuestasyPregunta(pregunta);
             int respuesta = Libreria.catchInt(1, 4);
-            comprobarRespuesta(respuesta, listaRespuestasTuplas, pregunta);
+            salir2 = comprobarRespuesta(respuesta, listaRespuestasTuplas, pregunta, new LogrosPorPuntos());
         }
 
 
 
         //nos interesa el puntaje una vez que termina la ronda, así que ahora mostramos los logros obtenidos
         //por puntaje
-        logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
-        listaRespuestas  = new ArrayList<>();
+        //logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
+   
         listaRespuestasTuplas = new ArrayList<>();
-        salir2 = true;
+        
     }
 
     public PartidaIndividual(ArrayList<ArrayList<Integer>> pR, ArrayList<Jugador> lJ, Jugador jA) {

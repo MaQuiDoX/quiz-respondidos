@@ -87,9 +87,9 @@ public class Pregunta {
                         obtenerPregDeCategoria.setInt(1, numPregunta);
                         rs = obtenerPregDeCategoria.executeQuery();
                         break;
-                        default:
-                            System.out.println("Índice de categoría incorrecto.");
-                            break;
+                    default:
+                        System.out.println("Índice de categoría incorrecto.");
+                        break;
                 }
 
                 while (rs.next()){

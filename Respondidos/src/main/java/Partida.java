@@ -13,8 +13,8 @@ import powers.CambioPregunta;
 
 public abstract class Partida {
     protected ArrayList<ArrayList<Integer>> preguntasRealizadas;
-    private ArrayList<Jugador> listaJugadores;
-    private Jugador jugadorActivo;
+    protected ArrayList<Jugador> listaJugadores;
+    protected Jugador jugadorActivo;
 
     public void iniciarPartida(Jugador jugador) {
         for (int i = 0; i < 6; i++) {
@@ -30,15 +30,16 @@ public abstract class Partida {
 
         ArrayList<Tupla<Integer, String>> listaRespuestasTuplas = generarRespuestasyPregunta(pregunta);
         int respuesta = Libreria.catchInt(1, 4);
-        comprobarRespuesta(respuesta, listaRespuestasTuplas, pregunta);
+        comprobarRespuesta(respuesta, listaRespuestasTuplas, pregunta, new LogrosPorPuntos());
 
 
         //nos interesa el puntaje una vez que termina la ronda, así que ahora mostramos los logros obtenidos
         //por puntaje
-        logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
-        listaRespuestas  = new ArrayList<>();
-        listaRespuestasTuplas = new ArrayList<>();
-        salir2 = true;
+        //logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
+        
+        //listaRespuestas  = new ArrayList<>();
+        //listaRespuestasTuplas = new ArrayList<>();
+        //salir2 = true;
     }
 
 
@@ -167,8 +168,8 @@ public abstract class Partida {
         return listaRespuestasTuplas;
     }
 
-    public void comprobarRespuesta(int respuestaUsuario, ArrayList<Tupla<Integer, String>> listaRespuestasTuplas, Pregunta pregunta, LogrosPorPuntos logrosDeBusqueda) {
-
+    public boolean comprobarRespuesta(int respuestaUsuario, ArrayList<Tupla<Integer, String>> listaRespuestasTuplas, Pregunta pregunta, LogrosPorPuntos logrosDeBusqueda) {
+        boolean respuestaIncorrecta = false;
         int numero;
         for (Tupla tuplas : listaRespuestasTuplas) {
             numero = ((Integer) tuplas.getPrimero()).intValue();
@@ -178,38 +179,37 @@ public abstract class Partida {
                     //contadorPuntaje++;
                     //puntajeRonda = puntajeRonda + contadorPuntaje;
                     preguntasRealizadas.get(pregunta.getIndicadorCategoria()).add(pregunta.getIdPregunta());
-
+                    respuestaIncorrecta = false;
                     //Verifica si el jugador desbloqueó algún logro después de cada pregunta
-                    Logros logro = new LogrosPorRacha();
-                    boolean comprobar = logro.elegirNombre(jugadorActivo, preguntasRealizadas.size());
-                    if (comprobar) {
+                    //Logros logro = new LogrosPorRacha();
+                   //boolean comprobar = logro.elegirNombre(jugadorActivo, preguntasRealizadas.size());
+                    //if (comprobar) {
 
-                        logro.comprobar(jugadorActivo, logro);
-                    }
+                        //logro.comprobar(jugadorActivo, logro);
+                    
 
                     //Nos aseguramos de que se creen todos los logros por puntaje, en caso de que la partida
                     //termine con más puntos que la meta inicial (50 puntos)
-                    Logros logro1 = new LogrosPorPuntos();
-                    boolean comprobar1 = logro1.elegirNombre(jugadorActivo, puntajeRonda);
-                    if (comprobar1) {
-                        logro1.comprobar(jugadorActivo, logro1);
+                    //Logros logro1 = new LogrosPorPuntos();
+                    //boolean comprobar1 = logro1.elegirNombre(jugadorActivo, puntajeRonda);
+                   // if (comprobar1) {
+                        //logro1.comprobar(jugadorActivo, logro1);
 
-                    }
+                    //}
                 } else {
                     preguntasRealizadas.get(pregunta.getIndicadorCategoria()).add(pregunta.getIdPregunta());
                     System.out.println("Respuesta fallida");
-                    contadorPuntaje = 0;
-                    salir2 = true;
-                    salir1 = true;
-                    flagOtroIntento = false;
+                    //contadorPuntaje = 0;
 
-                    preguntasRealizadas1 = preguntasRealizadas;
+                    respuestaIncorrecta = true;
+
+                    
                 }
 
-                logrosDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
-                listaRespuestas  = new ArrayList<>();
-                listaRespuestasTuplas = new ArrayList<>();
+                //logrosDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
+
             }
         }
+        return respuestaIncorrecta;
     }
 }
