@@ -45,9 +45,9 @@ public class Pregunta {
         if (conn != null) {
             try {
                 int numCategoria;
-                //int numCategoria = new Random().nextInt(6)+1;
+
                 if (validarNumero == -1){
-                    numCategoria = 5;
+                    numCategoria = new Random().nextInt(6)+1;
                 } else {
                     numCategoria = validarNumero;
                 }

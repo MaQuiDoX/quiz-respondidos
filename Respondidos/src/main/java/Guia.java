@@ -3,8 +3,7 @@
  */
 
 public class Guia {
-    /*
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
@@ -136,7 +135,6 @@ public class Guia {
             System.out.println("Conexion a la base de datos fallida");
         }
 
-    }
+    }*/
 
-     */
 }

@@ -11,295 +11,205 @@ import java.util.Collections;
 import java.util.Scanner;
 import powers.CambioPregunta;
 
-public class Partida {
-    private ArrayList<Tupla<Integer, Integer>> preguntasRealizadas;
+public abstract class Partida {
+    protected ArrayList<ArrayList<Integer>> preguntasRealizadas;
     private ArrayList<Jugador> listaJugadores;
     private Jugador jugadorActivo;
 
-    public Partida(ArrayList<Tupla<Integer, Integer>> pR, ArrayList<Jugador> lJ, Jugador jA) {
-        this.preguntasRealizadas = pR;
-        this.listaJugadores = lJ;
-        this.jugadorActivo = jA;
+    public void iniciarPartida(Jugador jugador) {
+        for (int i = 0; i < 6; i++) {
+            ArrayList<Integer> subLista = new ArrayList<>();
+            preguntasRealizadas.add(subLista);
+        }
+
+        Pregunta pregunta = Pregunta.obtenerPregunta(-1);
+
+        if (preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).contains(pregunta.getIdPregunta())) {
+            pregunta = Pregunta.obtenerPregunta(-1);
+        }
+
+        ArrayList<Tupla<Integer, String>> listaRespuestasTuplas = generarRespuestasyPregunta(pregunta);
+        int respuesta = Libreria.catchInt(1, 4);
+        comprobarRespuesta(respuesta, listaRespuestasTuplas, pregunta);
+
+
+        //nos interesa el puntaje una vez que termina la ronda, así que ahora mostramos los logros obtenidos
+        //por puntaje
+        logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
+        listaRespuestas  = new ArrayList<>();
+        listaRespuestasTuplas = new ArrayList<>();
+        salir2 = true;
     }
 
-    public void cambiarJugador(Jugador jugador){
-        if (jugadorActivo != jugador){
-            jugadorActivo = jugador;
-        } else {
-            System.out.println("El jugador ingresado ya esta jugando");
+
+    public void tiendaPoderes(Jugador jugador, ArrayList<Tupla<Integer, String>> listaRespuestasTuplas, Pregunta pregunta) {
+        //INTRODUCCION LOGICA PARA OPCION 5
+        Poder poderAUsar;
+
+        // 1 al 4 respuestas, 5 para poderes (aún implementar)
+        int enteroRespuesta = Libreria.catchInt(1, 5);
+
+        System.out.println(" === MENU DE PODERES ===");
+        System.out.println("¿Que poder desea usar?:");
+        System.out.println("1. Bombita (10p)");
+        System.out.println("2. Dinamita (10p)");
+        System.out.println("3. TNT (10p)");
+        System.out.println("4. cambioPregunta (10p)");
+        System.out.println("5. Otra Oportunidad (10p)");
+
+        enteroRespuesta = Libreria.catchInt(1, 6);
+        switch (enteroRespuesta) {
+            case 1:
+                poderAUsar = new Bombita(pregunta.getRespuestaCorrecta());
+                if (jugador.getPuntaje() >= poderAUsar.getPrecio()) {
+                    jugador.restarPuntaje(poderAUsar.getPrecio());
+                    poderAUsar.gastarPoder(listaRespuestasTuplas);
+                } else {
+                    System.out.println(" ");
+                    System.out.println("PUNTAJE INSUFICIENTE");
+                    System.out.println(" ");
+                }
+                break;
+            case 2:
+                poderAUsar = new Dinamita(pregunta.getRespuestaCorrecta());
+                if (jugador.getPuntaje() >= poderAUsar.getPrecio()) {
+                    jugador.restarPuntaje(poderAUsar.getPrecio());
+                    poderAUsar.gastarPoder(listaRespuestasTuplas);
+                } else {
+                    System.out.println(" ");
+                    System.out.println("PUNTAJE INSUFICIENTE");
+                    System.out.println(" ");
+                }
+                break;
+            case 3:
+                poderAUsar = new TNT(pregunta.getRespuestaCorrecta());
+                if (jugador.getPuntaje() >= poderAUsar.getPrecio()) {
+                    jugador.restarPuntaje(poderAUsar.getPrecio());
+                    poderAUsar.gastarPoder(listaRespuestasTuplas);
+                } else {
+                    System.out.println(" ");
+                    System.out.println("PUNTAJE INSUFICIENTE");
+                    System.out.println(" ");
+                }
+                break;
+            case 4:
+                poderAUsar = new CambioPregunta(enteroRespuesta);
+                if (jugador.getPuntaje() >= poderAUsar.getPrecio()) {
+
+                    jugador.restarPuntaje(poderAUsar.getPrecio());
+                    System.out.println("¿De que categoria desea la pregunta?");
+                    System.out.println("1. Arte");
+                    System.out.println("2. Entretenimiento");
+                    System.out.println("3. Deporte");
+                    System.out.println("4. Ciencia");
+                    System.out.println("5. Historia");
+                    System.out.println("6. UNCuyo");
+                    enteroRespuesta = Libreria.catchInt(1, 6);
+                    pregunta = poderAUsar.gastarPoder(enteroRespuesta, pregunta);
+
+                    ArrayList<String> listaRespuestas = new ArrayList<>();
+                    listaRespuestasTuplas = new ArrayList<>();
+                    // Añado respuestas a una lista para mezclarlas y asignarles un numero
+                    listaRespuestas.add(pregunta.getRespuestaCorrecta());
+                    listaRespuestas.addAll(pregunta.getRespuestasIncorrectas());
+
+                    int contador = 1;
+
+                    Collections.shuffle(listaRespuestas);
+
+                    for (String respuesta : listaRespuestas) {
+                        Tupla<Integer, String> tupla = new Tupla<>(contador, respuesta);
+                        listaRespuestasTuplas.add(tupla);
+                        contador++;
+                    }
+
+                } else {
+                    System.out.println(" ");
+                    System.out.println("PUNTAJE INSUFICIENTE");
+                    System.out.println(" ");
+                }
+
+                break;
+            case 5:
+                poderAUsar = new OtraOportunidad();
+                if (jugador.getPuntaje() >= poderAUsar.getPrecio()) {
+                    jugador.restarPuntaje(poderAUsar.getPrecio());
+                } else {
+                    System.out.println(" ");
+                    System.out.println("PUNTAJE INSUFICIENTE");
+                    System.out.println(" ");
+                }
+                break;
+
         }
     }
 
-    public void iniciarPartida(Jugador jugador){
-        Scanner sc = new Scanner(System.in);
-        int puntajeRonda = 0;
-        int contadorPuntaje = 0;
-        boolean salir1 = false;
-        boolean salir2 = false;
+    public ArrayList<Tupla<Integer, String>> generarRespuestasyPregunta(Pregunta pregunta) {
+
+
         ArrayList<String> listaRespuestas = new ArrayList<>();
-        ArrayList<Tupla<Integer,String>> listaRespuestasTuplas = new ArrayList<>();
-        LogrosPorPuntos logroDeBusqueda = new LogrosPorPuntos();
+        ArrayList<Tupla<Integer, String>> listaRespuestasTuplas = new ArrayList<>();
+        // Añado respuestas a una lista para mezclarlas y asignarles un numero
+        listaRespuestas.add(pregunta.getRespuestaCorrecta());
+        listaRespuestas.addAll(pregunta.getRespuestasIncorrectas());
 
-        while (!salir1){
-            System.out.println(" === PARTIDA INDIVIDUAL ===");
-            System.out.println("Puntaje: " + puntajeRonda);
-            System.out.println("1. Responder");
-            System.out.println("2. Salir");
-            int opcion = Libreria.catchInt(1,2);
-            ////////////////////////////////////////////////////////////////
-            Bombita bombitaMenu = new Bombita();
-            Dinamita dinamitaMenu = new Dinamita();
-            TNT tntMenu = new TNT();
-            CambioPregunta cambioPreguntaMenu = new CambioPregunta();
-            OtraOportunidad otraOportunidadMenu = new OtraOportunidad();
-            ////////////////////////////////////////////////////////////////
+        int contador = 1;
 
-            salir2 = false;
-            switch (opcion){
-                case 1:
-                    while (!salir2){
-                        Poder poderAUsar = null;
-                        // Obtengo pregunta
-                        Pregunta pregunta = Pregunta.obtenerPregunta(-1);
+        Collections.shuffle(listaRespuestas);
 
-                        // Chequeo que la pregunta no se repita, ingreso a la lista del objeto Partida y busco la tupla dentro de la lista, si se encuentra repetida repito la creacion de pregunta
-                        if (!(preguntasRealizadas.isEmpty())){
-                            Tupla tuplaExistencia = new Tupla(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta());
+        for (String respuesta : listaRespuestas) {
+            Tupla<Integer, String> tupla = new Tupla<>(contador, respuesta);
+            listaRespuestasTuplas.add(tupla);
+            contador++;
+        }
 
-                            while (!checkTuplas(tuplaExistencia)){
-                                pregunta = Pregunta.obtenerPregunta(-1);
-                                tuplaExistencia = new Tupla(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta());
-                            }
-                        }
+        Libreria.imprimirPregunta(pregunta.getPregunta(), listaRespuestasTuplas);
+        return listaRespuestasTuplas;
+    }
 
-                        // Añado respuestas a una lista para mezclarlas y asignarles un numero
-                        listaRespuestas.add(pregunta.getRespuestaCorrecta());
-                        listaRespuestas.addAll(pregunta.getRespuestasIncorrectas());
+    public void comprobarRespuesta(int respuestaUsuario, ArrayList<Tupla<Integer, String>> listaRespuestasTuplas, Pregunta pregunta, LogrosPorPuntos logrosDeBusqueda) {
 
-                        int contador = 1;
+        int numero;
+        for (Tupla tuplas : listaRespuestasTuplas) {
+            numero = ((Integer) tuplas.getPrimero()).intValue();
+            if (numero == respuestaUsuario) {
+                if (tuplas.getSegundo() == pregunta.getRespuestaCorrecta()) {
+                    System.out.println("Respuesta correcta");
+                    //contadorPuntaje++;
+                    //puntajeRonda = puntajeRonda + contadorPuntaje;
+                    preguntasRealizadas.get(pregunta.getIndicadorCategoria()).add(pregunta.getIdPregunta());
 
-                        Collections.shuffle(listaRespuestas);
+                    //Verifica si el jugador desbloqueó algún logro después de cada pregunta
+                    Logros logro = new LogrosPorRacha();
+                    boolean comprobar = logro.elegirNombre(jugadorActivo, preguntasRealizadas.size());
+                    if (comprobar) {
 
-                        for (String respuesta : listaRespuestas){
-                            Tupla<Integer, String> tupla = new Tupla<>(contador, respuesta);
-                            listaRespuestasTuplas.add(tupla);
-                            contador++;
-                        }
+                        logro.comprobar(jugadorActivo, logro);
+                    }
 
-
-                        //INTRODUCCION LOGICA PARA OPCION 5
-                        boolean usoPoder = false;
-                        do{
-                            Libreria.imprimirPregunta(pregunta.getPregunta(), listaRespuestasTuplas);
-                            System.out.println("5: Comprar poder");
-
-                            // 1 al 4 respuestas, 5 para poderes (aún implementar)
-                            int enteroRespuesta = Libreria.catchInt(1,5);
-                            int numero;
-                            
-                            if (enteroRespuesta == 5){
-                                System.out.println(" === MENU DE PODERES ===");
-                                System.out.println("¿Que poder desea usar?:");
-                                System.out.println("1. Bombita ("+bombitaMenu.getPrecio()+"p)");
-                                System.out.println("2. Dinamita ("+dinamitaMenu.getPrecio()+"p)");
-                                System.out.println("3. TNT ("+tntMenu.getPrecio()+"p)");
-                                System.out.println("4. cambioPregunta ("+cambioPreguntaMenu.getPrecio()+"p)");
-                                System.out.println("5. Otra Oportunidad ("+otraOportunidadMenu.getPrecio()+"p)");
-                                
-                                enteroRespuesta = Libreria.catchInt(1, 6);
-                                
-                                switch(enteroRespuesta){
-                                    case 1:
-                                        poderAUsar = new Bombita(pregunta.getRespuestaCorrecta());
-                                        if (jugador.getPuntaje()>=poderAUsar.getPrecio()){
-                                            jugador.restarPuntaje(poderAUsar.getPrecio());
-                                            poderAUsar.gastarPoder(listaRespuestasTuplas);
-                                        }else{
-                                            System.out.println(" ");System.out.println("PUNTAJE INSUFICIENTE");
-                                            System.out.println(" ");
-                                        }
-                                        break;
-                                    case 2:
-                                        poderAUsar = new Dinamita(pregunta.getRespuestaCorrecta());
-                                        if (jugador.getPuntaje()>=poderAUsar.getPrecio()){
-                                            jugador.restarPuntaje(poderAUsar.getPrecio());
-                                            poderAUsar.gastarPoder(listaRespuestasTuplas);
-                                        }else{
-                                            System.out.println(" ");System.out.println("PUNTAJE INSUFICIENTE");
-                                            System.out.println(" ");
-                                        }
-                                        break;
-                                    case 3:
-                                        poderAUsar = new TNT(pregunta.getRespuestaCorrecta());
-                                        if (jugador.getPuntaje()>=poderAUsar.getPrecio()){
-                                            jugador.restarPuntaje(poderAUsar.getPrecio());
-                                            poderAUsar.gastarPoder(listaRespuestasTuplas);
-                                        }else{
-                                            System.out.println(" ");System.out.println("PUNTAJE INSUFICIENTE");
-                                            System.out.println(" ");
-                                        }
-                                        break;
-                                    case 4:
-                                        poderAUsar = new CambioPregunta(enteroRespuesta);
-                                        if (jugador.getPuntaje()>=poderAUsar.getPrecio()){
-
-                                            jugador.restarPuntaje(poderAUsar.getPrecio());
-                                            System.out.println("¿De que categoria desea la pregunta?");
-                                            System.out.println("1. Arte");
-                                            System.out.println("2. Entretenimiento");
-                                            System.out.println("3. Deporte");
-                                            System.out.println("4. Ciencia");
-                                            System.out.println("5. Historia");
-                                            System.out.println("6. UNCuyo");
-                                            enteroRespuesta = Libreria.catchInt(1, 6);
-                                            pregunta = poderAUsar.gastarPoder(enteroRespuesta, pregunta);
-
-                                            listaRespuestas = new ArrayList<>();
-                                            listaRespuestasTuplas = new ArrayList<>();
-                                            // Añado respuestas a una lista para mezclarlas y asignarles un numero
-                                            listaRespuestas.add(pregunta.getRespuestaCorrecta());
-                                            listaRespuestas.addAll(pregunta.getRespuestasIncorrectas());
-
-                                            contador = 1;
-
-                                            Collections.shuffle(listaRespuestas);
-
-                                            for (String respuesta : listaRespuestas){
-                                                Tupla<Integer, String> tupla = new Tupla<>(contador, respuesta);
-                                                listaRespuestasTuplas.add(tupla);
-                                                contador++;
-                                            }
-
-                                        }else{
-                                            System.out.println(" ");System.out.println("PUNTAJE INSUFICIENTE");
-                                            System.out.println(" ");
-                                        }
-
-                                        break;
-                                    case 5:
-                                        poderAUsar = new OtraOportunidad();
-                                        if (jugador.getPuntaje()>=poderAUsar.getPrecio()){
-                                            jugador.restarPuntaje(poderAUsar.getPrecio());
-                                        }else{
-                                            System.out.println(" ");System.out.println("PUNTAJE INSUFICIENTE");
-                                            System.out.println(" ");
-                                        }
-                                        break;
-                                    
-                                }
-
-                                usoPoder = true;
-                            } else{
-                                // Transito las tuplas y si la tupla con el numero ingresado coinside con la respuesta correcta, añado los puntajes y el juego sigue
-                                // En caso de fallar, la partida es el
-                                // iminada y lo unico que haría (todavia queda implementarlo) seria sumarle los puntos totales al jugador.
-                                boolean flagOtroIntento = false;
-                                do{
-                                  for (Tupla tuplas : listaRespuestasTuplas){
-                                      numero = ((Integer) tuplas.getPrimero()).intValue();
-                                      if (numero == enteroRespuesta){
-                                          if (tuplas.getSegundo() == pregunta.getRespuestaCorrecta()){
-                                              System.out.println("Respuesta correcta");
-                                              contadorPuntaje++;
-                                              puntajeRonda = puntajeRonda + contadorPuntaje;
-                                              preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
-
-                                              //Verifica si el jugador desbloqueó algún logro después de cada pregunta
-                                              Logros logro = new LogrosPorRacha(pregunta.getIndicadorCategoria());
-                                              boolean comprobar = logro.elegirNombre(jugadorActivo, preguntasRealizadas.size());
-                                              if (comprobar) {
-
-                                                logro.comprobar(jugadorActivo, logro);
-                                              }
-
-
-
-                                             //Nos aseguramos de que se creen todos los logros por puntaje, en caso de que la partida
-                                             //termine con más puntos que la meta inicial (50 puntos)
-                                             Logros logro1 = new LogrosPorPuntos();
-                                             boolean comprobar1 =logro1.elegirNombre(jugadorActivo, puntajeRonda);
-                                             if (comprobar1) {
-                                                logro1.comprobar(jugadorActivo, logro1);
-
-                                             }
-                                             flagOtroIntento = false;
-                                            }else {
-                                                preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
-                                                System.out.println("Respuesta fallida");
-                                          
-                                                if (poderAUsar instanceof OtraOportunidad){
-                                                    System.out.println("¡Tienes otro intento!, Responder otra vez:");
-                                                    flagOtroIntento = true;
-                                                    poderAUsar = null;
-                                                    enteroRespuesta = Libreria.catchInt(1, 4);
-                                                } else{
-                                                    contadorPuntaje = 0;
-                                                    salir2 = true;
-                                                    salir1 = true;
-                                                    flagOtroIntento = false;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }while (flagOtroIntento);
-                                       
-
-                                //nos interesa el puntaje una vez que termina la ronda, así que ahora mostramos los logros obtenidos
-                                //por puntaje
-                                logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
-                                listaRespuestas  = new ArrayList<>();
-                                listaRespuestasTuplas = new ArrayList<>();
-                                salir2 = true;
-                                break;                                
-
-                            }
-                        
-                        }while(usoPoder);
+                    //Nos aseguramos de que se creen todos los logros por puntaje, en caso de que la partida
+                    //termine con más puntos que la meta inicial (50 puntos)
+                    Logros logro1 = new LogrosPorPuntos();
+                    boolean comprobar1 = logro1.elegirNombre(jugadorActivo, puntajeRonda);
+                    if (comprobar1) {
+                        logro1.comprobar(jugadorActivo, logro1);
 
                     }
-                    break;
-                case 2:
+                } else {
+                    preguntasRealizadas.get(pregunta.getIndicadorCategoria()).add(pregunta.getIdPregunta());
+                    System.out.println("Respuesta fallida");
+                    contadorPuntaje = 0;
+                    salir2 = true;
                     salir1 = true;
-                    break;
+                    flagOtroIntento = false;
+
+                    preguntasRealizadas1 = preguntasRealizadas;
+                }
+
+                logrosDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
+                listaRespuestas  = new ArrayList<>();
+                listaRespuestasTuplas = new ArrayList<>();
             }
         }
-
-
-    }
-
-    public void iniciarPartida(Jugador jugador1, Jugador jugador2){
-    }
-
-    private boolean checkTuplas(Tupla tuplaExistencia){
-        for (Tupla tuplaEx : preguntasRealizadas){
-            if ((tuplaEx.getPrimero() == tuplaExistencia.getPrimero())&&(tuplaEx.getSegundo() == tuplaExistencia.getSegundo())){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public ArrayList<Tupla<Integer, Integer>> getPreguntasRealizadas() {
-        return preguntasRealizadas;
-    }
-
-    public void setPreguntasRealizadas(ArrayList<Tupla<Integer, Integer>> preguntasRealizadas) {
-        this.preguntasRealizadas = preguntasRealizadas;
-    }
-
-    public ArrayList<Jugador> getListaJugadores() {
-        return listaJugadores;
-    }
-
-    public void setListaJugadores(ArrayList<Jugador> listaJugadores) {
-        this.listaJugadores = listaJugadores;
-    }
-
-    public Jugador getJugadorActivo() {
-        return jugadorActivo;
-    }
-
-    public void setJugadorActivo(Jugador jugadorActivo) {
-        this.jugadorActivo = jugadorActivo;
     }
 }
