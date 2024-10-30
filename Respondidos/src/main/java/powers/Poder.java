@@ -18,8 +18,8 @@ public abstract class Poder {
    
     protected int precio;
     
-    public void gastarPoder(){
-        
+    public Boolean gastarPoder(){
+        return null;
     }
     
     /**
@@ -37,9 +37,11 @@ public abstract class Poder {
      * @param respuestaUsuario dato numerico ingresado por el usuario
      * @see CambioPregunta
      */
-    public Pregunta gastarPoder(int respuestaUsuario, Pregunta pregunta){
+    public Pregunta gastarPoder(int respuestaUsuario){
         return null;
     }
+    
+  
     
     public void imprimirInfo(){
         System.out.println("Este es: " + this.nombre + " , " + descripcion);

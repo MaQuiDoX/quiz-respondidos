@@ -1,3 +1,7 @@
+package Game;
+
+import Game.LogrosPorRacha;
+import Game.Jugador;
 import utilities.Tupla;
 
 import java.util.ArrayList;

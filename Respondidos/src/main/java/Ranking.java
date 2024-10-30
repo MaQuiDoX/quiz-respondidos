@@ -1,3 +1,4 @@
+import Game.Jugador;
 import java.util.ArrayList;
 import java.util.Comparator;
 

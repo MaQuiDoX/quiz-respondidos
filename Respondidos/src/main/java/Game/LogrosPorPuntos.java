@@ -1,3 +1,6 @@
+package Game;
+
+import Game.Jugador;
 import java.util.Iterator;
 
 public class LogrosPorPuntos extends Logros{

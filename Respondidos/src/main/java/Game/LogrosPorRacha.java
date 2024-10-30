@@ -1,3 +1,9 @@
+package Game;
+
+
+import Game.Logros;
+import Game.Jugador;
+
 
 public class LogrosPorRacha extends Logros{
 

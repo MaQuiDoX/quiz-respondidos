@@ -1,3 +1,6 @@
+import Game.Jugador;
+import Game.PartidaIndividual;
+import Game.Partida;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;

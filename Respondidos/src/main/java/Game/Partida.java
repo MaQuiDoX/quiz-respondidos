@@ -1,3 +1,5 @@
+package Game;
+
 import Game.Pregunta;
 import utilities.Tupla;
 import utilities.Libreria;
@@ -43,12 +45,12 @@ public abstract class Partida {
     }
 
 
-    public void tiendaPoderes(Jugador jugador, ArrayList<Tupla<Integer, String>> listaRespuestasTuplas, Pregunta pregunta) {
+    public Tupla<Tupla<Pregunta,ArrayList<Tupla<Integer, String>>>, Boolean> tiendaPoderes(Jugador jugador, ArrayList<Tupla<Integer, String>> listaRespuestasTuplas, Pregunta pregunta) {
         //INTRODUCCION LOGICA PARA OPCION 5
         Poder poderAUsar;
 
         // 1 al 4 respuestas, 5 para poderes (aún implementar)
-        int enteroRespuesta = Libreria.catchInt(1, 5);
+        int enteroRespuesta;
 
         System.out.println(" === MENU DE PODERES ===");
         System.out.println("¿Que poder desea usar?:");
@@ -70,7 +72,7 @@ public abstract class Partida {
                     System.out.println("PUNTAJE INSUFICIENTE");
                     System.out.println(" ");
                 }
-                break;
+                return new Tupla(null, null);
             case 2:
                 poderAUsar = new Dinamita(pregunta.getRespuestaCorrecta());
                 if (jugador.getPuntaje() >= poderAUsar.getPrecio()) {
@@ -81,7 +83,7 @@ public abstract class Partida {
                     System.out.println("PUNTAJE INSUFICIENTE");
                     System.out.println(" ");
                 }
-                break;
+                return new Tupla(null, null);
             case 3:
                 poderAUsar = new TNT(pregunta.getRespuestaCorrecta());
                 if (jugador.getPuntaje() >= poderAUsar.getPrecio()) {
@@ -92,7 +94,7 @@ public abstract class Partida {
                     System.out.println("PUNTAJE INSUFICIENTE");
                     System.out.println(" ");
                 }
-                break;
+                return new Tupla(null, null);
             case 4:
                 poderAUsar = new CambioPregunta(enteroRespuesta);
                 if (jugador.getPuntaje() >= poderAUsar.getPrecio()) {
@@ -106,7 +108,18 @@ public abstract class Partida {
                     System.out.println("5. Historia");
                     System.out.println("6. UNCuyo");
                     enteroRespuesta = Libreria.catchInt(1, 6);
-                    pregunta = poderAUsar.gastarPoder(enteroRespuesta, pregunta);
+                    
+                    boolean preguntaNull = false;
+                    while (!preguntaNull){
+                       
+                        pregunta = poderAUsar.gastarPoder(enteroRespuesta);
+                        if (pregunta != null){
+                            preguntaNull = true;
+                        } else {
+                            System.out.println("tengo que ver esto");
+                        }
+                    }
+                   
 
                     ArrayList<String> listaRespuestas = new ArrayList<>();
                     listaRespuestasTuplas = new ArrayList<>();
@@ -123,7 +136,7 @@ public abstract class Partida {
                         listaRespuestasTuplas.add(tupla);
                         contador++;
                     }
-
+                    return new Tupla(new Tupla(pregunta, listaRespuestasTuplas), null);    
                 } else {
                     System.out.println(" ");
                     System.out.println("PUNTAJE INSUFICIENTE");
@@ -132,17 +145,20 @@ public abstract class Partida {
 
                 break;
             case 5:
-                poderAUsar = new OtraOportunidad();
+                poderAUsar = new OtraOportunidad(listaRespuestasTuplas, pregunta, this);
+                Boolean comprobacionRespuesta = null;
                 if (jugador.getPuntaje() >= poderAUsar.getPrecio()) {
                     jugador.restarPuntaje(poderAUsar.getPrecio());
+                    comprobacionRespuesta = poderAUsar.gastarPoder();
                 } else {
                     System.out.println(" ");
                     System.out.println("PUNTAJE INSUFICIENTE");
                     System.out.println(" ");
                 }
-                break;
+                return new Tupla(null, comprobacionRespuesta);
 
         }
+        return new Tupla(null, null);
     }
 
     public ArrayList<Tupla<Integer, String>> generarRespuestasyPregunta(Pregunta pregunta) {
@@ -165,6 +181,7 @@ public abstract class Partida {
         }
 
         Libreria.imprimirPregunta(pregunta.getPregunta(), listaRespuestasTuplas);
+        System.out.println("5: Usar Poder");
         return listaRespuestasTuplas;
     }
 
@@ -178,7 +195,9 @@ public abstract class Partida {
                     System.out.println("Respuesta correcta");
                     //contadorPuntaje++;
                     //puntajeRonda = puntajeRonda + contadorPuntaje;
-                    preguntasRealizadas.get(pregunta.getIndicadorCategoria()).add(pregunta.getIdPregunta());
+                    
+                    //GENERA ERROR: REVISAR
+                    //preguntasRealizadas.get(pregunta.getIndicadorCategoria()).add(pregunta.getIdPregunta());
                     respuestaIncorrecta = false;
                     //Verifica si el jugador desbloqueó algún logro después de cada pregunta
                     //Logros logro = new LogrosPorRacha();
@@ -197,7 +216,8 @@ public abstract class Partida {
 
                     //}
                 } else {
-                    preguntasRealizadas.get(pregunta.getIndicadorCategoria()).add(pregunta.getIdPregunta());
+                    //GENERA ERROR REVISAR
+                    //preguntasRealizadas.get(pregunta.getIndicadorCategoria()).add(pregunta.getIdPregunta());
                     System.out.println("Respuesta fallida");
                     //contadorPuntaje = 0;
 

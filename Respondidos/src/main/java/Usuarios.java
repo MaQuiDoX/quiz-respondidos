@@ -1,3 +1,4 @@
+import Game.Jugador;
 import models.ConnectDB;
 
 import java.sql.*;

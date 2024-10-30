@@ -1,3 +1,8 @@
+package Game;
+
+
+import Game.Partida;
+
 public class PartidaVersus extends Partida {
 
     public void cambiarJugador(Jugador jugador){
