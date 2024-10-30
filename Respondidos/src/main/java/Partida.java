@@ -286,22 +286,22 @@ public class Partida {
                                 System.out.println(arrayList11);
 
 
-                                //nos interesa el puntaje una vez que termina la ronda, así que ahora mostramos los logros obtenidos
-                                //por puntaje
-                                logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
+                                
                                 listaRespuestas  = new ArrayList<>();
                                 listaRespuestasTuplas = new ArrayList<>();
                                 salir2 = true;
 
+                                logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
+                                LogrosRachaCatgoria logroEntrada= new LogrosRachaCatgoria();
+                                for (int i = 0; i<=5; i++){
+                                    logroEntrada.recorrer(preguntasRealizadas.get(i), i, jugadorActivo);
+
+                                }
 
 
-//                                for (int i=0; i<= arrayDeCategoria.size()-1; i++){
-//                                    Logro logro2 = new LogrosRachaCategoria(arrayDeCategoria.get(i));
-//                                    boolean comprobar2 = logro2.elegirNombre(jugadorActivo, arrayDePreguntasRespondidasDeEsaCategoria.size());
-//                                    if (comprobar2) {
-//                                        logro2.comprobar(jugadorActivo, logro2);
-//                                    }
-//                                }
+
+//
+//
                                 break;
 
                             }

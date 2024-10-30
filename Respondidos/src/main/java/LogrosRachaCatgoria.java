@@ -4,76 +4,44 @@ import java.util.ArrayList;
 
 public class LogrosRachaCatgoria extends Logros{
 
-    //String categoria;
-
-
-// public LogrosRachaCatgoria(int id, int preguntasRespondidas){
-//    definirCategoria(id);
-//
-//          }
-
-
-
-
-    public void definirCategoria(int numero) {
-        switch (numero) {
-            case 1: categoria = "Arte";
-
-            case 2: categoria = "Entretenimiento";
-
-            case 3: categoria = "Deporte";
-
-            case 4: categoria = "Ciencia";
-
-            case 5: categoria = "Historia";
-
-            case 6: categoria = "UNCuyo";
-
+    public void recorrer(ArrayList<Integer> preguntas, int id, Jugador jugador) {
+        for(int i = 0; i <= preguntas.size() - 1; ++i) {
+            if (i % 5 == 0 && i !=0) {
+                LogrosRachaCatgoria logro = new LogrosRachaCatgoria();
+                this.meta = i;
+                this.nombrar(definirCategoria(id));
+                comprobar(jugador, logro);
+            }
         }
 
     }
 
+    public String definirCategoria(int numero) {
+        switch (numero) {
+            case 1 :
+                return "Arte";
 
-    @Override
-    public boolean elegirNombre(Jugador jugador, int tamanioArray) {
+            case 2 :
+                return "Entretenimiento";
 
-        // buscarMeta(preguntasRespondidas);
-        //if (tamanioArray == this.meta) {
-        //   this.nombre= "LOGRO OBTENIDO: Contestar "+this.meta+" preguntas de "+this.categoria+"en una partida";
-        //   return true
-        //  }else{return false;}
+            case 3:
+                return "Deporte";
 
-            int rachaActual = contadores.get(id-1).getSegundo();
-            definirCategoria(id);
-            buscarMeta(jugador, id);
-            if (rachaActual == meta) {
-                this.nombre = "LOGRO OBTENIDO: Contestar "+this.meta+" preguntas de "+this.categoria+"en una partida";
-                return true;
-            } else {return false;}
+            case 4 :
+                return "Ciencia";
 
+            case 5 :
+                return "Historia";
+
+            case 6 :
+                return "UNCuyo";
+
+
+
+        }return "";
     }
 
-
-
-    public void buscarMeta(Jugador jugador, String categoria) {
-
-        //if (jugador.getLogros())
-        //for(int i = 0; i<=jugador.getLogros.size()-1; i++) {
-        //      if(jugador.getLogros.get(i) instanceof LogrosRachaCatgoria && jugador.getLogros.get(i).getCategoria = categoria) {
-        //         this.meta = jugador.getLogros.get(i).getMeta +5
-        //      }else{this.meta = 5}
-        //   }
-            int rachaActual=contadores.get(id-1).getSegundo();
-            if (rachaActual<5) {
-                this.meta= 5;
-            } else {
-                for (int j = 0; j<= jugador.getLogros().size()-1; j++) {
-                    if (jugador.getLogros().get(j) instanceof LogrosRachaCatgoria) {
-                        this.meta= jugador.getLogros().get(j).getMeta()+5;
-                    }
-                }
-
-            }
-
+    public void nombrar(String categoria) {
+        this.nombre = "LOGRO OBTENIDO: Contestar " + this.meta + " preguntas de " + categoria + "en una partida";
     }
 }

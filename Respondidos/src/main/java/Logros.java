@@ -42,6 +42,10 @@ public abstract class Logros {
                 int ind = jugador.getLogros().size()-1;
                 mostrarLogro( jugador, ind);
             }
+
+            if(logro instanceof LogrosRachaCatgoria){
+                System.out.println(this.nombre);
+            }
         }
     }
 
