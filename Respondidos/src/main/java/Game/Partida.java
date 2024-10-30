@@ -193,11 +193,12 @@ public abstract class Partida {
             if (numero == respuestaUsuario) {
                 if (tuplas.getSegundo() == pregunta.getRespuestaCorrecta()) {
                     System.out.println("Respuesta correcta");
-                    //contadorPuntaje++;
-                    //puntajeRonda = puntajeRonda + contadorPuntaje;
+                    this.jugadorActivo.incrementarRacha();
+                    int newPuntaje = this.jugadorActivo.getPuntajePartida() + this.jugadorActivo.getRacha();
+                    this.jugadorActivo.setPuntajePartida(newPuntaje);
                     
                     //GENERA ERROR: REVISAR
-                    //preguntasRealizadas.get(pregunta.getIndicadorCategoria()).add(pregunta.getIdPregunta());
+                    this.preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).add(pregunta.getIdPregunta());
                     respuestaIncorrecta = false;
                     //Verifica si el jugador desbloqueó algún logro después de cada pregunta
                     //Logros logro = new LogrosPorRacha();
@@ -217,7 +218,7 @@ public abstract class Partida {
                     //}
                 } else {
                     //GENERA ERROR REVISAR
-                    //preguntasRealizadas.get(pregunta.getIndicadorCategoria()).add(pregunta.getIdPregunta());
+                    this.preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).add(pregunta.getIdPregunta());
                     System.out.println("Respuesta fallida");
                     //contadorPuntaje = 0;
 

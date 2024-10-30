@@ -23,7 +23,7 @@ public class PartidaIndividual extends Partida {
         Pregunta pregunta = null;
         ArrayList<Tupla<Integer, String>> listaRespuestasTuplas = null;
         while (!salir2) {
-
+                System.out.println("////PUNTAJE ACTUAL GANADO: " + jugador.getPuntajePartida() + "////");
                 //Si usoTienda = true, significa que el usuario uso la tienda, significa que solo le debemos imprimir la pregunta nomas.
                 //Si usoTienda = false, no la uso
                 if (!usoTienda){
