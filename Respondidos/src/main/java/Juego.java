@@ -1,5 +1,6 @@
 import Game.Jugador;
 import Game.PartidaIndividual;
+import Game.PartidaVersus;
 import Game.Partida;
 import javax.swing.*;
 import java.awt.*;
@@ -21,9 +22,12 @@ public class Juego {
         ranking.agregarJugador(jug3);
 
 
-        Partida partida = new PartidaIndividual(new ArrayList<>(), null, samu);
+        while (true){
+            Partida partida = new PartidaVersus(new ArrayList<>(), jug2, samu);
 
-        partida.iniciarPartida(samu);
+            partida.iniciarPartida(samu, jug2);        
+        }
+
     }
 
     private static int obtenerNumero(int valor) {

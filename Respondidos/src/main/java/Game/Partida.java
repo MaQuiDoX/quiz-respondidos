@@ -19,32 +19,77 @@ public abstract class Partida {
     protected Jugador jugadorActivo;
 
     public void iniciarPartida(Jugador jugador) {
-        for (int i = 0; i < 6; i++) {
-            ArrayList<Integer> subLista = new ArrayList<>();
-            preguntasRealizadas.add(subLista);
-        }
 
-        Pregunta pregunta = Pregunta.obtenerPregunta(-1);
-
-        if (preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).contains(pregunta.getIdPregunta())) {
-            pregunta = Pregunta.obtenerPregunta(-1);
-        }
-
-        ArrayList<Tupla<Integer, String>> listaRespuestasTuplas = generarRespuestasyPregunta(pregunta);
-        int respuesta = Libreria.catchInt(1, 4);
-        comprobarRespuesta(respuesta, listaRespuestasTuplas, pregunta, new LogrosPorPuntos());
-
-
-        //nos interesa el puntaje una vez que termina la ronda, así que ahora mostramos los logros obtenidos
-        //por puntaje
-        //logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
+    }
+    
+    public void iniciarPartida(Jugador j1, Jugador j2){
         
-        //listaRespuestas  = new ArrayList<>();
-        //listaRespuestasTuplas = new ArrayList<>();
-        //salir2 = true;
     }
 
+    public void turnoJugador(Jugador jugador){
+        boolean salir2 = false;
+        boolean usoTienda = false;
+        
+        Pregunta pregunta = null;
+        ArrayList<Tupla<Integer, String>> listaRespuestasTuplas = null;
+        while (!salir2) {
+                System.out.println("////PUNTAJE ACTUAL GANADO: " + jugador.getPuntajePartida() + "////");
+                //Si usoTienda = true, significa que el usuario uso la tienda, significa que solo le debemos imprimir la pregunta nomas.
+                //Si usoTienda = false, no la uso
+                if (!usoTienda){
+                    pregunta = Pregunta.obtenerPregunta(-1);
+                    //if necesario en caso de errores.
+                    if (pregunta == null){
+                        System.out.println("Buscando una pregunta...");
+                        continue;
+                    }
+                    if (preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).contains(pregunta.getIdPregunta())) {
+                        pregunta = Pregunta.obtenerPregunta(-1);
+                    }
+                    listaRespuestasTuplas = generarRespuestasyPregunta(pregunta);
+                } else {
+                    Libreria.imprimirPregunta(pregunta.getPregunta(), listaRespuestasTuplas);
+                }
+                
+                int respuesta = Libreria.catchInt(1, 5);
+                if (respuesta == 5){
+                    jugador.incrementarContadorUsoPoderes();
+                    //Tupla de:
+                    //        1. Tupla que tiene la nueva Pregunta, y Un Arraylist de respuestas en Tupla.
+                    //        2. Booleano
+                   Tupla<Tupla<Pregunta,ArrayList<Tupla<Integer, String>>>, Boolean> checkUsoPoder = tiendaPoderes(jugador, listaRespuestasTuplas, pregunta);
+                   
+                   //Si el jugador uso el poder CambioPregunta realizar:
+                   if (checkUsoPoder.getPrimero() != null){
+                       //le cambiamos la pregunta y sus respuestas.
+                       pregunta = checkUsoPoder.getPrimero().getPrimero();
+                       listaRespuestasTuplas = checkUsoPoder.getPrimero().getSegundo();
+                   }
+                   
+                   //Si el jugador uso el poder OtraOportunidad y llego un false, respondio correctamente, true en caso contrario:
+                   if (checkUsoPoder.getSegundo() != null){
+                        if (checkUsoPoder.getSegundo() == false){
+                            salir2 = false;
+                            //PARA QUE REHAGA OTRA, SI NO VUELVE A REPETIR LA MISMA
+                            usoTienda = false;
+                            continue;
+                        } else {
+                            salir2 = true;
+                        }
+                   }
 
+                   
+                    usoTienda = true;
+                } else {
+                    salir2 = comprobarRespuesta(respuesta, listaRespuestasTuplas, pregunta, new LogrosPorPuntos());
+                    usoTienda = false;
+                }
+                
+                
+
+    }
+    }
+    
     public Tupla<Tupla<Pregunta,ArrayList<Tupla<Integer, String>>>, Boolean> tiendaPoderes(Jugador jugador, ArrayList<Tupla<Integer, String>> listaRespuestasTuplas, Pregunta pregunta) {
         //INTRODUCCION LOGICA PARA OPCION 5
         Poder poderAUsar;
