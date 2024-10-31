@@ -17,6 +17,8 @@ public abstract class Partida {
     protected ArrayList<ArrayList<Integer>> preguntasRealizadas;
     protected ArrayList<Jugador> listaJugadores;
     protected Jugador jugadorActivo;
+    //maybe esta no es la mejor forma
+    boolean partidaVersus= false;
 
     public void iniciarPartida(Jugador jugador) {
 
@@ -82,12 +84,19 @@ public abstract class Partida {
                     usoTienda = true;
                 } else {
                     salir2 = comprobarRespuesta(respuesta, listaRespuestasTuplas, pregunta, new LogrosPorPuntos());
+
                     usoTienda = false;
                 }
                 
-                
 
-    }
+        }
+        LogrosPorPuntos logroDeBusqueda = new LogrosPorPuntos();
+        logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
+        LogrosRachaCatgoria logroEntrada= new LogrosRachaCatgoria();
+        for (int i = 0; i<=5; i++){
+            logroEntrada.recorrer(preguntasRealizadas.get(i), i, jugadorActivo, partidaVersus);
+
+        }
     }
     
     public Tupla<Tupla<Pregunta,ArrayList<Tupla<Integer, String>>>, Boolean> tiendaPoderes(Jugador jugador, ArrayList<Tupla<Integer, String>> listaRespuestasTuplas, Pregunta pregunta) {
@@ -246,21 +255,22 @@ public abstract class Partida {
                     this.preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).add(pregunta.getIdPregunta());
                     respuestaIncorrecta = false;
                     //Verifica si el jugador desbloqueó algún logro después de cada pregunta
-                    //Logros logro = new LogrosPorRacha();
-                   //boolean comprobar = logro.elegirNombre(jugadorActivo, preguntasRealizadas.size());
-                    //if (comprobar) {
+                    Logros logro = new LogrosPorRacha();
+                   boolean comprobar = logro.elegirNombre(jugadorActivo, jugadorActivo.getRacha(), partidaVersus);
+                    if (comprobar) {
 
-                        //logro.comprobar(jugadorActivo, logro);
+                        logro.comprobar(jugadorActivo, logro);
+                    }
                     
 
                     //Nos aseguramos de que se creen todos los logros por puntaje, en caso de que la partida
                     //termine con más puntos que la meta inicial (50 puntos)
-                    //Logros logro1 = new LogrosPorPuntos();
-                    //boolean comprobar1 = logro1.elegirNombre(jugadorActivo, puntajeRonda);
-                   // if (comprobar1) {
-                        //logro1.comprobar(jugadorActivo, logro1);
+                    Logros logro1 = new LogrosPorPuntos();
+                    boolean comprobar1 = logro1.elegirNombre(jugadorActivo, jugadorActivo.getPuntajePartida(), partidaVersus);
+                    if (comprobar1) {
+                        logro1.comprobar(jugadorActivo, logro1);
 
-                    //}
+                    }
                 } else {
                     //GENERA ERROR REVISAR
                     this.preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).add(pregunta.getIdPregunta());

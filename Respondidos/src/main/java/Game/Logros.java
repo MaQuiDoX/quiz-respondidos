@@ -22,7 +22,7 @@ public abstract class Logros {
         return nombre;
     }
 
-    public boolean elegirNombre(Jugador jugador, int num) {
+    public boolean elegirNombre(Jugador jugador, int num, boolean versus) {
 
         return false;
     }
@@ -37,15 +37,29 @@ public abstract class Logros {
 
     public void comprobar(Jugador jugador, Logros logro) {
 
-        if (!jugador.getLogros().contains(logro)) {
-            jugador.getLogros().add(logro);
+
+            for (int i=0; i<=jugador.getLogros().size()-1; i++) {
+                String existe = jugador.getLogros().get(i).getNombre();
+                if (!existe.equals(logro.nombre)){
+
+                    jugador.getLogros().add(logro);
 
 
-            if (logro instanceof LogrosPorRacha) {
-                int ind = jugador.getLogros().size()-1;
-                mostrarLogro( jugador, ind);
+                    if (logro instanceof LogrosPorRacha) {
+                        int ind = jugador.getLogros().size()-1;
+                        mostrarLogro( jugador, ind);
+                    }
+
+                    if(logro instanceof LogrosRachaCatgoria){
+                        System.out.println(this.nombre);
+                    }
+
+                }
             }
-        }
+
+
+
+
     }
 
 }

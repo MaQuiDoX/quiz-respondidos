@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class PartidaVersus extends Partida implements PuntajeJuego {
     protected Jugador jugador1;
     protected Jugador jugador2;
+
     
     public PartidaVersus(ArrayList<ArrayList<Integer>> pR, Jugador j1, Jugador j2) {
         this.preguntasRealizadas = pR;
@@ -24,6 +25,7 @@ public class PartidaVersus extends Partida implements PuntajeJuego {
     }
     
     public void iniciarPartida(Jugador j1, Jugador j2){
+        partidaVersus = true;
         int turno = 0;
         boolean partidaNoTerminada = true;
         
