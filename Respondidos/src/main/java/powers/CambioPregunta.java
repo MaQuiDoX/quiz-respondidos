@@ -29,12 +29,11 @@ public class CambioPregunta extends Poder {
     
     /**
      * Uso del poder de cambio de pregunta.
-     * @param respuestaUsuario recibe un numero del 1 al 6, cada numero representa una categoria de las distintas que hay para las preguntas. 
-     * @param pregunta
+     * @param respuestaUsuario recibe un numero del 1 al 6, cada numero representa una categoria de las distintas que hay para las preguntas.
      * @return una nueva pregunta al azar de la categoria elegida por el usuario.
      */
     @Override
-    public Pregunta gastarPoder(int respuestaUsuario, Pregunta pregunta) throws Exception {
+    public Pregunta gastarPoder(int respuestaUsuario){
         return Pregunta.obtenerPregunta(respuestaUsuario);
         
     }

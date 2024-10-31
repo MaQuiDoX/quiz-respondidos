@@ -1,21 +1,25 @@
+package Game;
+
 import powers.Poder;
 import java.util.ArrayList;
 
-
+//puntaje son los puntos en total que lleva el jugador en el programa, puntajePartida son los puntos que lleva en la partida
 public class Jugador {
     private String nombre;
     private int puntaje;
     private int racha=0;
     public ArrayList<Poder> poderes; //Los poderes no los ibamos a aplicar en el momento??? Borrar en ese caso. (NACHO)
     public ArrayList<Logros> logros;
-
+    private int puntajePartida;
+    private int contadorUsoPoderes;
 
     public Jugador(String nombre, int puntaje) {
         this.nombre = nombre;
         this.puntaje = puntaje;
         this.logros = new ArrayList<Logros>();
         //uno para racha y otro para puntos?
-
+        this.puntajePartida = 0;
+        this.contadorUsoPoderes = 0;
     }
 
     //GETTERS
@@ -35,6 +39,9 @@ public class Jugador {
         return logros;
     }
 
+    public int getContadorUsoPoderes() {
+        return contadorUsoPoderes;
+    }
     //SETTERS
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -44,6 +51,13 @@ public class Jugador {
         this.puntaje += puntos;
     }
 
+    public void incrementarContadorUsoPoderes() {
+        this.contadorUsoPoderes += 1;
+    }
+    
+    public void resetContadorUsoPoderes(){
+        this.contadorUsoPoderes = 0;
+    }
     //MÉTODOS
     public void mostrarPuntaje() {
         System.out.println(" ");
@@ -67,6 +81,14 @@ public class Jugador {
 
     public int getRacha(){
         return this.racha;
+    }
+    
+    public int getPuntajePartida() {
+        return puntajePartida;
+    }
+
+    public void setPuntajePartida(int puntajePartida) {
+        this.puntajePartida = puntajePartida;
     }
 }
 

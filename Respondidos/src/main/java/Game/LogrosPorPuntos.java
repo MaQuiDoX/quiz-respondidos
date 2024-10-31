@@ -1,3 +1,6 @@
+package Game;
+
+import Game.Jugador;
 import java.util.Iterator;
 
 public class LogrosPorPuntos extends Logros{
@@ -5,16 +8,17 @@ public class LogrosPorPuntos extends Logros{
 
 
 
-
-
     @Override
-    public boolean elegirNombre(Jugador jugador, int puntos) {
+    public boolean elegirNombre(Jugador jugador, int puntos, boolean versus) {
 
         buscarMeta(jugador);
 
         if (puntos == meta || puntos > meta ) {
-            this.nombre = "LLeguar a " +meta+ "  puntos";
+            if (versus) {
+                this.nombre = "LLeguar a " +meta+ "  puntos en una partida 1v1";
+            } else {this.nombre = "LLeguar a " +meta+ "  puntos";}
             return true;
+
         } else {return false;}
 
     }
@@ -25,15 +29,15 @@ public class LogrosPorPuntos extends Logros{
         try {
             int buscar = jugador.getLogros().size()-1;
             if (jugador.getLogros().get(buscar) instanceof LogrosPorPuntos) {
-                this.meta = jugador.getLogros().get(buscar).getMeta() + 50;
+                this.meta = jugador.getLogros().get(buscar).getMeta() + 100;
             }
-            else { this.meta = 50;}
+            else { this.meta = 100;}
 
         } catch (ArrayIndexOutOfBoundsException e) {
 
-            this.meta = 50;
+            this.meta = 100;
         } catch (IndexOutOfBoundsException e) {
-            this.meta = 50;
+            this.meta = 100;
         }
 
     }

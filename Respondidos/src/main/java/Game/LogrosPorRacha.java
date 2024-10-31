@@ -1,9 +1,15 @@
+package Game;
+
+
+import Game.Logros;
+import Game.Jugador;
+
 
 public class LogrosPorRacha extends Logros{
 
 
     @Override
-    public boolean elegirNombre(Jugador jugador, int racha) {
+    public boolean elegirNombre(Jugador jugador, int racha, boolean versus) {
 
         if (jugador.getLogros().isEmpty()) {
             this.meta = 5;
@@ -12,7 +18,9 @@ public class LogrosPorRacha extends Logros{
         }
 
         if (racha == meta) {
-            this.nombre = "Contestar " +meta+ "  preguntas seguidas";
+            if (versus){
+                this.nombre = "Contestar " +meta+ "  preguntas seguidas en partida 1v1";
+            } else {this.nombre = "Contestar " +meta+ "  preguntas seguidas";}
             return true;
 
         } else {return false; }

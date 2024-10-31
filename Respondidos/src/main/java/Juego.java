@@ -1,3 +1,7 @@
+import Game.Jugador;
+import Game.PartidaIndividual;
+import Game.PartidaVersus;
+import Game.Partida;
 import DAOs.UsuariosDAO;
 import utilities.Libreria;
 
@@ -9,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Juego {
     public static void main(String[] args) throws Exception {
-      
+
         boolean salir = false;
 
         Jugador samu = new Jugador("Samu", 500);
