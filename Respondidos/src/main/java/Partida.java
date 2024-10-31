@@ -39,7 +39,7 @@ public class Partida {
         }
     }
 
-    public void iniciarPartida(Jugador jugador){
+    public void iniciarPartida(Jugador jugador) throws Exception {
 
         if (jugadorActivo == null){
             jugadorActivo = jugador;

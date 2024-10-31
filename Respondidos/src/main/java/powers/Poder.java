@@ -37,7 +37,7 @@ public abstract class Poder {
      * @param respuestaUsuario dato numerico ingresado por el usuario
      * @see CambioPregunta
      */
-    public Pregunta gastarPoder(int respuestaUsuario, Pregunta pregunta){
+    public Pregunta gastarPoder(int respuestaUsuario, Pregunta pregunta) throws Exception {
         return null;
     }
     

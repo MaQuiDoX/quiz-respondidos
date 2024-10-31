@@ -34,7 +34,7 @@ public class CambioPregunta extends Poder {
      * @return una nueva pregunta al azar de la categoria elegida por el usuario.
      */
     @Override
-    public Pregunta gastarPoder(int respuestaUsuario, Pregunta pregunta){
+    public Pregunta gastarPoder(int respuestaUsuario, Pregunta pregunta) throws Exception {
         return Pregunta.obtenerPregunta(respuestaUsuario);
         
     }
