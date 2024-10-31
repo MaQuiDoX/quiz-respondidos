@@ -2,65 +2,46 @@ import utilities.Tupla;
 
 import java.util.ArrayList;
 
-public class LogrosRachaCatgoria extends LogrosPorRacha{
+public class LogrosRachaCatgoria extends Logros{
 
-    protected String categoria;
-    protected int meta;
-    protected ArrayList<Tupla<Integer, Integer>> contadores;
-
-    public LogrosRachaCatgoria(int id) {
-        super(id);
-
-
-    }
-
-    public void inicializarContadores(){
-        contadores = new ArrayList<>();
-
-        for (int i = 1; i <= 6; i++) {
-            contadores.add(new Tupla<>(i, 0));
-        }
-    }
-
-    public void gestionContadores(int num) {
-        Integer aumentar = contadores.get(num).getSegundo();
-        contadores.get(num).setSegundo(aumentar++);
-        definirCategoria(num);
-    }
-
-
-    public void definirCategoria(int numero) {
-        switch (numero) {
-            case 1: categoria = "Arte";
-
-            case 2: categoria = "Entretenimiento";
-
-            case 3: categoria = "Deporte";
-
-            case 4: categoria = "Ciencia";
-
-            case 5: categoria = "Historia";
-
-            case 6: categoria = "UNCuyo";
-
-        }
-
-    }
-
-    public void recorrer(Jugador jugador) {
-
-        for (int i = 0; i<=jugador.getLogros().size()-1; i++) {
-            if (jugador.getLogros().get(i) instanceof LogrosPorRacha) {
-                int elegir = ((LogrosPorRacha) jugador.getLogros().get(i)).getIdentificador();
-                gestionContadores(elegir);
+    public void recorrer(ArrayList<Integer> preguntas, int id, Jugador jugador) {
+        for(int i = 0; i <= preguntas.size() - 1; ++i) {
+            if (i % 5 == 0 && i !=0) {
+                LogrosRachaCatgoria logro = new LogrosRachaCatgoria();
+                this.meta = i;
+                this.nombrar(definirCategoria(id));
+                comprobar(jugador, logro);
             }
         }
+
     }
 
-    @Override
-    public void buscarMeta(Jugador jugador) {
-        for (int i = 0; i<= jugador.getLogros().size()-1; i++) {
+    public String definirCategoria(int numero) {
+        switch (numero) {
+            case 1 :
+                return "Arte";
 
-        }
+            case 2 :
+                return "Entretenimiento";
+
+            case 3:
+                return "Deporte";
+
+            case 4 :
+                return "Ciencia";
+
+            case 5 :
+                return "Historia";
+
+            case 6 :
+                return "UNCuyo";
+
+
+
+        }return "";
+    }
+
+    public void nombrar(String categoria) {
+        this.nombre = "LOGRO OBTENIDO: Contestar " + this.meta + " preguntas de " + categoria + "en una partida";
     }
 }

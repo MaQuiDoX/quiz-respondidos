@@ -1,15 +1,6 @@
 
 public class LogrosPorRacha extends Logros{
 
-    protected  int identificador;
-
-    public LogrosPorRacha(int id) {
-        this.identificador = id;
-    }
-
-    public int getIdentificador() {
-        return identificador;
-    }
 
     @Override
     public boolean elegirNombre(Jugador jugador, int racha) {

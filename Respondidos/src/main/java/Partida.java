@@ -1,4 +1,5 @@
 import Game.Pregunta;
+import org.json.JSONArray;
 import utilities.Tupla;
 import utilities.Libreria;
 import powers.OtraOportunidad;
@@ -12,12 +13,20 @@ import java.util.Scanner;
 import powers.CambioPregunta;
 
 public class Partida {
-    private ArrayList<Tupla<Integer, Integer>> preguntasRealizadas;
+    private ArrayList<ArrayList<Integer>> preguntasRealizadas1;
     private ArrayList<Jugador> listaJugadores;
     private Jugador jugadorActivo;
 
-    public Partida(ArrayList<Tupla<Integer, Integer>> pR, ArrayList<Jugador> lJ, Jugador jA) {
-        this.preguntasRealizadas = pR;
+    public ArrayList<ArrayList<Integer>> getPreguntasRealizadas() {
+        return preguntasRealizadas1;
+    }
+
+    public void setPreguntasRealizadas(ArrayList<ArrayList<Integer>> preguntasRealizadas) {
+        this.preguntasRealizadas1 = preguntasRealizadas;
+    }
+
+    public Partida(ArrayList<ArrayList<Integer>> pR, ArrayList<Jugador> lJ, Jugador jA) {
+        this.preguntasRealizadas1 = pR;
         this.listaJugadores = lJ;
         this.jugadorActivo = jA;
     }
@@ -31,14 +40,39 @@ public class Partida {
     }
 
     public void iniciarPartida(Jugador jugador) throws Exception {
+
+        if (jugadorActivo == null){
+            jugadorActivo = jugador;
+        }
+
+        if (listaJugadores.isEmpty()){
+            listaJugadores.add(jugador);
+        }
+
         Scanner sc = new Scanner(System.in);
         int puntajeRonda = 0;
         int contadorPuntaje = 0;
         boolean salir1 = false;
         boolean salir2 = false;
+
         ArrayList<String> listaRespuestas = new ArrayList<>();
         ArrayList<Tupla<Integer,String>> listaRespuestasTuplas = new ArrayList<>();
+
+        boolean comprobarPregRespondida = false;
+        ArrayList<ArrayList<Integer>> preguntasRealizadas = new ArrayList<>();
+
+        if (preguntasRealizadas1.isEmpty()){
+            preguntasRealizadas1 = preguntasRealizadas;
+        }
+
+        for (int i = 0; i < 6; i++) {
+            ArrayList<Integer> subLista = new ArrayList<>();
+            preguntasRealizadas.add(subLista);
+        }
+
         LogrosPorPuntos logroDeBusqueda = new LogrosPorPuntos();
+//        LogrosRachaCatgoria iniciar = new LogrosRachaCatgoria(0);
+        //iniciar.inicializarContadores();
 
         while (!salir1){
             System.out.println(" === PARTIDA INDIVIDUAL ===");
@@ -62,15 +96,14 @@ public class Partida {
                         // Obtengo pregunta
                         Pregunta pregunta = Pregunta.obtenerPregunta(-1);
 
-                        // Chequeo que la pregunta no se repita, ingreso a la lista del objeto Partida y busco la tupla dentro de la lista, si se encuentra repetida repito la creacion de pregunta
-                        if (!(preguntasRealizadas.isEmpty())){
-                            Tupla tuplaExistencia = new Tupla(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta());
-
-                            while (!checkTuplas(tuplaExistencia)){
+                        while (!comprobarPregRespondida){
+                            if (preguntasRealizadas.get(pregunta.getIndicadorCategoria()-1).contains(pregunta.getIdPregunta())){
                                 pregunta = Pregunta.obtenerPregunta(-1);
-                                tuplaExistencia = new Tupla(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta());
+                            } else {
+                                comprobarPregRespondida = true;
                             }
                         }
+                        comprobarPregRespondida = false;
 
                         // Añado respuestas a una lista para mezclarlas y asignarles un numero
                         listaRespuestas.add(pregunta.getRespuestaCorrecta());
@@ -202,17 +235,15 @@ public class Partida {
                                               System.out.println("Respuesta correcta");
                                               contadorPuntaje++;
                                               puntajeRonda = puntajeRonda + contadorPuntaje;
-                                              preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
+                                              preguntasRealizadas.get(pregunta.getIndicadorCategoria()).add(pregunta.getIdPregunta());
 
                                               //Verifica si el jugador desbloqueó algún logro después de cada pregunta
-                                              Logros logro = new LogrosPorRacha(pregunta.getIndicadorCategoria());
+                                              Logros logro = new LogrosPorRacha();
                                               boolean comprobar = logro.elegirNombre(jugadorActivo, preguntasRealizadas.size());
                                               if (comprobar) {
 
                                                 logro.comprobar(jugadorActivo, logro);
                                               }
-
-
 
                                              //Nos aseguramos de que se creen todos los logros por puntaje, en caso de que la partida
                                              //termine con más puntos que la meta inicial (50 puntos)
@@ -224,7 +255,7 @@ public class Partida {
                                              }
                                              flagOtroIntento = false;
                                             }else {
-                                                preguntasRealizadas.add(new Tupla<>(pregunta.getIndicadorCategoria(),pregunta.getIdPregunta()));
+                                                preguntasRealizadas.get(pregunta.getIndicadorCategoria()).add(pregunta.getIdPregunta());
                                                 System.out.println("Respuesta fallida");
                                           
                                                 if (poderAUsar instanceof OtraOportunidad){
@@ -237,55 +268,69 @@ public class Partida {
                                                     salir2 = true;
                                                     salir1 = true;
                                                     flagOtroIntento = false;
+
+                                                    preguntasRealizadas1 = preguntasRealizadas;
+
                                                 }
                                             }
                                         }
                                     }
                                 }while (flagOtroIntento);
-                                       
 
-                                //nos interesa el puntaje una vez que termina la ronda, así que ahora mostramos los logros obtenidos
-                                //por puntaje
-                                logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
+                                JSONArray jsonArray = new JSONArray(preguntasRealizadas);
+                                String listData = jsonArray.toString();
+
+                                System.out.println(listData);
+
+                                ArrayList<ArrayList<Integer>> arrayList11 = convertJsonToArrayList(listData);
+                                System.out.println(arrayList11);
+
+
+                                
                                 listaRespuestas  = new ArrayList<>();
                                 listaRespuestasTuplas = new ArrayList<>();
                                 salir2 = true;
-                                break;                                
+
+                                logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
+                                LogrosRachaCatgoria logroEntrada= new LogrosRachaCatgoria();
+                                for (int i = 0; i<=5; i++){
+                                    logroEntrada.recorrer(preguntasRealizadas.get(i), i, jugadorActivo);
+
+                                }
+
+
+
+//
+//
+                                break;
 
                             }
+
                         
                         }while(usoPoder);
 
                     }
+
                     break;
                 case 2:
                     salir1 = true;
+                    preguntasRealizadas1 = preguntasRealizadas;
                     break;
             }
         }
-
-
     }
 
-    public void iniciarPartida(Jugador jugador1, Jugador jugador2){
-    }
+//    public void iniciarPartida(Jugador jugador1, Jugador jugador2){
+//    }
 
-    private boolean checkTuplas(Tupla tuplaExistencia){
-        for (Tupla tuplaEx : preguntasRealizadas){
-            if ((tuplaEx.getPrimero() == tuplaExistencia.getPrimero())&&(tuplaEx.getSegundo() == tuplaExistencia.getSegundo())){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public ArrayList<Tupla<Integer, Integer>> getPreguntasRealizadas() {
-        return preguntasRealizadas;
-    }
-
-    public void setPreguntasRealizadas(ArrayList<Tupla<Integer, Integer>> preguntasRealizadas) {
-        this.preguntasRealizadas = preguntasRealizadas;
-    }
+//    private boolean checkTuplas(Tupla tuplaExistencia){
+//        for (Tupla tuplaEx : preguntasRealizadas){
+//            if ((tuplaEx.getPrimero() == tuplaExistencia.getPrimero())&&(tuplaEx.getSegundo() == tuplaExistencia.getSegundo())){
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     public ArrayList<Jugador> getListaJugadores() {
         return listaJugadores;
@@ -301,5 +346,27 @@ public class Partida {
 
     public void setJugadorActivo(Jugador jugadorActivo) {
         this.jugadorActivo = jugadorActivo;
+    }
+    public static ArrayList<ArrayList<Integer>> convertJsonToArrayList(String jsonString) {
+        ArrayList<ArrayList<Integer>> mainList = new ArrayList<>();
+
+        // Parsear el JSON string a un JSONArray
+        JSONArray jsonArray = new JSONArray(jsonString);
+
+        // Recorrer el JSONArray principal
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONArray subArray = jsonArray.getJSONArray(i);
+            ArrayList<Integer> sublist = new ArrayList<>();
+
+            // Recorrer cada sub-arreglo y convertirlo a ArrayList<Integer>
+            for (int j = 0; j < subArray.length(); j++) {
+                sublist.add(subArray.getInt(j));
+            }
+
+            // Agregar el sublist a la mainList
+            mainList.add(sublist);
+        }
+
+        return mainList;
     }
 }

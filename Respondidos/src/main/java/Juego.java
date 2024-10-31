@@ -1,4 +1,5 @@
 import DAOs.UsuariosDAO;
+import utilities.Libreria;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,44 +9,56 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Juego {
     public static void main(String[] args) throws Exception {
-        Scanner sc = new Scanner(System.in);
-
+      
+        boolean salir = false;
 
         Jugador samu = new Jugador("Samu", 500);
-//        ranking.agregarJugador(samu);
         Jugador jug2 = new Jugador("JUGADOR 2", 50);
-//        ranking.agregarJugador(jug2);
         Jugador jug3 = new Jugador("ILLOJUAN", 100);
-//        ranking.agregarJugador(jug3);
 
-        // ----- TESTEOS USUARIOS -----
-        // UsuariosDAO usuDAO = new UsuariosDAO();
-        // usuDAO.borrarBaseDatosUsuarios();
-        Usuarios usu = new Usuarios();
-        usu.printUsuarios();
-        // usu.addUsuarioDB(samu, "el777boy$exy");
-        // usu.addUsuarioDB(jug2, "fuaLocaz0");
-        // usu.addUsuarioDB(jug3, "gatitoTravieso69");
-        Jugador jugadorRegistrado = usu.registerUsuario();
+        while (!salir){
+            System.out.println("RESPONDIDOS: Jugador Activo: (Samu)");
+            System.out.println("1. Registrar Jugador");
+            System.out.println("2. Iniciar Partida Individual");
+            System.out.println("3. Iniciar Partida Versus");
+            System.out.println("4. Consultar Estadísticas");
+            System.out.println("5. Consultar Ranking");
+            System.out.println("6. Consultar partidas activas"); // remil final
+            System.out.println("7. Seleccionar Jugador");
+            System.out.println("8. Salir");
 
-        // Jugador jugadorCargado = usu.loadUsuario(jugadorRegistrado.getNombre(), "draukeo");
-        // System.out.println("Nombre jugador Cargado: "+jugadorCargado.getNombre()+"\n Puntuación jugador Cargado: "+jugadorCargado.getPuntaje());
-        Jugador jugadorCargado2 = usu.loadUsuario("Samu", "el777boy$exy");
-        usu.loadAllUsuarios();
-        // System.out.println("Nombre jugador Cargado2: "+jugadorCargado2.getNombre()+"\n Puntuación jugador Cargado2: "+jugadorCargado2.getPuntaje());
-        // ----- FIN TESTEOS USARIOS -----
+            int opcion = Libreria.catchInt(1,8);
+            switch (opcion){
+                case 1:
+                    break;
+                case 2:
+                    Partida partida = new Partida(new ArrayList<>(), new ArrayList<>(), null);
+                    partida.iniciarPartida(samu);
 
-        Ranking ranking = new Ranking();
-        ranking.imprimirRanking();
+                    // Ahora podemos meter el objeto partida a la lista de partidas activas del jugador y podemos volver a utilizar el objeto anterior ya instanciado para otro jugador.
 
-        Partida partida = new Partida(new ArrayList<>(), null, samu);
-
-        partida.iniciarPartida(samu);
+                    System.out.println(partida.getJugadorActivo());
+                    System.out.println(partida.getListaJugadores());
+                    System.out.println(partida.getPreguntasRealizadas());
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    salir = true;
+            }
+        }
     }
 
     private static int obtenerNumero(int valor) {
         return valor; // Puedes cambiar este valor a lo que necesites
     }
-
 
 }
