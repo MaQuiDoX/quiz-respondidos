@@ -1,5 +1,7 @@
 package DAOs;
 
+import java.util.ArrayList;
+
 public class UsuariosDAO extends DataBaseDAO{
 
     public UsuariosDAO() throws Exception{
@@ -13,27 +15,11 @@ public class UsuariosDAO extends DataBaseDAO{
         this.actualizarDB("DELETE FROM usuarios");
     }
 
-
+    // HACER UNA FORMA DE TRAER TODA LA TABLA EN UNA BUSQUEDA Y NO INVOLUCRAR ESTE SELECT nombre FROM...
     public boolean searchUserName(String nameDB) throws Exception {
         try {
             String sql = "SELECT * FROM usuarios "
                     + " WHERE nombre = '" + nameDB + "'";
-            consultarDB(sql);
-            if (!resultset.next()) {
-                return true;
-            }
-            return false;
-        } catch (Exception ex) {
-            throw ex;
-        } finally {
-            disconnectDB();
-        }
-    }
-
-    public boolean searchUserPassword(String passwordDB) throws Exception {
-        try {
-            String sql = "SELECT * FROM usuarios "
-                    + " WHERE contrasena = '" + passwordDB + "'";
             consultarDB(sql);
             if (resultset.next()) {
                 return true;
@@ -41,8 +27,34 @@ public class UsuariosDAO extends DataBaseDAO{
             return false;
         } catch (Exception ex) {
             throw ex;
-        } finally {
+        } /*finally {
             disconnectDB();
-        }
+        }*/
+    }
+
+    public boolean searchUserPassword(String nameDB, String passwordDB) throws Exception {
+        try {
+            String sql = "SELECT contrasena FROM usuarios "
+                    + " WHERE nombre = '" + nameDB + "' AND contrasena = '" + passwordDB + "'";
+            consultarDB(sql);
+            if (resultset.next()) {
+                return true;
+            }
+            return false;
+        } catch (Exception ex) {
+            throw ex;
+        }/* finally {
+            disconnectDB();
+        }*/
+    }
+
+    public void searchAllUsers() throws Exception{
+        try{
+            consultarDB("SELECT * FROM usuarios");
+        } catch (Exception ex) {
+            throw ex;
+        } /*finally{
+            disconnectDB();
+        }*/
     }
 }

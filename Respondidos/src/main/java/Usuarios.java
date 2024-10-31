@@ -2,10 +2,12 @@ import DAOs.DataBaseDAO;
 import DAOs.UsuariosDAO;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class Usuarios {
+
     public Jugador registerUsuario() throws Exception {
         UsuariosDAO db = new UsuariosDAO();
         Scanner sc = new Scanner(System.in);
@@ -17,7 +19,7 @@ public class Usuarios {
         System.out.println("Ingrese su nombre de usuario:");
         while(!salir){
             nombre = sc.nextLine();
-            boolean nameAvailable = db.searchUserName(nombre);
+            boolean nameAvailable = !db.searchUserName(nombre); // Invertimos el resultado porque si existe queremos que no este disponible y viceversa.
             if (nameAvailable) {
                 salir = true;
                 System.out.println("Nombre disponible. Puede ingresar la contraseña.");
@@ -49,18 +51,39 @@ public class Usuarios {
 
         int puntajeDB = 0;
 
-        db.searchUserName(nombreDB);
+        Boolean nameExist = db.searchUserName(nombreDB);
         ResultSet nombreInDB = db.getResultset();
-        db.searchUserPassword(contrasenaDB);
+        Boolean passwordExist = db.searchUserPassword(nombreDB, contrasenaDB);
         ResultSet contrasenaInDB = db.getResultset();
-        if (nombreInDB.next() && contrasenaInDB.next()) {
+        if (nameExist && passwordExist) {
             System.out.println("Usuario cargado correctamente");
-            System.out.println(nombreInDB.getString("nombre")+"+"+nombreInDB.getString("contrasena")+"+"+nombreInDB.getInt("puntaje"));
             puntajeDB = nombreInDB.getInt("puntaje");
+            System.out.println(nombreInDB.getString("nombre")+"+"+contrasenaInDB.getString("contrasena")+"+"+nombreInDB.getInt("puntaje"));
         }
         return new Jugador(nombreDB,puntajeDB);
     }
 
+    public ArrayList<Jugador> loadAllUsuarios() throws Exception {
+        UsuariosDAO db = new UsuariosDAO();
+
+        db.searchAllUsers();
+        ResultSet rs = db.getResultset();
+
+        ArrayList<Jugador> arrayList = new ArrayList<>();
+        System.out.println("++++++++++"); // TESTEOS TESTEOS
+        while(rs.next()){
+            String nombre = rs.getString("nombre");
+            String contrasena = rs.getString("contrasena");
+            int puntaje = rs.getInt("puntaje");
+            System.out.println("+++++ Name: "+nombre+" +++++ Password: "+contrasena+" +++++ Score: "+puntaje); // TESTEOS TESTEOS
+            Jugador newPlayer = new Jugador(nombre, puntaje);
+            arrayList.add(newPlayer);
+        }
+        System.out.println("++++++++++"); // TESTEOS TESTEOS
+        return arrayList;
+    }
+
+    // LLEVAR ESTO A UsuariosDAO!!!!!
     public void addUsuarioDB(Jugador jugador, String contrasenaDB) throws Exception {
         String nombreDB = jugador.getNombre();
         int puntajeDB = jugador.getPuntaje();
