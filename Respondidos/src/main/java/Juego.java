@@ -15,10 +15,13 @@ public class Juego {
     public static void main(String[] args) throws Exception {
 
         boolean salir = false;
-
+        Ranking ranking = new Ranking();
         Jugador samu = new Jugador("Samu", 500);
         Jugador jug2 = new Jugador("JUGADOR 2", 50);
         Jugador jug3 = new Jugador("ILLOJUAN", 100);
+        ranking.agregarJugador(samu);
+        ranking.agregarJugador(jug2);
+        ranking.agregarJugador(jug3);
 
         while (!salir){
             System.out.println("RESPONDIDOS: Jugador Activo: (Samu)");
@@ -36,20 +39,20 @@ public class Juego {
                 case 1:
                     break;
                 case 2:
-                    Partida partida = new Partida(new ArrayList<>(), new ArrayList<>(), null);
+                    //Reemplazar samu por JugadorActivo cuando sea posible (cuando esté listo el inciso 7). (Nacho)
+                    PartidaIndividual partida = new PartidaIndividual(new ArrayList<>(), new ArrayList<>(), null);
                     partida.iniciarPartida(samu);
-
-                    // Ahora podemos meter el objeto partida a la lista de partidas activas del jugador y podemos volver a utilizar el objeto anterior ya instanciado para otro jugador.
-
-                    System.out.println(partida.getJugadorActivo());
-                    System.out.println(partida.getListaJugadores());
-                    System.out.println(partida.getPreguntasRealizadas());
                     break;
                 case 3:
+                    //Reemplazar samu por JugadorActivo cuando sea posible (cuando esté listo el inciso 7). (Nacho)
+                    PartidaVersus versus = new PartidaVersus(new ArrayList<>(), null, null);
+                    versus.iniciarPartida(null, null);
                     break;
                 case 4:
+                    //Acá iría JugadorActivo.mostrarEstadisticas.
                     break;
                 case 5:
+                    ranking.imprimirRanking();
                     break;
                 case 6:
                     break;

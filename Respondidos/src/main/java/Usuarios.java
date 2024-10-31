@@ -1,5 +1,6 @@
 import DAOs.DataBaseDAO;
 import DAOs.UsuariosDAO;
+import Game.*;
 
 import java.sql.*;
 import java.util.ArrayList;
