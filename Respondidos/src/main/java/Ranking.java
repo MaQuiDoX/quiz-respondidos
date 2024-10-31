@@ -1,4 +1,5 @@
-import Game.Jugador;
+import DAOs.UsuariosDAO;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -9,6 +10,12 @@ public class Ranking {
     private ArrayList<Jugador> ranking = new ArrayList<>();;
 
     public Ranking() {
+        try{
+            Usuarios usu = new Usuarios();
+            ranking = usu.loadAllUsuarios();
+        } catch (Exception ex){
+            System.out.println("Hubo un error al crear el ranking");
+        }
     }
 
     /**

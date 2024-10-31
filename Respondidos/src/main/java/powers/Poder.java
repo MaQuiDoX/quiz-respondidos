@@ -41,8 +41,6 @@ public abstract class Poder {
         return null;
     }
     
-  
-    
     public void imprimirInfo(){
         System.out.println("Este es: " + this.nombre + " , " + descripcion);
     }

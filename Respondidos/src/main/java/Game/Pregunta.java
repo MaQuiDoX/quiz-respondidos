@@ -1,7 +1,7 @@
 package Game;
 
 
-import models.ConnectDB;
+import DAOs.DataBaseDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -36,81 +36,78 @@ public class Pregunta {
      * Función que al ser llamada devuelve un objeto Pregunta construído a partir del acceso aleatorio a cualquier lista de preguntas de la base de datos.
      * @return Objeto pregunta
      */
-    public static Pregunta obtenerPregunta(int validarNumero){
-        Connection conn = new ConnectDB().getConnection();
+    public static Pregunta obtenerPregunta(int validarNumero) throws Exception {
+        DataBaseDAO conn = new DataBaseDAO();
+        conn.connectDB();
 
         ResultSet rs = null;
         PreparedStatement obtenerPregDeCategoria = null;
 
-        if (conn != null) {
-            try {
-                int numCategoria;
+        int numCategoria;
+        //int numCategoria = new Random().nextInt(6)+1;
 
-                if (validarNumero == -1){
-                    numCategoria = new Random().nextInt(6)+1;
-                } else {
-                    numCategoria = validarNumero;
-                }
-                
+        if (validarNumero == -1) {
+            numCategoria = 5;
+        } else {
+            numCategoria = validarNumero;
+        }
 
-                // La tabla maneja a partir del uno, y el random del 0, por eso le sumamos 1
-                int numPregunta = new Random().nextInt(25)+1;
 
-                switch(numCategoria){
-                    case 1:
-                        obtenerPregDeCategoria = conn.prepareStatement("SELECT * FROM preguntasArte WHERE id = ?");
-                        obtenerPregDeCategoria.setInt(1, numPregunta);
-                        rs = obtenerPregDeCategoria.executeQuery();
-                        break;
-                    case 2:
-                        obtenerPregDeCategoria = conn.prepareStatement("SELECT * FROM preguntasEntretenimiento WHERE id = ?");
-                        obtenerPregDeCategoria.setInt(1, numPregunta);
-                        rs = obtenerPregDeCategoria.executeQuery();
-                        break;
-                    case 3:
-                        obtenerPregDeCategoria = conn.prepareStatement("SELECT * FROM preguntasDeporte WHERE id = ?");
-                        obtenerPregDeCategoria.setInt(1, numPregunta);
-                        rs = obtenerPregDeCategoria.executeQuery();
-                        break;
-                    case 4:
-                        obtenerPregDeCategoria = conn.prepareStatement("SELECT * FROM preguntasCiencia WHERE id = ?");
-                        obtenerPregDeCategoria.setInt(1, numPregunta);
-                        rs = obtenerPregDeCategoria.executeQuery();
-                        break;
-                    case 5:
-                        obtenerPregDeCategoria = conn.prepareStatement("SELECT * FROM preguntasHistoria WHERE id = ?");
-                        obtenerPregDeCategoria.setInt(1, numPregunta);
-                        rs = obtenerPregDeCategoria.executeQuery();
-                        break;
-                    case 6:
-                        obtenerPregDeCategoria = conn.prepareStatement("SELECT * FROM preguntasUncuyo WHERE id = ?");
-                        obtenerPregDeCategoria.setInt(1, numPregunta);
-                        rs = obtenerPregDeCategoria.executeQuery();
-                        break;
-                    default:
-                        System.out.println("Índice de categoría incorrecto.");
-                        break;
-                }
+        // La tabla maneja a partir del uno, y el random del 0, por eso le sumamos 1
+        int numPregunta = new Random().nextInt(25) + 1;
 
-                while (rs.next()){
-                    String preg = rs.getString("pregunta");
-                    String respuestaCorrecta = rs.getString("respuestacorrecta");
-                    ArrayList<String> respuestasIncorr = new ArrayList<>();
-                    respuestasIncorr.add(rs.getString("respuestaincorrecta1"));
-                    respuestasIncorr.add(rs.getString("respuestaincorrecta2"));
-                    respuestasIncorr.add(rs.getString("respuestaincorrecta3"));
-                    Pregunta pregunta = new Pregunta(numCategoria, numPregunta, preg, respuestaCorrecta, respuestasIncorr);
+        switch (numCategoria) {
+            case 1:
+                obtenerPregDeCategoria = conn.getConnection().prepareStatement("SELECT * FROM preguntasArte WHERE id = ?");
+                obtenerPregDeCategoria.getResultSet();
+                obtenerPregDeCategoria.setInt(1, numPregunta);
+                rs = obtenerPregDeCategoria.executeQuery();
+                break;
+            case 2:
+                obtenerPregDeCategoria = conn.getConnection().prepareStatement("SELECT * FROM preguntasEntretenimiento WHERE id = ?");
+                obtenerPregDeCategoria.setInt(1, numPregunta);
+                rs = obtenerPregDeCategoria.executeQuery();
+                break;
+            case 3:
+                obtenerPregDeCategoria = conn.getConnection().prepareStatement("SELECT * FROM preguntasDeporte WHERE id = ?");
+                obtenerPregDeCategoria.setInt(1, numPregunta);
+                rs = obtenerPregDeCategoria.executeQuery();
+                break;
+            case 4:
+                obtenerPregDeCategoria = conn.getConnection().prepareStatement("SELECT * FROM preguntasCiencia WHERE id = ?");
+                obtenerPregDeCategoria.setInt(1, numPregunta);
+                rs = obtenerPregDeCategoria.executeQuery();
+                break;
+            case 5:
+                obtenerPregDeCategoria = conn.getConnection().prepareStatement("SELECT * FROM preguntasHistoria WHERE id = ?");
+                obtenerPregDeCategoria.setInt(1, numPregunta);
+                rs = obtenerPregDeCategoria.executeQuery();
+                break;
+            case 6:
+                obtenerPregDeCategoria = conn.getConnection().prepareStatement("SELECT * FROM preguntasUncuyo WHERE id = ?");
+                obtenerPregDeCategoria.setInt(1, numPregunta);
+                rs = obtenerPregDeCategoria.executeQuery();
+                break;
+            default:
+                System.out.println("Índice de categoría incorrecto.");
+                break;
+        }
 
-                    conn.close();
-                    return pregunta;
-                }
+        while (rs.next()) {
+            String preg = rs.getString("pregunta");
+            String respuestaCorrecta = rs.getString("respuestacorrecta");
+            ArrayList<String> respuestasIncorr = new ArrayList<>();
+            respuestasIncorr.add(rs.getString("respuestaincorrecta1"));
+            respuestasIncorr.add(rs.getString("respuestaincorrecta2"));
+            respuestasIncorr.add(rs.getString("respuestaincorrecta3"));
+            Pregunta pregunta = new Pregunta(numCategoria, numPregunta, preg, respuestaCorrecta, respuestasIncorr);
 
-            } catch (SQLException e){
-                e.printStackTrace();
-            }
-        } return null;
+            conn.disconnectDB();
+            return pregunta;
+        }
+        return null;
     }
-    
+
     public int getIndicadorCategoria() {
         return indicadorCategoria;
     }
