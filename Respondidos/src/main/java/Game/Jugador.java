@@ -1,6 +1,8 @@
 package Game;
 
 import powers.Poder;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 //puntaje son los puntos en total que lleva el jugador en el programa, puntajePartida son los puntos que lleva en la partida
@@ -8,10 +10,10 @@ public class Jugador {
     private String nombre;
     private int puntaje;
     private int racha=0;
-    public ArrayList<Poder> poderes; //Los poderes no los ibamos a aplicar en el momento??? Borrar en ese caso. (NACHO)
     public ArrayList<Logros> logros;
     private int puntajePartida;
     private int contadorUsoPoderes;
+    public ArrayList<Integer> idsPartidasActivas;
 
     public Jugador(String nombre, int puntaje) {
         this.nombre = nombre;

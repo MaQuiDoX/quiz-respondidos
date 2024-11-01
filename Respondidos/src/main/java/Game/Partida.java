@@ -14,9 +14,10 @@ import java.util.Scanner;
 import powers.CambioPregunta;
 
 public abstract class Partida {
-    protected ArrayList<ArrayList<Integer>> preguntasRealizadas;
-    protected ArrayList<Jugador> listaJugadores;
-    protected Jugador jugadorActivo;
+    protected int idPartida;
+    public ArrayList<ArrayList<Integer>> preguntasRealizadas;
+    public ArrayList<Jugador> listaJugadores;
+    public Jugador jugadorActivo;
     //maybe esta no es la mejor forma
     boolean partidaVersus= false;
 
@@ -103,7 +104,6 @@ public abstract class Partida {
         //INTRODUCCION LOGICA PARA OPCION 5
         Poder poderAUsar;
 
-        // 1 al 4 respuestas, 5 para poderes (aún implementar)
         int enteroRespuesta;
 
         System.out.println(" === MENU DE PODERES ===");

@@ -11,7 +11,7 @@ public class Guia {
         // Creo objeto base de datos
         ConnectDB db = new ConnectDB();
 
-        // Creo el objeto y lo conecto a la base de datos con el nombre "mydb.db"
+        // Creo el objeto y lo conecto a la base de datos con el nombre "db"
         Connection connection = db.getConnection();
 
         // Si se encuentra una base de datos habil podemos ingresar, en caso contrario no se da una conexión
