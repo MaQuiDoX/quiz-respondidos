@@ -11,10 +11,19 @@ public class Jugador {
     private String nombre;
     private int puntaje;
     public ArrayList<Logros> logros;
-
+    private String contrasena;
     private int racha=0;
     private int puntajePartida;
     private int contadorUsoPoderes;
+
+    public Jugador(String nombre1, String contrasena1, int puntaje1, ArrayList<Logros> logros1) {
+        this.nombre = nombre1;
+        this.puntaje = puntaje1;
+        this.contrasena = contrasena1;
+        this.logros = logros1;
+        this.puntajePartida = 0;
+        this.contadorUsoPoderes = 0;
+    }
 
     public Jugador(String nombre, int puntaje) {
         this.nombre = nombre;
@@ -35,6 +44,10 @@ public class Jugador {
 
     public void restarPuntaje(int precio){
         this.puntaje-=precio;
+    }
+
+    public String getContrasena() {
+        return contrasena;
     }
 
     public ArrayList<Logros> getLogros() {
@@ -101,6 +114,8 @@ public class Jugador {
     public void setPuntajePartida(int puntajePartida) {
         this.puntajePartida = puntajePartida;
     }
+
+
 }
 
 

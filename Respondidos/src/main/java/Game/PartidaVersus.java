@@ -42,7 +42,7 @@ public class PartidaVersus extends Partida implements PuntajeJuego {
                 cambiarJugador(j2);
             }
             
-            System.out.println("=== Es el turno de:" + this.jugadorActivo.getNombre() + " que va " + this.jugadorActivo.getPuntajePartida() + " puntos///");
+            System.out.println("=== Es el turno de: " + this.jugadorActivo.getNombre() + " que va " + this.jugadorActivo.getPuntajePartida() + " puntos///");
             turnoJugador(this.jugadorActivo);
             //Revisamos que la partida haya terminado (cuando alguno de los dos jugadores llegue o sobrepase el limite, por ejemplo 100 puntos.
             if (this.jugadorActivo.getPuntajePartida() >= 25){

@@ -10,6 +10,7 @@ import utilities.Tupla;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -25,7 +26,7 @@ public class Juego {
         Scanner sc = new Scanner(System.in);
 
         //EN LUGAR DE REGISTRAR UNO NUEVO, INICIAR SESIÓN.
-        Jugador jugadorActivo = usuarios.registerUsuario();
+        Jugador jugadorActivo = usuarios.logUsuario();
 
         Ranking ranking = new Ranking();
 //        Jugador samu = new Jugador("Samu", 500);
@@ -45,23 +46,20 @@ public class Juego {
             System.out.println("6. Seleccionar Jugador");
             System.out.println("7. Salir");
 
-            usuarios.actualizarLogrosBase(jugadorActivo);
+            //usuarios.actualizarLogrosBase(jugadorActivo);
 
-            int opcion = Libreria.catchInt(1,8);
+            int opcion = Libreria.catchInt(1,7);
             switch (opcion){
                 case 1:
                     Jugador newJugador = Usuarios.registerUsuario();
                     break;
                 case 2:
-                    //Reemplazar samu por JugadorActivo cuando sea posible (cuando esté listo el inciso 7). (Nacho)
-
                     PartidaIndividual partidaI = new PartidaIndividual(new ArrayList<>(), jugadorActivo);
                     partidaI.iniciarPartida(jugadorActivo);
 
-
+                    //ACTUALIZAR ACA?
                     break;
                 case 3:
-                    //Reemplazar samu por JugadorActivo cuando sea posible (cuando esté listo el inciso 7). (Nacho)
                     PartidaVersus versus = new PartidaVersus(new ArrayList<>(), null, null);
 
                     ArrayList<Jugador> listaJugadoresRegistrados;
@@ -69,7 +67,8 @@ public class Juego {
                     //System.out.println(listaJugadoresRegistrados);
                     int contadorJugadoresVersus = 1;
 
-                    listaJugadoresRegistrados.removeIf(jugador -> jugador.getNombre().equals(jugadorActivo.getNombre()));
+                    Jugador finalJugadorActivo1 = jugadorActivo;
+                    listaJugadoresRegistrados.removeIf(jugador -> jugador.getNombre().equals(finalJugadorActivo1.getNombre()));
 
                     System.out.println("Elija su contrincante de la lista indicando el número que lo acompaña:");
                     for (Jugador jugador : listaJugadoresRegistrados) {
@@ -81,7 +80,25 @@ public class Juego {
 
                     Jugador jugadorVersus = listaJugadoresRegistrados.get(seleccion-1);
 
-                    versus.iniciarPartida(jugadorActivo, jugadorVersus);
+                    while (true){
+                        System.out.println("Ingrese la contraseña del jugador seleccionado: " + jugadorVersus.getNombre());
+                        String contraNew = sc.nextLine();
+
+                        if (!Objects.equals(contraNew, jugadorVersus.getContrasena())){
+                            System.out.println("Contraseña Incorrecta...");
+                            System.out.println("¿Desea ingresar la contraseña nuevamente?");
+                            System.out.println("1. Si");
+                            System.out.println("2. No");
+                            int opcion2 = Libreria.catchInt(1,2);
+                            if (opcion2 == 2){
+                                break;
+                            }
+                        } else if (Objects.equals(contraNew, jugadorVersus.getContrasena())){
+                            versus.iniciarPartida(jugadorActivo, jugadorVersus);
+
+                        }
+                    }
+
                     break;
                 case 4:
                     //Acá iría JugadorActivo.mostrarEstadisticas.
@@ -94,7 +111,8 @@ public class Juego {
                     ArrayList<Jugador> listaCambioJugador;
                     listaCambioJugador = usuarios.loadAllUsuarios();
 
-                    listaCambioJugador.removeIf(jugador -> jugador.getNombre().equals(jugadorActivo.getNombre()));
+                    Jugador finalJugadorActivo = jugadorActivo;
+                    listaCambioJugador.removeIf(jugador -> jugador.getNombre().equals(finalJugadorActivo.getNombre()));
 
                     int contadorCambioJugador = 1;
                     System.out.println("Elija de la lista, indicando el número que lo acompaña, el Jugador con el cual se desea jugar:");
@@ -107,18 +125,30 @@ public class Juego {
 
                     Jugador jugadorCambio = listaCambioJugador.get(seleccionCambio-1);
 
-//                    System.out.println("Ingrese la contraseña:");
-//                    String contra = sc.nextLine();
+                  while (true){
+                        System.out.println("Ingrese la contraseña del jugador seleccionado: " + jugadorCambio.getNombre());
+                        String contraNewCambio = sc.nextLine();
 
-//                  if (contra != jugadorCambio)
-//                  Actualizar jugador activo anterior aca?
+                        if (!Objects.equals(contraNewCambio, jugadorCambio.getContrasena())){
+                            System.out.println("Contraseña Incorrecta...");
+                            System.out.println("¿Desea ingresar la contraseña nuevamente?");
+                            System.out.println("1. Si");
+                            System.out.println("2. No");
+                            int opcion2 = Libreria.catchInt(1,2);
+                            if (opcion2 == 2){
+                                break;
+                            }
+                        } else if (Objects.equals(contraNewCambio, jugadorCambio.getContrasena())){
+                            // ACTUALIZAR ACA ANTES DE PERDER LA DATA (POR LAS DUDAS, NO SE DEBERIA PERDER POR QUE SE ACTUALIZA DURANTE LAS PARTIDAS
+                            // PERO UN UPDATE NO VIENE MAL
+                            jugadorActivo = jugadorCambio;
+                            break;
+                        }
+                    }
                     break;
                 case 7:
-
-
-                    break;
-                case 8:
                     salir = true;
+                    break;
             }
             // Actualizar jugador activo aca !!
         }
