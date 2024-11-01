@@ -19,8 +19,8 @@ public class LogrosPorRacha extends Logros{
 
         if (racha == meta) {
             if (versus){
-                this.nombre = "Contestar " +meta+ "  preguntas seguidas en partida 1v1";
-            } else {this.nombre = "Contestar " +meta+ "  preguntas seguidas";}
+                this.nombre = "Contestar " +meta+ " preguntas seguidas en partida 1v1";
+            } else {this.nombre = "Contestar " +meta+ " preguntas seguidas";}
             return true;
 
         } else {return false; }

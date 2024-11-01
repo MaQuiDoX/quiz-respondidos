@@ -38,13 +38,12 @@ public class Juego {
         while (!salir){
             System.out.println("RESPONDIDOS: Jugador Activo: "+ jugadorActivo.getNombre());
             System.out.println("1. Registrarse");
-            System.out.println("2. Iniciar nueva Partida Individual");
-            System.out.println("3. Iniciar nueva Partida Versus");
+            System.out.println("2. Iniciar Partida Individual");
+            System.out.println("3. Iniciar Partida Versus");
             System.out.println("4. Estadísticas");
             System.out.println("5. Ranking");
-            System.out.println("6. Continuar Partidas activas");
-            System.out.println("7. Seleccionar Jugador");
-            System.out.println("8. Salir");
+            System.out.println("6. Seleccionar Jugador");
+            System.out.println("7. Salir");
 
             usuarios.actualizarLogrosBase(jugadorActivo);
 
@@ -56,17 +55,14 @@ public class Juego {
                 case 2:
                     //Reemplazar samu por JugadorActivo cuando sea posible (cuando esté listo el inciso 7). (Nacho)
 
-                    PartidaIndividual partidaI = new PartidaIndividual(contadorIdPartida, new ArrayList<>(), jugadorActivo);
+                    PartidaIndividual partidaI = new PartidaIndividual(new ArrayList<>(), jugadorActivo);
                     partidaI.iniciarPartida(jugadorActivo);
-                    jugadorActivo.idsPartidasActivas.add(contadorIdPartida);
 
-                    contadorIdPartida++;
 
                     break;
                 case 3:
                     //Reemplazar samu por JugadorActivo cuando sea posible (cuando esté listo el inciso 7). (Nacho)
-                    PartidaVersus versus = new PartidaVersus(contadorIdPartida, new ArrayList<>(), null, null);
-                    jugadorActivo.idsPartidasActivas.add(contadorIdPartida);
+                    PartidaVersus versus = new PartidaVersus(new ArrayList<>(), null, null);
 
                     ArrayList<Jugador> listaJugadoresRegistrados;
                     listaJugadoresRegistrados = usuarios.loadAllUsuarios();
@@ -84,12 +80,8 @@ public class Juego {
                     int seleccion = Libreria.catchInt(1,contadorJugadoresVersus);
 
                     Jugador jugadorVersus = listaJugadoresRegistrados.get(seleccion-1);
-                    jugadorActivo.idsPartidasActivas.add(contadorIdPartida);
-                    jugadorVersus.idsPartidasActivas.add(contadorIdPartida);
 
                     versus.iniciarPartida(jugadorActivo, jugadorVersus);
-
-                    contadorIdPartida++;
                     break;
                 case 4:
                     //Acá iría JugadorActivo.mostrarEstadisticas.
@@ -115,11 +107,11 @@ public class Juego {
 
                     Jugador jugadorCambio = listaCambioJugador.get(seleccionCambio-1);
 
-                    System.out.println("Ingrese la contraseña:");
-                    String contra = sc.nextLine();
+//                    System.out.println("Ingrese la contraseña:");
+//                    String contra = sc.nextLine();
 
-//                    if (contra != jugadorCambio)
-//                    Actualizar jugador activo anterior aca?
+//                  if (contra != jugadorCambio)
+//                  Actualizar jugador activo anterior aca?
                     break;
                 case 7:
 

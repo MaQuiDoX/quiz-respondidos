@@ -10,18 +10,16 @@ import java.util.ArrayList;
 public class Jugador {
     private String nombre;
     private int puntaje;
-    private int racha=0;
     public ArrayList<Logros> logros;
+
+    private int racha=0;
     private int puntajePartida;
     private int contadorUsoPoderes;
-    public ArrayList<Integer> idsPartidasActivas;
 
     public Jugador(String nombre, int puntaje) {
         this.nombre = nombre;
         this.puntaje = puntaje;
         this.logros = new ArrayList<Logros>();
-        this.idsPartidasActivas = new ArrayList<>();
-        //uno para racha y otro para puntos?
         this.puntajePartida = 0;
         this.contadorUsoPoderes = 0;
     }

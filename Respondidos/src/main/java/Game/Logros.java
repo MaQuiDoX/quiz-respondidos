@@ -32,7 +32,7 @@ public abstract class Logros {
     }
 
     public void mostrarLogro(Jugador jugador, int ind){
-        System.out.println("LOGRO OBTENIDO: " +jugador.getLogros().get(ind).getNombre());
+        System.out.println("Logro obtenido: " +jugador.getLogros().get(ind).getNombre());
     }
 
     public void comprobar(Jugador jugador, Logros logro) {

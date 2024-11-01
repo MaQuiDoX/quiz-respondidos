@@ -31,8 +31,7 @@ public class PartidaIndividual extends Partida implements PuntajeJuego {
         
     
 
-    public PartidaIndividual(int id, ArrayList<ArrayList<Integer>> pR, Jugador jA) {
-        this.idPartida = id;
+    public PartidaIndividual(ArrayList<ArrayList<Integer>> pR, Jugador jA) {
         this.preguntasRealizadas = pR;
         this.jugadorActivo = jA;
     }

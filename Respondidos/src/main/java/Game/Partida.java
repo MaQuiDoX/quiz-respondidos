@@ -14,7 +14,6 @@ import java.util.Collections;
 import powers.CambioPregunta;
 
 public abstract class Partida {
-    protected int idPartida;
     public ArrayList<ArrayList<Integer>> preguntasRealizadas;
     public Jugador jugadorActivo;
     //maybe esta no es la mejor forma
@@ -41,7 +40,7 @@ public abstract class Partida {
 
 
         while (!salir2) {
-                System.out.println("=== PUNTAJE ACTUAL GANADO: " + jugador.getPuntajePartida() + " ===");
+                System.out.println("=== Puntaje total ganado: " + jugador.getPuntajePartida() + " ===");
                 //Si usoTienda = true, significa que el usuario uso la tienda, significa que solo le debemos imprimir la pregunta nomas.
                 //Si usoTienda = false, no la uso
                 if (!usoTienda){
