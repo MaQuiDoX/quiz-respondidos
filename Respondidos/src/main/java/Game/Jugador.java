@@ -3,6 +3,7 @@ package Game;
 import powers.Poder;
 
 import java.lang.reflect.Array;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 //puntaje son los puntos en total que lleva el jugador en el programa, puntajePartida son los puntos que lleva en la partida
@@ -64,10 +65,19 @@ public class Jugador {
     //MÉTODOS
     public void mostrarPuntaje() {
         System.out.println(" ");
-        System.out.println("Puntaje: " + this.puntaje);
+        System.out.println("PUNTAJE: " + this.puntaje);
         System.out.println(" ");
     }
 
+    public void printEstadisticas(Jugador jugador){
+        System.out.println("--- ESTADISTICAS ---");
+        System.out.println("USUARIO: "+ jugador.nombre);
+        mostrarPuntaje();
+        System.out.println("LOGROS");
+        for (Logros logro : this.logros){
+            System.out.println("-"+logro.nombre);
+        }
+    }
 
     /**
      * El primer método incrementa en uno la racha(será utilizado cuando responda una pregunta correctamente)

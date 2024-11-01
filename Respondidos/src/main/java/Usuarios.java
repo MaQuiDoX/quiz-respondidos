@@ -1,6 +1,6 @@
-import DAOs.DataBaseDAO;
 import DAOs.UsuariosDAO;
 import Game.*;
+import utilities.Libreria;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -47,21 +47,38 @@ public class Usuarios {
         addUsuarioDB(jugador, contrasena);
         return jugador;
     }
-    public Jugador loadUsuario(String nombreDB, String contrasenaDB) throws Exception {
+    public Jugador logUsuario() throws Exception {
         UsuariosDAO db = new UsuariosDAO();
-
+        Scanner scanner = new Scanner(System.in);
         int puntajeDB = 0;
+        System.out.println(" ");
+        System.out.println("Ingrese su nombre de usuario: ");
+        String nombreDB = scanner.nextLine();
+        System.out.println("Ingrese su contraseña: ");
+        String contrasenaDB = scanner.nextLine();
 
         Boolean nameExist = db.searchUserName(nombreDB);
         ResultSet nombreInDB = db.getResultset();
         Boolean passwordExist = db.searchUserPassword(nombreDB, contrasenaDB);
         ResultSet contrasenaInDB = db.getResultset();
         if (nameExist && passwordExist) {
-            System.out.println("Usuario cargado correctamente");
+            System.out.println("Sesión iniciada correctamente");
             puntajeDB = nombreInDB.getInt("puntaje");
-            System.out.println(nombreInDB.getString("nombre")+"+"+contrasenaInDB.getString("contrasena")+"+"+nombreInDB.getInt("puntaje"));
+            // TESTEO
+            System.out.println(nombreInDB.getString("nombre") + "+" + contrasenaInDB.getString("contrasena") + "+" + nombreInDB.getInt("puntaje"));
+            return new Jugador(nombreDB, puntajeDB);
+        } else {
+            System.out.println(" ");
+            System.out.println("Usuario y/o contraseña no válidos");
+            System.out.println("1. Intentar nuevamente");
+            System.out.println("2. Crear nuevo usuario \n ");
+            int opcion = Libreria.catchInt(1, 2);
+            if (opcion == 1) {
+                return logUsuario(); // Aquí retorna el resultado de logUsuario()
+            } else {
+                return registerUsuario();
+            }
         }
-        return new Jugador(nombreDB,puntajeDB);
     }
 
     public ArrayList<Jugador> loadAllUsuarios() throws Exception {

@@ -1,6 +1,6 @@
 package DAOs;
 
-import java.util.ArrayList;
+import java.sql.ResultSet;
 
 public class UsuariosDAO extends DataBaseDAO{
 
@@ -16,7 +16,7 @@ public class UsuariosDAO extends DataBaseDAO{
     }
 
     // HACER UNA FORMA DE TRAER TODA LA TABLA EN UNA BUSQUEDA Y NO INVOLUCRAR ESTE SELECT nombre FROM...
-    public boolean searchUserName(String nameDB) throws Exception {
+    public boolean existUserName(String nameDB) throws Exception {
         try {
             String sql = "SELECT * FROM usuarios "
                     + " WHERE nombre = '" + nameDB + "'";
@@ -27,34 +27,47 @@ public class UsuariosDAO extends DataBaseDAO{
             return false;
         } catch (Exception ex) {
             throw ex;
-        } /*finally {
+        } finally {
             disconnectDB();
-        }*/
+        }
     }
 
-    public boolean searchUserPassword(String nameDB, String passwordDB) throws Exception {
+    public ResultSet searchUserName(String nameDB) throws Exception {
+        try {
+            String sql = "SELECT * FROM usuarios "
+                    + " WHERE nombre = '" + nameDB + "'";
+            consultarDB(sql);
+            if (resultset.next()) {
+                return this.resultset;
+            }
+            return null;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public ResultSet searchUserPassword(String nameDB, String passwordDB) throws Exception {
         try {
             String sql = "SELECT contrasena FROM usuarios "
                     + " WHERE nombre = '" + nameDB + "' AND contrasena = '" + passwordDB + "'";
             consultarDB(sql);
             if (resultset.next()) {
-                return true;
+                return this.resultset;
             }
-            return false;
+            return null;
         } catch (Exception ex) {
             throw ex;
-        }/* finally {
-            disconnectDB();
-        }*/
+        }
     }
 
-    public void searchAllUsers() throws Exception{
+    public ResultSet searchAllUsers() throws Exception{
         try{
             consultarDB("SELECT * FROM usuarios");
+            return this.resultset;
         } catch (Exception ex) {
             throw ex;
-        } /*finally{
+        } finally{
             disconnectDB();
-        }*/
+        }
     }
 }

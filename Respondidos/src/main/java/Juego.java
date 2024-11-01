@@ -20,9 +20,10 @@ public class Juego {
         int contadorIdPartida = 1;
 
         Usuarios usuarios = new Usuarios();
-
         Scanner sc = new Scanner(System.in);
-        Jugador jugadorActivo = Usuarios.registerUsuario();
+
+        //EN LUGAR DE REGISTRAR UNO NUEVO, INICIAR SESIÓN.
+        Jugador jugadorActivo = usuarios.logUsuario();
 
         Ranking ranking = new Ranking();
 //        Jugador samu = new Jugador("Samu", 500);
@@ -88,6 +89,7 @@ public class Juego {
                     break;
                 case 4:
                     //Acá iría JugadorActivo.mostrarEstadisticas.
+                    jugadorActivo.printEstadisticas(jugadorActivo);
                     break;
                 case 5:
                     ranking.imprimirRanking();
@@ -116,6 +118,7 @@ public class Juego {
 //                    Actualizar jugador activo anterior aca?
                     break;
                 case 7:
+
 
                     break;
                 case 8:
