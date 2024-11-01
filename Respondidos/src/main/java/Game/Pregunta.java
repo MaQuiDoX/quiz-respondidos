@@ -43,47 +43,59 @@ public class Pregunta {
         ResultSet rs = null;
         PreparedStatement obtenerPregDeCategoria = null;
 
-        int numCategoria;
-        //int numCategoria = new Random().nextInt(6)+1;
+        int numCategoria = new Random().nextInt(6)+1;
 
-        if (validarNumero == -1) {
-            numCategoria = 5;
-        } else {
-            numCategoria = validarNumero;
-        }
+//        if (validarNumero == -1) {
+//            numCategoria = 5;
+//        } else {
+//            numCategoria = validarNumero;
+//        }
+
+        int numPregunta = 0;
 
 
         // La tabla maneja a partir del uno, y el random del 0, por eso le sumamos 1
-        int numPregunta = new Random().nextInt(25) + 1;
 
         switch (numCategoria) {
             case 1:
+                numPregunta = new Random().nextInt(20) + 1;
+
                 obtenerPregDeCategoria = conn.getConnection().prepareStatement("SELECT * FROM preguntasArte WHERE id = ?");
                 obtenerPregDeCategoria.getResultSet();
                 obtenerPregDeCategoria.setInt(1, numPregunta);
                 rs = obtenerPregDeCategoria.executeQuery();
                 break;
             case 2:
+                numPregunta = new Random().nextInt(20) + 1;
+
                 obtenerPregDeCategoria = conn.getConnection().prepareStatement("SELECT * FROM preguntasEntretenimiento WHERE id = ?");
                 obtenerPregDeCategoria.setInt(1, numPregunta);
                 rs = obtenerPregDeCategoria.executeQuery();
                 break;
             case 3:
+                numPregunta = new Random().nextInt(20) + 1;
+
                 obtenerPregDeCategoria = conn.getConnection().prepareStatement("SELECT * FROM preguntasDeporte WHERE id = ?");
                 obtenerPregDeCategoria.setInt(1, numPregunta);
                 rs = obtenerPregDeCategoria.executeQuery();
                 break;
             case 4:
+                numPregunta = new Random().nextInt(20) + 1;
+
                 obtenerPregDeCategoria = conn.getConnection().prepareStatement("SELECT * FROM preguntasCiencia WHERE id = ?");
                 obtenerPregDeCategoria.setInt(1, numPregunta);
                 rs = obtenerPregDeCategoria.executeQuery();
                 break;
             case 5:
+                numPregunta = new Random().nextInt(25) + 1;
+
                 obtenerPregDeCategoria = conn.getConnection().prepareStatement("SELECT * FROM preguntasHistoria WHERE id = ?");
                 obtenerPregDeCategoria.setInt(1, numPregunta);
                 rs = obtenerPregDeCategoria.executeQuery();
                 break;
             case 6:
+                numPregunta = new Random().nextInt(15) + 1;
+
                 obtenerPregDeCategoria = conn.getConnection().prepareStatement("SELECT * FROM preguntasUncuyo WHERE id = ?");
                 obtenerPregDeCategoria.setInt(1, numPregunta);
                 rs = obtenerPregDeCategoria.executeQuery();

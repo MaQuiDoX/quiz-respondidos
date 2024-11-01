@@ -57,7 +57,6 @@ public class Juego {
 
                     contadorIdPartida++;
 
-
                     break;
                 case 3:
                     //Reemplazar samu por JugadorActivo cuando sea posible (cuando esté listo el inciso 7). (Nacho)

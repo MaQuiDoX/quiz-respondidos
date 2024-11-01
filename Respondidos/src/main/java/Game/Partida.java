@@ -1,6 +1,5 @@
 package Game;
 
-import Game.Pregunta;
 import utilities.Tupla;
 import utilities.Libreria;
 import powers.OtraOportunidad;
@@ -9,8 +8,9 @@ import powers.Dinamita;
 import powers.Poder;
 import powers.Bombita;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Scanner;
+
 import powers.CambioPregunta;
 
 public abstract class Partida {
@@ -19,6 +19,10 @@ public abstract class Partida {
     public Jugador jugadorActivo;
     //maybe esta no es la mejor forma
     boolean partidaVersus= false;
+
+    String categorias = "Arte,Entretenimiento,Deporte,Ciencia,Historia,Uncuyo";
+    String[] elementos = categorias.split(",");
+    ArrayList<String> listaCategorias = new ArrayList<>(Arrays.asList(elementos));
 
     public void iniciarPartida(Jugador jugador) throws Exception {
 
@@ -34,8 +38,10 @@ public abstract class Partida {
         
         Pregunta pregunta = null;
         ArrayList<Tupla<Integer, String>> listaRespuestasTuplas = null;
+
+
         while (!salir2) {
-                System.out.println("////PUNTAJE ACTUAL GANADO: " + jugador.getPuntajePartida() + "////");
+                System.out.println("=== PUNTAJE ACTUAL GANADO: " + jugador.getPuntajePartida() + " ===");
                 //Si usoTienda = true, significa que el usuario uso la tienda, significa que solo le debemos imprimir la pregunta nomas.
                 //Si usoTienda = false, no la uso
                 if (!usoTienda){
@@ -45,15 +51,21 @@ public abstract class Partida {
                         System.out.println("Buscando una pregunta...");
                         continue;
                     }
-                    if (preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).contains(pregunta.getIdPregunta())) {
+                    while (preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).contains(pregunta.getIdPregunta())) {
                         pregunta = Pregunta.obtenerPregunta(-1);
                     }
                     listaRespuestasTuplas = generarRespuestasyPregunta(pregunta);
                 } else {
                     Libreria.imprimirPregunta(pregunta.getPregunta(), listaRespuestasTuplas);
                 }
-                
-                int respuesta = Libreria.catchInt(1, 5);
+
+            /**
+             *
+             * BORRAR
+             */
+            //System.out.println("ID DE LA PREGUNTA: " + pregunta.getIdPregunta());
+
+            int respuesta = Libreria.catchInt(1, 5);
                 if (respuesta == 5){
                     jugador.incrementarContadorUsoPoderes();
                     //Tupla de:
@@ -87,7 +99,13 @@ public abstract class Partida {
 
                     usoTienda = false;
                 }
-                
+
+            /**
+             * BORRAR
+             */
+            //Collections.sort(preguntasRealizadas.get(4));
+            // System.out.println(preguntasRealizadas);
+
 
         }
         LogrosPorPuntos logroDeBusqueda = new LogrosPorPuntos();
@@ -233,6 +251,7 @@ public abstract class Partida {
             contador++;
         }
 
+        System.out.println("Categoria: "+ listaCategorias.get(pregunta.getIndicadorCategoria()-1));
         Libreria.imprimirPregunta(pregunta.getPregunta(), listaRespuestasTuplas);
         System.out.println("5: Usar Poder");
         return listaRespuestasTuplas;
