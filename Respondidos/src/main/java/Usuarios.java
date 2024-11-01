@@ -1,5 +1,6 @@
 import DAOs.UsuariosDAO;
 import Game.*;
+import com.google.gson.Gson;
 import utilities.Libreria;
 
 import java.sql.*;
@@ -20,7 +21,7 @@ public class Usuarios {
         System.out.println("Ingrese su nombre de usuario:");
         while(!salir){
             nombre = sc.nextLine();
-            boolean nameAvailable = !db.searchUserName(nombre); // Invertimos el resultado porque si existe queremos que no este disponible y viceversa.
+            boolean nameAvailable = !db.existUserName(nombre); // Invertimos el resultado porque si existe queremos que no este disponible y viceversa.
             if (nameAvailable) {
                 salir = true;
                 System.out.println("Nombre disponible. Puede ingresar la contraseña.");
@@ -57,15 +58,13 @@ public class Usuarios {
         System.out.println("Ingrese su contraseña: ");
         String contrasenaDB = scanner.nextLine();
 
-        Boolean nameExist = db.searchUserName(nombreDB);
-        ResultSet nombreInDB = db.getResultset();
-        Boolean passwordExist = db.searchUserPassword(nombreDB, contrasenaDB);
-        ResultSet contrasenaInDB = db.getResultset();
-        if (nameExist && passwordExist) {
+        ResultSet nameInDB = db.searchUserName(nombreDB);
+        ResultSet passwordInDB = db.searchUserPassword(nombreDB, contrasenaDB);
+        if (nameInDB!=null && passwordInDB!=null) {
             System.out.println("Sesión iniciada correctamente");
-            puntajeDB = nombreInDB.getInt("puntaje");
+            puntajeDB = nameInDB.getInt("puntaje");
             // TESTEO
-            System.out.println(nombreInDB.getString("nombre") + "+" + contrasenaInDB.getString("contrasena") + "+" + nombreInDB.getInt("puntaje"));
+            System.out.println(nameInDB.getString("nombre") + "+" + passwordInDB.getString("contrasena") + "+" + nameInDB.getInt("puntaje"));
             return new Jugador(nombreDB, puntajeDB);
         } else {
             System.out.println(" ");
@@ -99,6 +98,12 @@ public class Usuarios {
         }
         //System.out.println("++++++++++"); // TESTEOS TESTEOS
         return arrayList;
+    }
+    public void actualizarLogrosBase(Jugador jugador) throws Exception {
+        UsuariosDAO db = new UsuariosDAO();
+        Gson gson = new Gson();
+        String logrosText = gson.toJson(jugador.getLogros());
+        db.updateUserLogros(jugador.getNombre(), logrosText);
     }
 
     // LLEVAR ESTO A UsuariosDAO!!!!!

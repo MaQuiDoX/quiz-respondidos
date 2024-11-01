@@ -6,7 +6,7 @@ public class UsuariosDAO extends DataBaseDAO{
 
     public UsuariosDAO() throws Exception{
         // Crea la tabla usuarios si es que no existe
-        String createTable = "CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY, nombre TEXT, contrasena TEXT, puntaje INTEGER, racha INTEGER)";
+        String createTable = "CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY, nombre TEXT, contrasena TEXT, puntaje INTEGER, logros TEXT, racha INTEGER)";
         this.actualizarDB(createTable);
     }
 
@@ -41,6 +41,16 @@ public class UsuariosDAO extends DataBaseDAO{
                 return this.resultset;
             }
             return null;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public void updateUserLogros(String nombre, String logros) throws Exception {
+        try {
+            String sql = "UPDATE usuarios SET logros = '"+logros
+                    + "' where nombre = '"+nombre+"'";
+            actualizarDB(sql);
         } catch (Exception ex) {
             throw ex;
         }

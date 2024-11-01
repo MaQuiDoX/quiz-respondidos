@@ -19,11 +19,13 @@ public class Juego {
         boolean salir = false;
         int contadorIdPartida = 1;
 
+        UsuariosDAO db = new UsuariosDAO();
+
         Usuarios usuarios = new Usuarios();
         Scanner sc = new Scanner(System.in);
 
         //EN LUGAR DE REGISTRAR UNO NUEVO, INICIAR SESIÓN.
-        Jugador jugadorActivo = usuarios.logUsuario();
+        Jugador jugadorActivo = usuarios.registerUsuario();
 
         Ranking ranking = new Ranking();
 //        Jugador samu = new Jugador("Samu", 500);
@@ -43,6 +45,8 @@ public class Juego {
             System.out.println("6. Continuar Partidas activas");
             System.out.println("7. Seleccionar Jugador");
             System.out.println("8. Salir");
+
+            usuarios.actualizarLogrosBase(jugadorActivo);
 
             int opcion = Libreria.catchInt(1,8);
             switch (opcion){
