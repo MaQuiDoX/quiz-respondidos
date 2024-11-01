@@ -1,3 +1,4 @@
+import DAOs.DataBaseDAO;
 import Game.Jugador;
 import Game.PartidaIndividual;
 import Game.PartidaVersus;
@@ -16,9 +17,11 @@ public class Juego {
     public static void main(String[] args) throws Exception {
 
         boolean salir = false;
-        ArrayList<Tupla<Integer,Partida>> listaPartidas = new ArrayList<>();
-        int counter = 1;
+        int contadorIdPartida = 1;
 
+        Usuarios usuarios = new Usuarios();
+
+        Scanner sc = new Scanner(System.in);
         Jugador jugadorActivo = Usuarios.registerUsuario();
 
         Ranking ranking = new Ranking();
@@ -48,22 +51,41 @@ public class Juego {
                 case 2:
                     //Reemplazar samu por JugadorActivo cuando sea posible (cuando esté listo el inciso 7). (Nacho)
 
-                    PartidaIndividual partidaI = new PartidaIndividual(new ArrayList<>(), new ArrayList<>(), jugadorActivo);
+                    PartidaIndividual partidaI = new PartidaIndividual(contadorIdPartida, new ArrayList<>(), jugadorActivo);
                     partidaI.iniciarPartida(jugadorActivo);
+                    jugadorActivo.idsPartidasActivas.add(contadorIdPartida);
 
-                    listaPartidas.add(new Tupla<>(counter, partidaI));
-                    jugadorActivo.idsPartidasActivas.add(counter);
-                    counter++;
+                    contadorIdPartida++;
+
 
                     break;
                 case 3:
                     //Reemplazar samu por JugadorActivo cuando sea posible (cuando esté listo el inciso 7). (Nacho)
-                    PartidaVersus versus = new PartidaVersus(new ArrayList<>(), null, null);
-                    versus.iniciarPartida(null, null);
+                    PartidaVersus versus = new PartidaVersus(contadorIdPartida, new ArrayList<>(), null, null);
+                    jugadorActivo.idsPartidasActivas.add(contadorIdPartida);
 
-                    listaPartidas.add(new Tupla<>(counter, versus));
-                    jugadorActivo.idsPartidasActivas.add(counter);
-                    counter++;
+                    ArrayList<Jugador> listaJugadoresRegistrados;
+                    listaJugadoresRegistrados = usuarios.loadAllUsuarios();
+                    //System.out.println(listaJugadoresRegistrados);
+                    int contadorJugadoresVersus = 1;
+
+                    listaJugadoresRegistrados.removeIf(jugador -> jugador.getNombre().equals(jugadorActivo.getNombre()));
+
+                    System.out.println("Elija su contrincante de la lista indicando el número que lo acompaña:");
+                    for (Jugador jugador : listaJugadoresRegistrados) {
+                        System.out.println(contadorJugadoresVersus + ". " + jugador.getNombre());
+                        contadorJugadoresVersus++;
+                    }
+
+                    int seleccion = Libreria.catchInt(1,contadorJugadoresVersus);
+
+                    Jugador jugadorVersus = listaJugadoresRegistrados.get(seleccion-1);
+                    jugadorActivo.idsPartidasActivas.add(contadorIdPartida);
+                    jugadorVersus.idsPartidasActivas.add(contadorIdPartida);
+
+                    versus.iniciarPartida(jugadorActivo, jugadorVersus);
+
+                    contadorIdPartida++;
                     break;
                 case 4:
                     //Acá iría JugadorActivo.mostrarEstadisticas.
@@ -72,12 +94,35 @@ public class Juego {
                     ranking.imprimirRanking();
                     break;
                 case 6:
+                    ArrayList<Jugador> listaCambioJugador;
+                    listaCambioJugador = usuarios.loadAllUsuarios();
+
+                    listaCambioJugador.removeIf(jugador -> jugador.getNombre().equals(jugadorActivo.getNombre()));
+
+                    int contadorCambioJugador = 1;
+                    System.out.println("Elija de la lista, indicando el número que lo acompaña, el Jugador con el cual se desea jugar:");
+                    for (Jugador jugador : listaCambioJugador) {
+                        System.out.println(contadorCambioJugador + ". " + jugador.getNombre());
+                        contadorCambioJugador++;
+                    }
+
+                    int seleccionCambio = Libreria.catchInt(1,contadorCambioJugador);
+
+                    Jugador jugadorCambio = listaCambioJugador.get(seleccionCambio-1);
+
+                    System.out.println("Ingrese la contraseña:");
+                    String contra = sc.nextLine();
+
+//                    if (contra != jugadorCambio)
+//                    Actualizar jugador activo anterior aca?
                     break;
                 case 7:
+
                     break;
                 case 8:
                     salir = true;
             }
+            // Actualizar jugador activo aca !!
         }
     }
 }

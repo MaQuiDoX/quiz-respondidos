@@ -71,16 +71,16 @@ public class Usuarios {
         ResultSet rs = db.getResultset();
 
         ArrayList<Jugador> arrayList = new ArrayList<>();
-        System.out.println("++++++++++"); // TESTEOS TESTEOS
+        //System.out.println("++++++++++"); // TESTEOS TESTEOS
         while(rs.next()){
             String nombre = rs.getString("nombre");
             String contrasena = rs.getString("contrasena");
             int puntaje = rs.getInt("puntaje");
-            System.out.println("+++++ Name: "+nombre+" +++++ Password: "+contrasena+" +++++ Score: "+puntaje); // TESTEOS TESTEOS
+            //System.out.println("+++++ Name: "+nombre+" +++++ Password: "+contrasena+" +++++ Score: "+puntaje); // TESTEOS TESTEOS
             Jugador newPlayer = new Jugador(nombre, puntaje);
             arrayList.add(newPlayer);
         }
-        System.out.println("++++++++++"); // TESTEOS TESTEOS
+        //System.out.println("++++++++++"); // TESTEOS TESTEOS
         return arrayList;
     }
 

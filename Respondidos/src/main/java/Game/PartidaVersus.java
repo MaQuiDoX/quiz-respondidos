@@ -9,7 +9,8 @@ public class PartidaVersus extends Partida implements PuntajeJuego {
     protected Jugador jugador2;
 
     
-    public PartidaVersus(ArrayList<ArrayList<Integer>> pR, Jugador j1, Jugador j2) {
+    public PartidaVersus(int id, ArrayList<ArrayList<Integer>> pR, Jugador j1, Jugador j2) {
+        this.idPartida = id;
         this.preguntasRealizadas = pR;
         this.jugador1 = j1;
         this.jugador2 = j2;

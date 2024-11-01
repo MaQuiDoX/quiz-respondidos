@@ -19,6 +19,7 @@ public class Jugador {
         this.nombre = nombre;
         this.puntaje = puntaje;
         this.logros = new ArrayList<Logros>();
+        this.idsPartidasActivas = new ArrayList<>();
         //uno para racha y otro para puntos?
         this.puntajePartida = 0;
         this.contadorUsoPoderes = 0;

@@ -16,7 +16,6 @@ import powers.CambioPregunta;
 public abstract class Partida {
     protected int idPartida;
     public ArrayList<ArrayList<Integer>> preguntasRealizadas;
-    public ArrayList<Jugador> listaJugadores;
     public Jugador jugadorActivo;
     //maybe esta no es la mejor forma
     boolean partidaVersus= false;
