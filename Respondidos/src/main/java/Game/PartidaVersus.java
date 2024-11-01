@@ -24,7 +24,7 @@ public class PartidaVersus extends Partida implements PuntajeJuego {
         }
     }
     
-    public void iniciarPartida(Jugador j1, Jugador j2){
+    public void iniciarPartida(Jugador j1, Jugador j2) throws Exception {
         partidaVersus = true;
         int turno = 0;
         boolean partidaNoTerminada = true;

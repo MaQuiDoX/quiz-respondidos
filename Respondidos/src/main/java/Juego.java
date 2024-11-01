@@ -15,6 +15,9 @@ public class Juego {
     public static void main(String[] args) throws Exception {
 
         boolean salir = false;
+
+        Jugador jugadorActivo = Usuarios.registerUsuario();
+
         Ranking ranking = new Ranking();
         Jugador samu = new Jugador("Samu", 500);
         Jugador jug2 = new Jugador("JUGADOR 2", 50);
@@ -24,7 +27,7 @@ public class Juego {
         ranking.agregarJugador(jug3);
 
         while (!salir){
-            System.out.println("RESPONDIDOS: Jugador Activo: (Samu)");
+            System.out.println("RESPONDIDOS: Jugador Activo: "+ jugadorActivo.getNombre());
             System.out.println("1. Registrar Jugador");
             System.out.println("2. Iniciar Partida Individual");
             System.out.println("3. Iniciar Partida Versus");
@@ -37,6 +40,7 @@ public class Juego {
             int opcion = Libreria.catchInt(1,8);
             switch (opcion){
                 case 1:
+
                     break;
                 case 2:
                     //Reemplazar samu por JugadorActivo cuando sea posible (cuando esté listo el inciso 7). (Nacho)

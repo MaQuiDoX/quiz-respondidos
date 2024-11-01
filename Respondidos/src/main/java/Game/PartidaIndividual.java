@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class PartidaIndividual extends Partida implements PuntajeJuego {
 
-    public void iniciarPartida(Jugador jugador) {
+    public void iniciarPartida(Jugador jugador) throws Exception {
         LogrosPorPuntos logroDeBusqueda = new LogrosPorPuntos();
         System.out.println(jugador.getPuntaje());
         for (int i = 0; i < 6; i++) {

@@ -11,11 +11,11 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="mydb" uuid="ab79ed0d-121e-4a19-a220-f8d7ff290063">
+    <data-source source="LOCAL" name="mydb.db [2]" uuid="5ccb510d-07f9-4825-b7ec-e36f88f563e3">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Estudiante\Desktop\quiz-respondidos\mydb.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/Respondidos/mydb.db</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
       </jdbc-additional-properties>

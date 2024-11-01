@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Usuarios {
 
-    public Jugador registerUsuario() throws Exception {
+    public static Jugador registerUsuario() throws Exception {
         UsuariosDAO db = new UsuariosDAO();
         Scanner sc = new Scanner(System.in);
         Boolean salir = false;
@@ -85,7 +85,7 @@ public class Usuarios {
     }
 
     // LLEVAR ESTO A UsuariosDAO!!!!!
-    public void addUsuarioDB(Jugador jugador, String contrasenaDB) throws Exception {
+    public static void addUsuarioDB(Jugador jugador, String contrasenaDB) throws Exception {
         String nombreDB = jugador.getNombre();
         int puntajeDB = jugador.getPuntaje();
         int rachaDB = jugador.getRacha();

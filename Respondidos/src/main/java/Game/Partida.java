@@ -20,15 +20,15 @@ public abstract class Partida {
     //maybe esta no es la mejor forma
     boolean partidaVersus= false;
 
-    public void iniciarPartida(Jugador jugador) {
+    public void iniciarPartida(Jugador jugador) throws Exception {
 
     }
     
-    public void iniciarPartida(Jugador j1, Jugador j2){
+    public void iniciarPartida(Jugador j1, Jugador j2) throws Exception {
         
     }
 
-    public void turnoJugador(Jugador jugador){
+    public void turnoJugador(Jugador jugador) throws Exception {
         boolean salir2 = false;
         boolean usoTienda = false;
         
@@ -99,7 +99,7 @@ public abstract class Partida {
         }
     }
     
-    public Tupla<Tupla<Pregunta,ArrayList<Tupla<Integer, String>>>, Boolean> tiendaPoderes(Jugador jugador, ArrayList<Tupla<Integer, String>> listaRespuestasTuplas, Pregunta pregunta) {
+    public Tupla<Tupla<Pregunta,ArrayList<Tupla<Integer, String>>>, Boolean> tiendaPoderes(Jugador jugador, ArrayList<Tupla<Integer, String>> listaRespuestasTuplas, Pregunta pregunta) throws Exception {
         //INTRODUCCION LOGICA PARA OPCION 5
         Poder poderAUsar;
 
