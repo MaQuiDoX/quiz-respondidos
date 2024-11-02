@@ -91,8 +91,6 @@ public class Usuarios {
             ResultSet rs = db.getResultset();
 
             ArrayList<Jugador> arrayList = new ArrayList<>();
-            System.out.println("HOLAHOLA TESTEO TESTEO"+rs);
-            System.out.println("HOLAHOLA TESTEO TESTEO"+rs.next());
             while(rs.next()){
                 String nombre = rs.getString("nombre");
                 String contrasena = rs.getString("contrasena");
