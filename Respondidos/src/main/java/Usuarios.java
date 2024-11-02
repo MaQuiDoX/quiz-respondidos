@@ -32,8 +32,6 @@ public class Usuarios {
             }
         }
 
-        db.disconnectDB();
-
         System.out.println("Ingrese su contrasena:");
         salir = false;
         while(!salir){
@@ -47,37 +45,31 @@ public class Usuarios {
                 System.out.println("Las contraseñas no coinciden. Intente de nuevo.");
             }
         }
-
         Jugador jugador = new Jugador(nombre, contrasena,0,new ArrayList<>());
-        addUsuarioDB(jugador);
+        Gson gson = new Gson();
+        db.addUser(jugador.getNombre(), jugador.getContrasena(), jugador.getPuntaje(), gson.toJson(jugador.getLogros()));
         return jugador;
     }
 
     public Jugador logUsuario() throws Exception {
         UsuariosDAO db = new UsuariosDAO();
         Scanner scanner = new Scanner(System.in);
-        int puntajeDB = 0;
-        String logrosDB;
+        int puntaje = 0;
+        String logros;
         System.out.println(" ");
         System.out.println("Ingrese su nombre de usuario: ");
-        String nombreDB = scanner.nextLine();
+        String nombre = scanner.nextLine();
         System.out.println("Ingrese su contraseña: ");
-        String contrasenaDB = scanner.nextLine();
-
-        ResultSet nameInDB = db.searchUserName(nombreDB);
-        ResultSet passwordInDB = db.searchUserPassword(nombreDB, contrasenaDB);
+        String contrasena = scanner.nextLine();
+        String nameInDB = db.searchUserName(nombre);
+        String passwordInDB = db.searchUserPassword(nombre, contrasena);
         if (nameInDB!=null && passwordInDB!=null) {
             System.out.println("Sesión iniciada correctamente");
-            puntajeDB = nameInDB.getInt("puntaje");
-            logrosDB = nameInDB.getString("logros");
+            puntaje = db.searchUserScore(nombre);
+            logros = db.searchUserLogros(nombre);
             ArrayList<Logros> logrosDBarray;
-
-            // TESTEO
-            //System.out.println(nameInDB.getString("nombre") + "+" + passwordInDB.getString("contrasena") + "+" + nameInDB.getInt("puntaje"));
-
-            logrosDBarray = reinstanciarLogros(logrosDB);
-            db.disconnectDB();
-            return new Jugador(nombreDB, contrasenaDB, puntajeDB, logrosDBarray);
+            logrosDBarray = reinstanciarLogros(logros);
+            return new Jugador(nombre, contrasena, puntaje, logrosDBarray);
         } else {
             System.out.println(" ");
             System.out.println("Usuario y/o contraseña no válidos");
@@ -85,10 +77,8 @@ public class Usuarios {
             System.out.println("2. Crear nuevo usuario \n ");
             int opcion = Libreria.catchInt(1, 2);
             if (opcion == 1) {
-                db.disconnectDB();
                 return logUsuario(); // Aquí retorna el resultado de logUsuario()
             } else {
-                db.disconnectDB();
                 return registerUsuario();
             }
         }
@@ -96,25 +86,30 @@ public class Usuarios {
 
     public ArrayList<Jugador> loadAllUsuarios() throws Exception {
         UsuariosDAO db = new UsuariosDAO();
+        try {
+            db.searchAllUsers();
+            ResultSet rs = db.getResultset();
 
-        db.searchAllUsers();
-        ResultSet rs = db.getResultset();
-
-        ArrayList<Jugador> arrayList = new ArrayList<>();
-        //System.out.println("++++++++++"); // TESTEOS TESTEOS
-        while(rs.next()){
-            String nombre = rs.getString("nombre");
-            String contrasena = rs.getString("contrasena");
-            int puntaje = rs.getInt("puntaje");
-            String logros = rs.getString("logros");
-            //System.out.println("+++++ Name: "+nombre+" +++++ Password: "+contrasena+" +++++ Score: "+puntaje); // TESTEOS TESTEOS
-            Jugador newPlayer = new Jugador(nombre, contrasena,puntaje,reinstanciarLogros(logros));
-            arrayList.add(newPlayer);
+            ArrayList<Jugador> arrayList = new ArrayList<>();
+            System.out.println("HOLAHOLA TESTEO TESTEO"+rs);
+            System.out.println("HOLAHOLA TESTEO TESTEO"+rs.next());
+            while(rs.next()){
+                String nombre = rs.getString("nombre");
+                String contrasena = rs.getString("contrasena");
+                int puntaje = rs.getInt("puntaje");
+                String logros = rs.getString("logros");
+                Jugador newPlayer = new Jugador(nombre, contrasena,puntaje,reinstanciarLogros(logros));
+                arrayList.add(newPlayer);
+            }
+            return arrayList;
+        } catch (Exception ex) {
+            System.out.println("Error al cargar todos los usuarios");
+            throw ex;
+        } finally {
+            db.disconnectDB();
         }
-        //System.out.println("++++++++++"); // TESTEOS TESTEOS
-        db.disconnectDB();
-        return arrayList;
     }
+
     public void actualizarLogrosBase(Jugador jugador) throws Exception {
         UsuariosDAO db = new UsuariosDAO();
         Gson gson = new Gson();
@@ -122,22 +117,9 @@ public class Usuarios {
         db.updateUserLogros(jugador.getNombre(), logrosText);
     }
 
-    // LLEVAR ESTO A UsuariosDAO!!!!!
-    public static void addUsuarioDB(Jugador jugador) throws Exception {
-        Gson gson = new Gson();
-        String nombreDB = jugador.getNombre();
-        String contrasenaDB = jugador.getContrasena();
-        int puntajeDB = jugador.getPuntaje();
-        String logrosDB = gson.toJson(jugador.getLogros());
-
-        UsuariosDAO db = new UsuariosDAO();
-
-        // LLEVAR ESTE CODIGO A UsuariosDAO
-        db.actualizarDB("INSERT INTO usuarios (nombre, contrasena, puntaje, logros) VALUES ('"+nombreDB+"', '"+contrasenaDB+"', '"+puntajeDB+"', '"+logrosDB+"')");
-        // LLEVAR ESTE CODIGO A UsuariosDAO
-        //db.disconnectDB();
-    }
-
+    // ++++++++++++++++++++++++++++++++++++
+    // ++++++ ¿¿BORRAR ESTE METODO?? ++++++
+    // ++++++++++++++++++++++++++++++++++++
     public void printUsuarios() throws Exception {
         UsuariosDAO db = new UsuariosDAO();
 
@@ -155,14 +137,12 @@ public class Usuarios {
             String respuestafallida2 = resultSet.getString("racha");
             System.out.println(id + "\t" + pregunta + "\t" + respuestacorrecta + "\t" + respuestafallida1 + "\t" + respuestafallida2 + "\t");
         }
-
-
     }
+    // ++++++++++++++++++++++++++++++++++++
+
     public ArrayList<Logros> reinstanciarLogros(String logros) throws Exception {
         Gson gson = new Gson();
         Type listType = new TypeToken<ArrayList<Logros>>() {}.getType();
         return gson.fromJson(logros, listType);
     }
-
-
 }

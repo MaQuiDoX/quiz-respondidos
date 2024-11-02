@@ -1,5 +1,8 @@
 package DAOs;
 
+import Game.Jugador;
+import com.google.gson.Gson;
+
 import java.sql.ResultSet;
 
 public class UsuariosDAO extends DataBaseDAO{
@@ -15,10 +18,18 @@ public class UsuariosDAO extends DataBaseDAO{
         this.actualizarDB("DELETE FROM usuarios");
     }
 
-    // HACER UNA FORMA DE TRAER TODA LA TABLA EN UNA BUSQUEDA Y NO INVOLUCRAR ESTE SELECT nombre FROM...
+    public ResultSet searchAllUsers() throws Exception{
+        try{
+            consultarDB("SELECT * FROM usuarios");
+            return this.resultset;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
     public boolean existUserName(String nameDB) throws Exception {
         try {
-            String sql = "SELECT * FROM usuarios "
+            String sql = "SELECT nombre FROM usuarios "
                     + " WHERE nombre = '" + nameDB + "'";
             consultarDB(sql);
             if (resultset.next()) {
@@ -27,22 +38,72 @@ public class UsuariosDAO extends DataBaseDAO{
             return false;
         } catch (Exception ex) {
             throw ex;
-        } //finally {
-//            disconnectDB();
-//        }
+        } finally {
+            disconnectDB();
+        }
     }
 
-    public ResultSet searchUserName(String nameDB) throws Exception {
+    public String searchUserName(String nameDB) throws Exception {
         try {
             String sql = "SELECT * FROM usuarios "
                     + " WHERE nombre = '" + nameDB + "'";
             consultarDB(sql);
             if (resultset.next()) {
-                return this.resultset;
+                return this.resultset.getString("nombre");
             }
             return null;
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            disconnectDB();
+        }
+    }
+
+    public String searchUserPassword(String nameDB, String passwordDB) throws Exception {
+        try {
+            String sql = "SELECT contrasena FROM usuarios "
+                    + " WHERE nombre = '" + nameDB + "' AND contrasena = '" + passwordDB + "'";
+            consultarDB(sql);
+            if (resultset.next()) {
+                return this.resultset.getString("contrasena");
+            }
+            return null;
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            disconnectDB();
+        }
+    }
+
+    public int searchUserScore(String nameDB) throws Exception {
+        try {
+            String sql = "SELECT puntaje FROM usuarios "
+                    + " WHERE nombre = '" + nameDB + "'";
+            consultarDB(sql);
+            if (resultset.next()) {
+                return this.resultset.getInt("puntaje");
+            }
+            return 0;
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            disconnectDB();
+        }
+    }
+
+    public String searchUserLogros(String nameDB) throws Exception {
+        try {
+            String sql = "SELECT logros FROM usuarios "
+                    + " WHERE nombre = '" + nameDB + "'";
+            consultarDB(sql);
+            if (resultset.next()) {
+                return this.resultset.getString("logros");
+            }
+            return null;
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            disconnectDB();
         }
     }
 
@@ -56,37 +117,11 @@ public class UsuariosDAO extends DataBaseDAO{
         }
     }
 
-    public ResultSet searchUserPassword(String nameDB, String passwordDB) throws Exception {
+    public void addUser(String nameDB, String passwordDB, int scoreDB, String logrosDB) throws Exception {
         try {
-            String sql = "SELECT contrasena FROM usuarios "
-                    + " WHERE nombre = '" + nameDB + "' AND contrasena = '" + passwordDB + "'";
-            consultarDB(sql);
-            if (resultset.next()) {
-                return this.resultset;
-            }
-            return null;
-        } catch (Exception ex) {
-            throw ex;
-        }
-    }
-
-    public ResultSet searchAllUsers() throws Exception{
-        try{
-            consultarDB("SELECT * FROM usuarios");
-            return this.resultset;
-        } catch (Exception ex) {
-            throw ex;
-        }// finally{
-//            disconnectDB();
-//        }
-    }
-
-    public String searchUserLogros (String nombre) throws Exception {
-        try {
-            String sql = "SELECT logros FROM usuarios "
-                    + " WHERE nombre = '" + nombre + "'";
-            consultarDB(sql);
-            return this.resultset.getString("logros");
+            String sql = "INSERT INTO usuarios (nombre, contrasena, puntaje, logros) " +
+                    "VALUES ('"+nameDB+"', '"+passwordDB+"', '"+scoreDB+"', '"+logrosDB+"')";
+            actualizarDB(sql);
         } catch (Exception ex) {
             throw ex;
         }
