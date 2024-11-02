@@ -28,7 +28,7 @@ public class Juego {
         //EN LUGAR DE REGISTRAR UNO NUEVO, INICIAR SESIÓN.
         Jugador jugadorActivo = usuarios.logUsuario();
 
-        Ranking ranking = new Ranking();
+
 //        Jugador samu = new Jugador("Samu", 500);
 //        Jugador jug2 = new Jugador("JUGADOR 2", 50);
 //        Jugador jug3 = new Jugador("ILLOJUAN", 100);
@@ -56,7 +56,11 @@ public class Juego {
                 case 2:
                     PartidaIndividual partidaI = new PartidaIndividual(new ArrayList<>(), jugadorActivo);
                     partidaI.iniciarPartida(jugadorActivo);
+                    //System.out.println("dou te ganaste 100 puntos papa");
+                    //jugadorActivo.sumarPuntos(100);
 
+
+                    usuarios.actualizarPuntosUsuario(jugadorActivo);
                     //ACTUALIZAR ACA?
                     break;
                 case 3:
@@ -95,7 +99,9 @@ public class Juego {
                             }
                         } else if (Objects.equals(contraNew, jugadorVersus.getContrasena())){
                             versus.iniciarPartida(jugadorActivo, jugadorVersus);
-
+                            usuarios.actualizarPuntosUsuario(jugadorActivo);
+                            usuarios.actualizarPuntosUsuario(jugadorVersus);
+                            break;
                         }
                     }
 
@@ -105,6 +111,7 @@ public class Juego {
                     jugadorActivo.printEstadisticas(jugadorActivo);
                     break;
                 case 5:
+                    Ranking ranking = new Ranking();
                     ranking.imprimirRanking();
                     break;
                 case 6:

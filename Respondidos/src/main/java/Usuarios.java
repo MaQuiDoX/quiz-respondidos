@@ -115,6 +115,11 @@ public class Usuarios {
         db.updateUserLogros(jugador.getNombre(), logrosText);
     }
 
+    public void actualizarPuntosUsuario(Jugador jugador) throws Exception {
+        UsuariosDAO db = new UsuariosDAO();
+
+        db.updateUserPoints(jugador.getNombre(),jugador.getPuntaje());
+    }
     // ++++++++++++++++++++++++++++++++++++
     // ++++++ ¿¿BORRAR ESTE METODO?? ++++++
     // ++++++++++++++++++++++++++++++++++++

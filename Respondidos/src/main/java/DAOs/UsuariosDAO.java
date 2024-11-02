@@ -117,6 +117,15 @@ public class UsuariosDAO extends DataBaseDAO{
         }
     }
 
+    public void updateUserPoints(String nombre, int puntaje) throws Exception{
+        try {
+            String sql = "UPDATE usuarios SET puntaje = '" + puntaje + "' WHERE nombre = '" + nombre + "'";
+            actualizarDB(sql);
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
     public void addUser(String nameDB, String passwordDB, int scoreDB, String logrosDB) throws Exception {
         try {
             String sql = "INSERT INTO usuarios (nombre, contrasena, puntaje, logros) " +
