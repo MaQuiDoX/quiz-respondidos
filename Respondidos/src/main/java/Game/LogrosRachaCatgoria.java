@@ -47,7 +47,7 @@ public class LogrosRachaCatgoria extends Logros{
 
     public void nombrar(String categoria, boolean versus) {
         if (versus) {
-            this.nombre = "LOGRO OBTENIDO: Contestar " + this.meta + " preguntas de " + categoria + "en una partida 1v1";
-        } else this.nombre = "LOGRO OBTENIDO: Contestar " + this.meta + " preguntas de " + categoria + "en una partida";
+            this.nombre = "LOGRO OBTENIDO: Contestar " + this.meta + " preguntas de " + categoria + " en una partida 1v1";
+        } else this.nombre = "LOGRO OBTENIDO: Contestar " + this.meta + " preguntas de " + categoria + " en una partida";
     }
 }

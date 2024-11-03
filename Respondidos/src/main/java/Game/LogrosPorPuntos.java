@@ -15,8 +15,8 @@ public class LogrosPorPuntos extends Logros{
 
         if (puntos == meta || puntos > meta ) {
             if (versus) {
-                this.nombre = "Lleguar a " +meta+ " puntos en una partida 1v1";
-            } else {this.nombre = "Lleguar a " +meta+ " puntos";}
+                this.nombre = "Llegar a " +meta+ " puntos en una partida 1v1";
+            } else {this.nombre = "Llegar a " +meta+ " puntos";}
             return true;
 
         } else {return false;}

@@ -74,6 +74,7 @@ public class Juego {
                     //System.out.println("dou te ganaste 100 puntos papa");
                     //jugadorActivo.sumarPuntos(100);
                     usuarios.actualizarPuntosUsuario(jugadorActivo);
+                    usuarios.actualizarLogrosBase(jugadorActivo);
                     ClearScreen.cls();
                     //ACTUALIZAR ACA?
                     break;

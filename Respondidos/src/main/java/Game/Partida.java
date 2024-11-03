@@ -37,8 +37,8 @@ public abstract class Partida {
         
         Pregunta pregunta = null;
         ArrayList<Tupla<Integer, String>> listaRespuestasTuplas = null;
-
-
+        LogrosPorPuntos logroDeBusqueda = new LogrosPorPuntos();
+        LogrosPorRacha logroDeBusqueda1 = new LogrosPorRacha();
         while (!salir2) {
                 System.out.println("=== Puntaje total ganado: " + jugador.getPuntajePartida() + " ===");
                 //Si usoTienda = true, significa que el usuario uso la tienda, significa que solo le debemos imprimir la pregunta nomas.
@@ -94,7 +94,7 @@ public abstract class Partida {
                    
                     usoTienda = true;
                 } else {
-                    salir2 = comprobarRespuesta(respuesta, listaRespuestasTuplas, pregunta, new LogrosPorPuntos());
+                    salir2 = comprobarRespuesta(respuesta, listaRespuestasTuplas, pregunta, logroDeBusqueda);
 
                     usoTienda = false;
                 }
@@ -103,13 +103,15 @@ public abstract class Partida {
 
 
         }
-        LogrosPorPuntos logroDeBusqueda = new LogrosPorPuntos();
+
         logroDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
         LogrosRachaCatgoria logroEntrada= new LogrosRachaCatgoria();
         for (int i = 0; i<=5; i++){
             logroEntrada.recorrer(preguntasRealizadas.get(i), i, jugadorActivo, partidaVersus);
 
         }
+        logroDeBusqueda1.mostrarLogrosPorRacha(jugadorActivo);
+
     }
     
     public Tupla<Tupla<Pregunta,ArrayList<Tupla<Integer, String>>>, Boolean> tiendaPoderes(Jugador jugador, ArrayList<Tupla<Integer, String>> listaRespuestasTuplas, Pregunta pregunta) throws Exception {

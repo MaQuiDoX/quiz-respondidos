@@ -37,21 +37,30 @@ public abstract class Logros {
 
     public void comprobar(Jugador jugador, Logros logro) {
 
+        //No esta el caso cuando no hay logros, ¿sera por eso?
+        if (jugador.getLogros().isEmpty()) {
+            jugador.addLogro(logro);
+            //mostrarLogro(jugador, 0);
+        }
+
         for (int i=0; i<=jugador.getLogros().size()-1; i++) {
             String existe = jugador.getLogros().get(i).getNombre();
             if (!existe.equals(logro.nombre)){
 
                 jugador.addLogro(logro);
 
+                if (logro instanceof LogrosPorPuntos){
+                    //mostrarLogro(jugador, jugador.getLogros().size()-1);
+                }
                 if (logro instanceof LogrosPorRacha) {
                     int ind = jugador.getLogros().size()-1;
-                    mostrarLogro( jugador, ind);
+                    //mostrarLogro( jugador, ind);
                 }
 
                 if(logro instanceof LogrosRachaCatgoria){
                     System.out.println(this.nombre);
                 }
-
+                break;
             }
         }
 

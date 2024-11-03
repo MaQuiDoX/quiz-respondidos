@@ -36,7 +36,14 @@ public class LogrosPorRacha extends Logros{
         }
     }
 
+    public void mostrarLogrosPorRacha(Jugador jugador) {
+        for (int i = 0; i <= jugador.getLogros().size() - 1; i++) {
+            if (jugador.getLogros().get(i) instanceof LogrosPorRacha) {
+                mostrarLogro(jugador, i);
 
+            }
+        }
+    }
 
 
 
