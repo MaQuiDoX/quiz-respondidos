@@ -4,7 +4,7 @@ import Game.PartidaIndividual;
 import Game.PartidaVersus;
 import Game.Partida;
 import DAOs.UsuariosDAO;
-import utilities.Libreria;
+import utilities.*;
 import utilities.Tupla;
 
 import javax.swing.*;
@@ -24,8 +24,21 @@ public class Juego {
 
         Usuarios usuarios = new Usuarios();
         Scanner sc = new Scanner(System.in);
+        String titulo = " R E S P O N D I D O S ";
 
-        //EN LUGAR DE REGISTRAR UNO NUEVO, INICIAR SESIÓN.
+        System.out.println("**************************************");
+        System.out.println("* * * * * * * * * * * * * * * * * *  *");
+        System.out.println("*       " + titulo + "      *");
+        System.out.println("* * * * * * * * * * * * * * * * * *  *");
+        System.out.println("**************************************");
+
+        try {
+            // Pausa la ejecución del programa por 4 segundos (4,000 milisegundos)
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            System.out.println("El hilo fue interrumpido.");
+        }
+        ClearScreen.cls();
         Jugador jugadorActivo = usuarios.logUsuario();
 
 
@@ -37,6 +50,7 @@ public class Juego {
 //        ranking.agregarJugador(jug3);
 
         while (!salir){
+            ClearScreen.cls();
             System.out.println("RESPONDIDOS: Jugador Activo: "+ jugadorActivo.getNombre());
             System.out.println("1. Registrarse");
             System.out.println("2. Iniciar Partida Individual");
@@ -52,15 +66,15 @@ public class Juego {
             switch (opcion){
                 case 1:
                     Jugador newJugador = Usuarios.registerUsuario();
+                    ClearScreen.cls();
                     break;
                 case 2:
                     PartidaIndividual partidaI = new PartidaIndividual(new ArrayList<>(), jugadorActivo);
                     partidaI.iniciarPartida(jugadorActivo);
                     //System.out.println("dou te ganaste 100 puntos papa");
                     //jugadorActivo.sumarPuntos(100);
-
-
                     usuarios.actualizarPuntosUsuario(jugadorActivo);
+                    ClearScreen.cls();
                     //ACTUALIZAR ACA?
                     break;
                 case 3:
@@ -104,11 +118,12 @@ public class Juego {
                             break;
                         }
                     }
-
+                    ClearScreen.cls();
                     break;
                 case 4:
                     //Acá iría JugadorActivo.mostrarEstadisticas.
                     jugadorActivo.printEstadisticas(jugadorActivo);
+                    ClearScreen.cls();
                     break;
                 case 5:
                     Ranking ranking = new Ranking();
@@ -132,7 +147,8 @@ public class Juego {
 
                     Jugador jugadorCambio = listaCambioJugador.get(seleccionCambio-1);
 
-                  while (true){
+
+                    while (true){
                         System.out.println("Ingrese la contraseña del jugador seleccionado: " + jugadorCambio.getNombre());
                         String contraNewCambio = sc.nextLine();
 
@@ -152,12 +168,14 @@ public class Juego {
                             break;
                         }
                     }
+                    ClearScreen.cls();
                     break;
                 case 7:
                     salir = true;
                     break;
             }
             // Actualizar jugador activo aca !!
+
         }
     }
 }

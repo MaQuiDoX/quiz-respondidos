@@ -37,28 +37,23 @@ public abstract class Logros {
 
     public void comprobar(Jugador jugador, Logros logro) {
 
+        for (int i=0; i<=jugador.getLogros().size()-1; i++) {
+            String existe = jugador.getLogros().get(i).getNombre();
+            if (!existe.equals(logro.nombre)){
 
-            for (int i=0; i<=jugador.getLogros().size()-1; i++) {
-                String existe = jugador.getLogros().get(i).getNombre();
-                if (!existe.equals(logro.nombre)){
+                jugador.addLogro(logro);
 
-                    jugador.getLogros().add(logro);
-
-
-                    if (logro instanceof LogrosPorRacha) {
-                        int ind = jugador.getLogros().size()-1;
-                        mostrarLogro( jugador, ind);
-                    }
-
-                    if(logro instanceof LogrosRachaCatgoria){
-                        System.out.println(this.nombre);
-                    }
-
+                if (logro instanceof LogrosPorRacha) {
+                    int ind = jugador.getLogros().size()-1;
+                    mostrarLogro( jugador, ind);
                 }
+
+                if(logro instanceof LogrosRachaCatgoria){
+                    System.out.println(this.nombre);
+                }
+
             }
-
-
-
+        }
 
     }
 

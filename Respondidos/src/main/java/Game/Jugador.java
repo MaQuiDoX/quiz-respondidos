@@ -54,6 +54,11 @@ public class Jugador {
         return logros;
     }
 
+    public void addLogro(Logros logro) {
+        this.logros.add(logro);
+    }
+
+
     public int getContadorUsoPoderes() {
         return contadorUsoPoderes;
     }

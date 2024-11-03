@@ -99,11 +99,7 @@ public abstract class Partida {
                     usoTienda = false;
                 }
 
-            /**
-             * BORRAR
-             */
-            //Collections.sort(preguntasRealizadas.get(4));
-            // System.out.println(preguntasRealizadas);
+           
 
 
         }

@@ -1,10 +1,9 @@
 package Game;
 
 
-import Game.Partida;
 import java.util.ArrayList;
 
-public class PartidaVersus extends Partida implements PuntajeJuego {
+public class PartidaVersus extends Partida implements Interfaz {
     protected Jugador jugador1;
     protected Jugador jugador2;
 
@@ -45,7 +44,7 @@ public class PartidaVersus extends Partida implements PuntajeJuego {
             System.out.println("=== Es el turno de: " + this.jugadorActivo.getNombre() + " que va " + this.jugadorActivo.getPuntajePartida() + " puntos///");
             turnoJugador(this.jugadorActivo);
             //Revisamos que la partida haya terminado (cuando alguno de los dos jugadores llegue o sobrepase el limite, por ejemplo 100 puntos.
-            if (this.jugadorActivo.getPuntajePartida() >= 25){
+            if (this.jugadorActivo.getPuntajePartida() >= 100){
                 System.out.println("El juego termino, nuestro ganador es: " + this.jugadorActivo.getNombre());
                 partidaNoTerminada = false;
             }
@@ -61,7 +60,7 @@ public class PartidaVersus extends Partida implements PuntajeJuego {
     
     @Override
     public void calcularPuntaje(Jugador jugador){
-        if (jugador.getPuntajePartida() >= 25){
+        if (jugador.getPuntajePartida() >= 100){
             int resto = jugador.getPuntajePartida() - 25;
             int puntosTotales = 25 + (resto - (2* jugador.getContadorUsoPoderes()));
             jugador.sumarPuntos(puntosTotales);

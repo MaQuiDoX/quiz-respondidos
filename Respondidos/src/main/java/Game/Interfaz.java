@@ -8,6 +8,6 @@ package Game;
  *
  * @author Usuario
  */
-public interface PuntajeJuego {
+public interface Interfaz {
     public void calcularPuntaje(Jugador jugador);
 }
