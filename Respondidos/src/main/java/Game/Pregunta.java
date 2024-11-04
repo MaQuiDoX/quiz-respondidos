@@ -43,13 +43,13 @@ public class Pregunta {
         ResultSet rs = null;
         PreparedStatement obtenerPregDeCategoria = null;
 
-        int numCategoria = new Random().nextInt(6)+1;
+        int numCategoria;
 
-//        if (validarNumero == -1) {
-//            numCategoria = 5;
-//        } else {
-//            numCategoria = validarNumero;
-//        }
+        if (validarNumero == -1) {
+            numCategoria = new Random().nextInt(6)+1;
+        } else {
+            numCategoria = validarNumero;
+        }
 
         int numPregunta = 0;
 

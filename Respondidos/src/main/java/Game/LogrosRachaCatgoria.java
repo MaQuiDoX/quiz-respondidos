@@ -13,7 +13,7 @@ public class LogrosRachaCatgoria extends Logros{
     }
 
     public void recorrer(ArrayList<Integer> preguntas, int id, Jugador jugador, boolean versus) {
-        for(int i = 0; i <= preguntas.size() - 1; ++i) {
+        for(int i = 0; i <= preguntas.size() - 2; ++i) {
             if (i % 5 == 0 && i !=0) {
                 LogrosRachaCatgoria logro = new LogrosRachaCatgoria();
                 logro.meta = i;

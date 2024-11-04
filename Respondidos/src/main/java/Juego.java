@@ -73,8 +73,7 @@ public class Juego {
                 case 2:
                     PartidaIndividual partidaI = new PartidaIndividual(new ArrayList<>(), jugadorActivo);
                     partidaI.iniciarPartida(jugadorActivo);
-                    //System.out.println("dou te ganaste 100 puntos papa");
-                    //jugadorActivo.sumarPuntos(100);
+
                     usuarios.actualizarPuntosUsuario(jugadorActivo);
                     usuarios.actualizarLogrosBase(jugadorActivo);
                     try {
@@ -84,7 +83,7 @@ public class Juego {
                         System.out.println("El hilo fue interrumpido.");
                     }
                     ClearScreen.cls();
-                    //ACTUALIZAR ACA?
+
                     break;
                 case 3:
                     PartidaVersus versus = new PartidaVersus(new ArrayList<>(), null, null);
@@ -124,6 +123,8 @@ public class Juego {
                             versus.iniciarPartida(jugadorActivo, jugadorVersus);
                             usuarios.actualizarPuntosUsuario(jugadorActivo);
                             usuarios.actualizarPuntosUsuario(jugadorVersus);
+                            usuarios.actualizarLogrosBase(jugadorActivo);
+                            usuarios.actualizarLogrosBase(jugadorVersus);
                             break;
                         }
                     }

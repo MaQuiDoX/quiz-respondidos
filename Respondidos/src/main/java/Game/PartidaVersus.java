@@ -37,8 +37,10 @@ public class PartidaVersus extends Partida implements Interfaz {
             //La logica con la que nos fijaremos de quien es el turno
             if (turno % 2 == 0){
                 cambiarJugador(j1);
+                j1.resetRacha();
             } else {
                 cambiarJugador(j2);
+                j2.resetRacha();
             }
             
             System.out.println("=== Es el turno de: " + this.jugadorActivo.getNombre() + " que va " + this.jugadorActivo.getPuntajePartida() + " puntos///");
