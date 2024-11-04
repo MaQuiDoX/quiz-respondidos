@@ -5,7 +5,9 @@ import java.util.Iterator;
 
 public class LogrosPorPuntos extends Logros{
 
-
+    LogrosPorPuntos(){
+        this.tipo = this.getClass().getSimpleName();
+    }
 
 
     @Override

@@ -7,6 +7,9 @@ import Game.Jugador;
 
 public class LogrosPorRacha extends Logros{
 
+    LogrosPorRacha(){
+        this.tipo = this.getClass().getSimpleName();
+    }
 
     @Override
     public boolean elegirNombre(Jugador jugador, int racha, boolean versus) {

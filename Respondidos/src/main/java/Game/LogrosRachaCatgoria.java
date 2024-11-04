@@ -8,12 +8,16 @@ import java.util.ArrayList;
 
 public class LogrosRachaCatgoria extends Logros{
 
+    LogrosRachaCatgoria(){
+        this.tipo = this.getClass().getSimpleName();
+    }
+
     public void recorrer(ArrayList<Integer> preguntas, int id, Jugador jugador, boolean versus) {
         for(int i = 0; i <= preguntas.size() - 1; ++i) {
             if (i % 5 == 0 && i !=0) {
                 LogrosRachaCatgoria logro = new LogrosRachaCatgoria();
-                this.meta = i;
-                this.nombrar(definirCategoria(id), versus);
+                logro.meta = i;
+                logro.nombrar(definirCategoria(id), versus);
                 comprobar(jugador, logro);
             }
         }
@@ -22,22 +26,22 @@ public class LogrosRachaCatgoria extends Logros{
 
     public String definirCategoria(int numero) {
         switch (numero) {
-            case 1 :
+            case 0 :
                 return "Arte";
 
-            case 2 :
+            case 1 :
                 return "Entretenimiento";
 
-            case 3:
+            case 2:
                 return "Deporte";
 
-            case 4 :
+            case 3 :
                 return "Ciencia";
 
-            case 5 :
+            case 4 :
                 return "Historia";
 
-            case 6 :
+            case 5 :
                 return "UNCuyo";
 
 

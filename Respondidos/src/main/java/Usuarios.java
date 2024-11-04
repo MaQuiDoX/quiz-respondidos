@@ -1,17 +1,21 @@
 import DAOs.UsuariosDAO;
 import Game.*;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import utilities.Libreria;
 
 import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class Usuarios {
-
+    private static final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(Logros.class, new LogrosTypeAdapter())
+            .create();
     public static Jugador registerUsuario() throws Exception {
         UsuariosDAO db = new UsuariosDAO();
         Scanner sc = new Scanner(System.in);
@@ -110,8 +114,8 @@ public class Usuarios {
 
     public void actualizarLogrosBase(Jugador jugador) throws Exception {
         UsuariosDAO db = new UsuariosDAO();
-        Gson gson = new Gson();
-        String logrosText = gson.toJson(jugador.getLogros());
+        ArrayList<Logros> logrosList = jugador.getLogros();
+        String logrosText = gson.toJson(logrosList);
         db.updateUserLogros(jugador.getNombre(), logrosText);
     }
 
@@ -144,7 +148,6 @@ public class Usuarios {
     // ++++++++++++++++++++++++++++++++++++
 
     public ArrayList<Logros> reinstanciarLogros(String logros) throws Exception {
-        Gson gson = new Gson();
         Type listType = new TypeToken<ArrayList<Logros>>() {}.getType();
         return gson.fromJson(logros, listType);
     }

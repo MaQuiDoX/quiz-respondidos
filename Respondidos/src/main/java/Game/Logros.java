@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public abstract class Logros {
     protected String nombre;
     protected int meta;
-
+    protected String tipo;
 
     public Logros() {
 
@@ -58,7 +58,7 @@ public abstract class Logros {
                 }
 
                 if(logro instanceof LogrosRachaCatgoria){
-                    System.out.println(this.nombre);
+                    System.out.println(logro.nombre);
                 }
                 break;
             }
