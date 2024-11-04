@@ -63,6 +63,7 @@ public class Juego {
             //usuarios.actualizarLogrosBase(jugadorActivo);
 
             int opcion = Libreria.catchInt(1,7);
+            ClearScreen.cls();
             switch (opcion){
                 case 1:
                     Jugador newJugador = Usuarios.registerUsuario();
@@ -75,6 +76,12 @@ public class Juego {
                     //jugadorActivo.sumarPuntos(100);
                     usuarios.actualizarPuntosUsuario(jugadorActivo);
                     usuarios.actualizarLogrosBase(jugadorActivo);
+                    try {
+                        // Pausa la ejecución del programa por 4 segundos (4,000 milisegundos)
+                        Thread.sleep(2500);
+                    } catch (InterruptedException e) {
+                        System.out.println("El hilo fue interrumpido.");
+                    }
                     ClearScreen.cls();
                     //ACTUALIZAR ACA?
                     break;
@@ -119,16 +126,35 @@ public class Juego {
                             break;
                         }
                     }
+                    try {
+                        // Pausa la ejecución del programa por 4 segundos (4,000 milisegundos)
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        System.out.println("El hilo fue interrumpido.");
+                    }
                     ClearScreen.cls();
                     break;
                 case 4:
                     //Acá iría JugadorActivo.mostrarEstadisticas.
                     jugadorActivo.printEstadisticas(jugadorActivo);
+                    try {
+                        // Pausa la ejecución del programa por 4 segundos (4,000 milisegundos)
+                        Thread.sleep(7000);
+                    } catch (InterruptedException e) {
+                        System.out.println("El hilo fue interrumpido.");
+                    }
                     ClearScreen.cls();
                     break;
                 case 5:
                     Ranking ranking = new Ranking();
                     ranking.imprimirRanking();
+                    try {
+                        // Pausa la ejecución del programa por 4 segundos (4,000 milisegundos)
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        System.out.println("El hilo fue interrumpido.");
+                    }
+                    ClearScreen.cls();
                     break;
                 case 6:
                     ArrayList<Jugador> listaCambioJugador;
@@ -147,7 +173,6 @@ public class Juego {
                     int seleccionCambio = Libreria.catchInt(1,contadorCambioJugador);
 
                     Jugador jugadorCambio = listaCambioJugador.get(seleccionCambio-1);
-
 
                     while (true){
                         System.out.println("Ingrese la contraseña del jugador seleccionado: " + jugadorCambio.getNombre());
@@ -168,6 +193,12 @@ public class Juego {
                             jugadorActivo = jugadorCambio;
                             break;
                         }
+                    }
+                    try {
+                        // Pausa la ejecución del programa por 4 segundos (4,000 milisegundos)
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        System.out.println("El hilo fue interrumpido.");
                     }
                     ClearScreen.cls();
                     break;

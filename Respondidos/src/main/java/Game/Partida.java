@@ -129,6 +129,7 @@ public abstract class Partida {
         System.out.println("5. Otra Oportunidad (10p)");
 
         enteroRespuesta = Libreria.catchInt(1, 6);
+
         switch (enteroRespuesta) {
             case 1:
                 poderAUsar = new Bombita(pregunta.getRespuestaCorrecta());
