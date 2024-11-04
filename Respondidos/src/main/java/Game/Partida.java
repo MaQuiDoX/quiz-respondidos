@@ -1,5 +1,6 @@
 package Game;
 
+import utilities.ClearScreen;
 import utilities.Tupla;
 import utilities.Libreria;
 import powers.OtraOportunidad;
@@ -266,8 +267,15 @@ public abstract class Partida {
                     this.jugadorActivo.incrementarRacha();
                     int newPuntaje = this.jugadorActivo.getPuntajePartida() + this.jugadorActivo.getRacha();
                     this.jugadorActivo.setPuntajePartida(newPuntaje);
-                    
-                    //GENERA ERROR: REVISAR
+
+                    try {
+                        // Pausa la ejecución del programa por 2 segundos (2.000 milisegundos)
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        System.out.println("El hilo fue interrumpido.");
+                    }
+                    ClearScreen.cls();
+
                     this.preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).add(pregunta.getIdPregunta());
                     respuestaIncorrecta = false;
                     //Verifica si el jugador desbloqueó algún logro después de cada pregunta
@@ -291,15 +299,17 @@ public abstract class Partida {
                     //GENERA ERROR REVISAR
                     this.preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).add(pregunta.getIdPregunta());
                     System.out.println("Respuesta fallida");
-                    //contadorPuntaje = 0;
-
                     respuestaIncorrecta = true;
+                    try {
+                        // Pausa la ejecución del programa por 2.5 segundos (2.500 milisegundos)
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        System.out.println("El hilo fue interrumpido.");
+                    }
+                    //Limpio la pantalla
+                    ClearScreen.cls();
 
-                    
                 }
-
-                //logrosDeBusqueda.mostrarLogrosPorPuntos(jugadorActivo);
-
             }
         }
         return respuestaIncorrecta;

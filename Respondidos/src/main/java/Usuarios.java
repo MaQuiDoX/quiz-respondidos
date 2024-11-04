@@ -35,6 +35,7 @@ public class Usuarios {
                 System.out.println("Nombre no disponible. Intente con otro.");
             }
         }
+        System.out.println(" ");
 
         System.out.println("Ingrese su contrasena:");
         salir = false;
@@ -49,6 +50,7 @@ public class Usuarios {
                 System.out.println("Las contraseñas no coinciden. Intente de nuevo.");
             }
         }
+        System.out.println(" ");
         Jugador jugador = new Jugador(nombre, contrasena,0,new ArrayList<>());
         Gson gson = new Gson();
         db.addUser(jugador.getNombre(), jugador.getContrasena(), jugador.getPuntaje(), gson.toJson(jugador.getLogros()));
@@ -63,12 +65,15 @@ public class Usuarios {
         System.out.println(" ");
         System.out.println("Ingrese su nombre de usuario: ");
         String nombre = scanner.nextLine();
+        System.out.println(" ");
         System.out.println("Ingrese su contraseña: ");
         String contrasena = scanner.nextLine();
         String nameInDB = db.searchUserName(nombre);
         String passwordInDB = db.searchUserPassword(nombre, contrasena);
         if (nameInDB!=null && passwordInDB!=null) {
+            System.out.println(" ");
             System.out.println("Sesión iniciada correctamente");
+            System.out.println(" ");
             puntaje = db.searchUserScore(nombre);
             logros = db.searchUserLogros(nombre);
             ArrayList<Logros> logrosDBarray;
@@ -77,6 +82,7 @@ public class Usuarios {
         } else {
             System.out.println(" ");
             System.out.println("Usuario y/o contraseña no válidos");
+            System.out.println(" ");
             System.out.println("1. Intentar nuevamente");
             System.out.println("2. Crear nuevo usuario \n ");
             int opcion = Libreria.catchInt(1, 2);

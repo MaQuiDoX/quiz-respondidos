@@ -25,7 +25,9 @@ public class Juego {
         Usuarios usuarios = new Usuarios();
         Scanner sc = new Scanner(System.in);
         String titulo = " R E S P O N D I D O S ";
-
+        ClearScreen.cls();
+        System.out.println(" ");
+        System.out.println(" ");
         System.out.println("**************************************");
         System.out.println("* * * * * * * * * * * * * * * * * *  *");
         System.out.println("*       " + titulo + "      *");
@@ -51,7 +53,8 @@ public class Juego {
 
         while (!salir){
             ClearScreen.cls();
-            System.out.println("RESPONDIDOS: Jugador Activo: "+ jugadorActivo.getNombre());
+            System.out.println("  RESPONDIDOS           Jugador Activo: "+ jugadorActivo.getNombre());
+            System.out.println(" ");
             System.out.println("1. Registrarse");
             System.out.println("2. Iniciar Partida Individual");
             System.out.println("3. Iniciar Partida Versus");
@@ -59,8 +62,6 @@ public class Juego {
             System.out.println("5. Ranking");
             System.out.println("6. Seleccionar Jugador");
             System.out.println("7. Salir");
-
-            //usuarios.actualizarLogrosBase(jugadorActivo);
 
             int opcion = Libreria.catchInt(1,7);
             ClearScreen.cls();
@@ -193,12 +194,6 @@ public class Juego {
                             jugadorActivo = jugadorCambio;
                             break;
                         }
-                    }
-                    try {
-                        // Pausa la ejecución del programa por 4 segundos (4,000 milisegundos)
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        System.out.println("El hilo fue interrumpido.");
                     }
                     ClearScreen.cls();
                     break;
