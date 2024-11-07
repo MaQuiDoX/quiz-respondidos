@@ -8,9 +8,8 @@ import powers.TNT;
 import powers.Dinamita;
 import powers.Poder;
 import powers.Bombita;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+
+import java.util.*;
 
 import powers.CambioPregunta;
 
@@ -24,6 +23,17 @@ public abstract class Partida {
     String[] elementos = categorias.split(",");
     ArrayList<String> listaCategorias = new ArrayList<>(Arrays.asList(elementos));
 
+    //Atributos que nos serviran para el caso donde ya no quedan preguntas.
+    protected static final HashMap<Integer, Integer> maximoPreguntas = new HashMap<>();
+    protected Set<Integer> categoriasAgotadas = new HashSet<>();
+    static {
+        maximoPreguntas.put(1, 20);
+        maximoPreguntas.put(2, 20);
+        maximoPreguntas.put(3, 20);
+        maximoPreguntas.put(4,20);
+        maximoPreguntas.put(5,25);
+        maximoPreguntas.put(6,15);
+    }
     public void iniciarPartida(Jugador jugador) throws Exception {
 
     }
@@ -45,14 +55,20 @@ public abstract class Partida {
                 //Si usoTienda = true, significa que el usuario uso la tienda, significa que solo le debemos imprimir la pregunta nomas.
                 //Si usoTienda = false, no la uso
                 if (!usoTienda){
-                    pregunta = Pregunta.obtenerPregunta(-1);
+                    //Caso donde ya no hay mas preguntas.
+                    if (categoriasAgotadas.size() == 6){
+                        System.out.println("¡No hay mas preguntas... Ganaste el premio mayor! (10.000 PUNTOS)");
+                        jugador.setPuntajePartida(10000);
+                        return;
+                    }
+                    pregunta = Pregunta.obtenerPregunta(-1, categoriasAgotadas);
                     //if necesario en caso de errores.
                     if (pregunta == null){
                         System.out.println("Buscando una pregunta...");
                         continue;
                     }
                     while (preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).contains(pregunta.getIdPregunta())) {
-                        pregunta = Pregunta.obtenerPregunta(-1);
+                        pregunta = Pregunta.obtenerPregunta(-1, categoriasAgotadas);
                     }
                     listaRespuestasTuplas = generarRespuestasyPregunta(pregunta);
                 } else {
@@ -123,11 +139,11 @@ public abstract class Partida {
 
         System.out.println(" === MENU DE PODERES ===");
         System.out.println("¿Que poder desea usar?:");
-        System.out.println("1. Bombita (10p)");
-        System.out.println("2. Dinamita (10p)");
-        System.out.println("3. TNT (10p)");
-        System.out.println("4. cambioPregunta (10p)");
-        System.out.println("5. Otra Oportunidad (10p)");
+        System.out.println("1. Bombita (15p)");
+        System.out.println("2. Dinamita (25p)");
+        System.out.println("3. TNT (45p)");
+        System.out.println("4. cambioPregunta (25p)");
+        System.out.println("5. Otra Oportunidad (30p)");
 
         enteroRespuesta = Libreria.catchInt(1, 6);
 
@@ -177,12 +193,15 @@ public abstract class Partida {
                     System.out.println("4. Ciencia");
                     System.out.println("5. Historia");
                     System.out.println("6. UNCuyo");
-                    enteroRespuesta = Libreria.catchInt(1, 6);
                     
                     boolean preguntaNull = false;
                     while (!preguntaNull){
-                       
-                        pregunta = poderAUsar.gastarPoder(enteroRespuesta);
+                        enteroRespuesta = Libreria.catchInt(1, 6);
+                        if (this.categoriasAgotadas.contains(enteroRespuesta)) {
+                            System.out.println("Esa categoria ya no tiene respuestas, por favor elige otra categoria.");
+                            continue;
+                        }
+                        pregunta = poderAUsar.gastarPoder(enteroRespuesta, this.preguntasRealizadas, this.categoriasAgotadas);
                         if (pregunta != null){
                             preguntaNull = true;
                         } else {
@@ -311,6 +330,10 @@ public abstract class Partida {
 
                 }
             }
+        }
+        //Añadimos a categoriasAgotadas el id de la categoria que se agoto, comparandolo con el tamaño del arraylist correspondiente en preguntasRealizadas
+        if (maximoPreguntas.get(pregunta.getIndicadorCategoria()) == preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).size()){
+            categoriasAgotadas.add(pregunta.getIndicadorCategoria());
         }
         return respuestaIncorrecta;
     }

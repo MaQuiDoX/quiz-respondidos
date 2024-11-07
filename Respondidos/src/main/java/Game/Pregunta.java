@@ -6,6 +6,7 @@ import DAOs.DataBaseDAO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 
 public class Pregunta {
     private int indicadorCategoria;
@@ -36,7 +37,7 @@ public class Pregunta {
      * Función que al ser llamada devuelve un objeto Pregunta construído a partir del acceso aleatorio a cualquier lista de preguntas de la base de datos.
      * @return Objeto pregunta
      */
-    public static Pregunta obtenerPregunta(int validarNumero) throws Exception {
+    public static Pregunta obtenerPregunta(int validarNumero, Set<Integer> categoriasAgotadas) throws Exception {
         DataBaseDAO conn = new DataBaseDAO();
         conn.connectDB();
 
@@ -46,7 +47,10 @@ public class Pregunta {
         int numCategoria;
 
         if (validarNumero == -1) {
-            numCategoria = new Random().nextInt(6)+1;
+            do {
+                numCategoria = new Random().nextInt(6)+1;
+            } while (categoriasAgotadas.contains(numCategoria));
+
         } else {
             numCategoria = validarNumero;
         }

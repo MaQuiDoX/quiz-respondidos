@@ -4,6 +4,7 @@ package powers;
 import Game.Pregunta;
 import utilities.Tupla;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Clase abstracta que representa las caracteristicas basicas de los poderes o habilidades (ayuda al usuario) y su funcionamiento.
@@ -37,7 +38,7 @@ public abstract class Poder {
      * @param respuestaUsuario dato numerico ingresado por el usuario
      * @see CambioPregunta
      */
-    public Pregunta gastarPoder(int respuestaUsuario) throws Exception {
+    public Pregunta gastarPoder(int respuestaUsuario, ArrayList<ArrayList<Integer>> preguntasRealizadas, Set<Integer> categoriasTerminadas) throws Exception {
         return null;
     }
     

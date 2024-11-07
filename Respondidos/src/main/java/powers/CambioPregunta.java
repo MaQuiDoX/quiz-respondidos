@@ -6,6 +6,11 @@ package powers;
 
 import Game.Pregunta;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+import java.util.Set;
+
 
 /**
  * CambioPregunta es la clase que representa aquel poder que sirve para que el usuario pueda responder otra pregunta y no la presente.
@@ -33,8 +38,15 @@ public class CambioPregunta extends Poder {
      * @return una nueva pregunta al azar de la categoria elegida por el usuario.
      */
     @Override
-    public Pregunta gastarPoder(int respuestaUsuario) throws Exception {
-        return Pregunta.obtenerPregunta(respuestaUsuario);
+    public Pregunta gastarPoder(int respuestaUsuario, ArrayList<ArrayList<Integer>> preguntasRealizadas, Set<Integer> categoriasTerminadas) throws Exception {
+        Pregunta pregunta = Pregunta.obtenerPregunta(respuestaUsuario, categoriasTerminadas);
+
+        while (preguntasRealizadas.get(pregunta.getIndicadorCategoria() - 1).contains(pregunta.getIdPregunta())) {
+
+            pregunta = Pregunta.obtenerPregunta(respuestaUsuario, categoriasTerminadas);
+        }
+
+        return pregunta;
         
     }
 }
