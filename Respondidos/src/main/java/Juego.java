@@ -109,7 +109,7 @@ public class Juego {
                     while (true){
                         System.out.println("Ingrese la contraseña del jugador seleccionado: " + jugadorVersus.getNombre());
                         String contraNew = sc.nextLine();
-
+                        ClearScreen.cls();
                         if (!Objects.equals(contraNew, jugadorVersus.getContrasena())){
                             System.out.println("Contraseña Incorrecta...");
                             System.out.println("¿Desea ingresar la contraseña nuevamente?");
@@ -127,6 +127,7 @@ public class Juego {
                             usuarios.actualizarLogrosBase(jugadorVersus);
                             break;
                         }
+
                     }
                     try {
                         // Pausa la ejecución del programa por 4 segundos (4,000 milisegundos)

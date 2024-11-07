@@ -78,6 +78,12 @@ public class Usuarios {
             logros = db.searchUserLogros(nombre);
             ArrayList<Logros> logrosDBarray;
             logrosDBarray = reinstanciarLogros(logros);
+            try {
+                // Pausa la ejecución del programa por 1 segundo (1,000 milisegundos)
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                System.out.println("El hilo fue interrumpido.");
+            }
             return new Jugador(nombre, contrasena, puntaje, logrosDBarray);
         } else {
             System.out.println(" ");
