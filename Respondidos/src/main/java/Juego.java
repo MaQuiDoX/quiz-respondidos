@@ -1,3 +1,5 @@
+
+import GUI.VentanaMenu;
 import DAOs.DataBaseDAO;
 import Game.Jugador;
 import Game.PartidaIndividual;
@@ -17,30 +19,39 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Juego {
     public static void main(String[] args) throws Exception {
 
-        boolean salir = false;
-        int contadorIdPartida = 1;
 
+        String registroOInicio1 = "!INICIO DE SESION\n$Hola como andan\n1. Iniciar sesión\n2. Registrarse";
+
+        SwingUtilities.invokeLater(() -> new DynamicMenuApp(registroOInicio1, option -> {
+            switch (option){
+                case 1:
+                    String inicioSesion = "!Ingrese el nombre de usuario:\n#\n!Ingrese la contraseña\n#";
+                    SwingUtilities.invokeLater(() -> new DynamicMenuApp(inicioSesion, option1->{
+                        String hola = "1";
+                        System.out.println(hola);
+                    }));
+                    break;
+                case 2:
+                    System.out.println("Registrarse");
+                    break;
+            }
+        }));
+
+        String menuPrincipal = "!RESPONDIDOS\n!Jugador Activo: Hola\n1. Registrarse\n2. Iniciar Partida Individual\n3. Inciar Partida Versus\n4. Estadisticas" +
+                "\n5. Ranking\n6. Seleccionar Jugador\n7. Salir";
+
+        SwingUtilities.invokeLater(() -> new DynamicMenuApp(menuPrincipal, option -> {
+            switch (option){
+                case 7:
+                    System.exit(0);
+            }
+        }));
+
+        /*
         UsuariosDAO db = new UsuariosDAO();
-
         Usuarios usuarios = new Usuarios();
-        Scanner sc = new Scanner(System.in);
-        String titulo = " R E S P O N D I D O S ";
-        ClearScreen.cls();
-        System.out.println(" ");
-        System.out.println(" ");
-        System.out.println("**************************************");
-        System.out.println("* * * * * * * * * * * * * * * * * *  *");
-        System.out.println("*       " + titulo + "      *");
-        System.out.println("* * * * * * * * * * * * * * * * * *  *");
-        System.out.println("**************************************");
 
-        try {
-            // Pausa la ejecución del programa por 4 segundos (4,000 milisegundos)
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            System.out.println("El hilo fue interrumpido.");
-        }
-        ClearScreen.cls();
+
         Jugador jugadorActivo = usuarios.logUsuario();
 
 
@@ -205,5 +216,7 @@ public class Juego {
             // Actualizar jugador activo aca !!
 
         }
+
+         */
     }
 }
