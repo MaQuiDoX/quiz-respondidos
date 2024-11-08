@@ -10,12 +10,12 @@ import java.util.List;
 
 /**
  * LogrosTypeAdapter es la clase encargada de resolver el problema de la deserializacion (¡No podemos crear objetos de logros abstractos!).
- * @author Villegas Joaco
+ * @author Villegas Joaquin
  */
 public class LogrosTypeAdapter implements JsonDeserializer<Logros> {
 
     /**
-     * metodo deserializar, la encargada de al recibir un argumento de tipo logro, le busca el tipo exacto que es.
+     * Metodo deserializar, la encargada de al recibir un argumento de tipo logro, le busca el tipo exacto que es.
      * @param json el objeto json que se va a deserializar
      * @param typeOfT el tipo de dato (o clase) que se quiere retonar al final
      * @param context la encargada de la deserializacion de los JsonElement

@@ -1,6 +1,5 @@
 package powers;
 
-
 import Game.Pregunta;
 import utilities.Tupla;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public abstract class Poder {
     }
     
     /**
-     * uso del poder, en este caso se necesita alguna informacion para llevarla a cabo.
+     * Uso del poder, en este caso se necesita alguna informacion para llevarla a cabo.
      * @param listaTuplas ArrayList de la clase Tupla.
      * @see Tupla
      * @see Bomba
@@ -34,7 +33,7 @@ public abstract class Poder {
     }
     
      /**
-     * uso del poder, en este caso se necesita alguna informacion para llevarla a cabo.
+     * Uso del poder, en este caso se necesita alguna informacion para llevarla a cabo.
      * @param respuestaUsuario dato numerico ingresado por el usuario
      * @see CambioPregunta
      */

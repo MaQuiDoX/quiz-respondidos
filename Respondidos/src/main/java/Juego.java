@@ -38,8 +38,6 @@ public class Juego {
         Scanner sc = new Scanner(System.in);
         ClearScreen.cls();
 
-
-
         ArrayList<String> c = new ArrayList<>();
         final String reset = "\u001B[0m";
         String rojo = "\u001B[31m"; // Rojo
@@ -100,7 +98,6 @@ public class Juego {
                  opcion = Libreria.catchInt(1,7);
             }
 
-
             ClearScreen.cls();
             switch (opcion){
                 case 1:
@@ -114,7 +111,7 @@ public class Juego {
                     usuarios.actualizarPuntosUsuario(jugadorActivo);
                     usuarios.actualizarLogrosBase(jugadorActivo);
                     try {
-                        // Pausa la ejecución del programa por 4 segundos (4,000 milisegundos)
+                        // Pausa la ejecución del programa por 2,5 segundos (2500 milisegundos)
                         Thread.sleep(2500);
                     } catch (InterruptedException e) {
                         System.out.println("El hilo fue interrumpido.");
@@ -127,16 +124,16 @@ public class Juego {
 
                     ArrayList<Jugador> listaJugadoresRegistrados;
                     listaJugadoresRegistrados = usuarios.loadAllUsuarios();
-                    //System.out.println(listaJugadoresRegistrados);
-                    int contadorJugadoresVersus = 1;
+
+                    int contadorJugadoresVersus = 0;
 
                     Jugador finalJugadorActivo1 = jugadorActivo;
                     listaJugadoresRegistrados.removeIf(jugador -> jugador.getNombre().equals(finalJugadorActivo1.getNombre()));
 
                     System.out.println("Elija su contrincante de la lista indicando el número que lo acompaña:");
                     for (Jugador jugador : listaJugadoresRegistrados) {
-                        System.out.println(contadorJugadoresVersus + ". " + jugador.getNombre());
                         contadorJugadoresVersus++;
+                        System.out.println(contadorJugadoresVersus + ". " + jugador.getNombre());
                     }
 
                     int seleccion = Libreria.catchInt(1,contadorJugadoresVersus);
@@ -203,11 +200,12 @@ public class Juego {
                     Jugador finalJugadorActivo = jugadorActivo;
                     listaCambioJugador.removeIf(jugador -> jugador.getNombre().equals(finalJugadorActivo.getNombre()));
 
-                    int contadorCambioJugador = 1;
+                    int contadorCambioJugador = 0;
                     System.out.println("Elija de la lista, indicando el número que lo acompaña, el Jugador con el cual se desea jugar:");
                     for (Jugador jugador : listaCambioJugador) {
-                        System.out.println(contadorCambioJugador + ". " + jugador.getNombre());
                         contadorCambioJugador++;
+                        System.out.println(contadorCambioJugador + ". " + jugador.getNombre());
+
                     }
 
                     int seleccionCambio = Libreria.catchInt(1,contadorCambioJugador);

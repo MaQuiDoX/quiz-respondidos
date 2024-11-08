@@ -75,19 +75,17 @@ public abstract class Logros {
      * @param logro El logro para comprobar y potencialmente añadir a los logros del jugador.
      */
     public void comprobar(Jugador jugador, Logros logro) {
-
-        try {
-            for (int i = 0; i <= jugador.getLogros().size() - 1; i++) {
-                String existe = jugador.getLogros().get(i).getNombre();
-                if (!existe.equals(logro.nombre)) {
-
-                    jugador.addLogro(logro);
-
-                }
+        for (int i = 0; i <= jugador.getLogros().size() - 1; i++) {
+            String existe = jugador.getLogros().get(i).getNombre();
+            if (!existe.equals(logro.nombre)) {
+                jugador.addLogro(logro);
             }
-        } catch (IndexOutOfBoundsException e) {
-            jugador.getLogros().add(logro);
         }
+
+        if (jugador.getLogros().isEmpty()) {
+            jugador.addLogro(logro);
+        }
+
     }
 
 

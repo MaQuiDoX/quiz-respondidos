@@ -33,7 +33,7 @@ public abstract class Bomba extends Poder {
         int j = 0;
         //Checkea cuantas respuestas hay sin eliminar
         for (Tupla<Integer,String> currentTupla : respuestas){
-            if (currentTupla.getSegundo() != "eliminado"){
+            if (currentTupla.getSegundo() != "Eliminado"){
                 j += 1;
             }
         }
@@ -52,9 +52,9 @@ public abstract class Bomba extends Poder {
             while (answersIt.hasNext()){
                 Tupla<Integer,String> currentTupla = answersIt.next();
                 
-                if (((currentTupla.getSegundo() != respuestaCorrecta) && (currentTupla.getSegundo() != "eliminado"))
+                if (((currentTupla.getSegundo() != respuestaCorrecta) && (currentTupla.getSegundo() != "Eliminado"))
                         && (i < getCantExplosiones())) {
-                    currentTupla.setSegundo("eliminado");
+                    currentTupla.setSegundo("Eliminado");
                      i += 1;
                 }
                

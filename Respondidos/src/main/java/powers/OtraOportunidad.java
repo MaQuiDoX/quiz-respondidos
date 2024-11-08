@@ -30,7 +30,7 @@ public class OtraOportunidad extends Poder{
      */
     LogrosPorPuntos logrosDeBusqueda;
     /**
-     *
+     * OK
      */
     ArrayList<Integer> noConsiderar;
 

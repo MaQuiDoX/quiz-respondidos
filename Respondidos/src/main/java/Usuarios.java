@@ -49,12 +49,16 @@ public class Usuarios {
         System.out.println("Ingrese su nombre de usuario:");
         while(!salir){
             nombre = sc.nextLine();
-            boolean nameAvailable = !db.existUserName(nombre); // Invertimos el resultado porque si existe queremos que no este disponible y viceversa.
-            if (nameAvailable) {
-                salir = true;
-                System.out.println("Nombre disponible. Puede ingresar la contraseña.");
+            if (!nombre.contains("'")) {
+                boolean nameAvailable = !db.existUserName(nombre); // Invertimos el resultado porque si existe queremos que no este disponible y viceversa.
+                if (nameAvailable) {
+                    salir = true;
+                    System.out.println("Nombre disponible. Puede ingresar la contraseña.");
+                } else {
+                    System.out.println("Nombre no disponible. Intente con otro.");
+                }
             } else {
-                System.out.println("Nombre no disponible. Intente con otro.");
+                System.out.println("Caracter inválido, ingrese nuevamente:");
             }
         }
         System.out.println(" ");
@@ -63,13 +67,17 @@ public class Usuarios {
         salir = false;
         while(!salir){
             contrasena = sc.nextLine();
-            System.out.println("Confirme su contrasena:");
-            String contrasenaConfirm = sc.nextLine();
-            if (Objects.equals(contrasena, contrasenaConfirm)){
-                salir = true;
-                System.out.println("Contraseña confirmada. Su usuario ha sido creado.");
+            if (!contrasena.contains("'")){
+                System.out.println("Confirme su contrasena:");
+                String contrasenaConfirm = sc.nextLine();
+                if (Objects.equals(contrasena, contrasenaConfirm)){
+                    salir = true;
+                    System.out.println("Contraseña confirmada. Su usuario ha sido creado.");
+                } else {
+                    System.out.println("Las contraseñas no coinciden. Intente de nuevo.");
+                }
             } else {
-                System.out.println("Las contraseñas no coinciden. Intente de nuevo.");
+                System.out.println("Caracter inválido, ingrese nuevamente:");
             }
         }
         System.out.println(" ");
@@ -93,12 +101,21 @@ public class Usuarios {
         Scanner scanner = new Scanner(System.in);
         int puntaje = 0;
         String logros;
+
         System.out.println(" ");
         System.out.println("Ingrese su nombre de usuario: ");
         String nombre = scanner.nextLine();
+        while (nombre.contains("'")) {
+            System.out.println("Caracter inválido, ingrese nuevamente:");
+            nombre = scanner.nextLine();
+        }
         System.out.println(" ");
         System.out.println("Ingrese su contraseña: ");
         String contrasena = scanner.nextLine();
+        while (contrasena.contains("'")) {
+            System.out.println("Caracter inválido, ingrese nuevamente:");
+            contrasena = scanner.nextLine();
+        }
         String nameInDB = db.searchUserName(nombre);
         String passwordInDB = db.searchUserPassword(nombre, contrasena);
         if (nameInDB!=null && passwordInDB!=null) {

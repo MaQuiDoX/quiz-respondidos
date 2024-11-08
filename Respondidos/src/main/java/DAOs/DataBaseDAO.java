@@ -17,7 +17,7 @@ public class DataBaseDAO {
      * Método que realiza la conexión con la base de datos 'mydb.db'.
      * @throws Exception
      * @author Martins Ezequiel
-     * @author Quesada Matias
+     * @author Quesada Manuel
      */
     public void connectDB() throws Exception {
         String url = "jdbc:sqlite:mydb.db";
@@ -32,7 +32,8 @@ public class DataBaseDAO {
     /**
      * Método que realiza la desconexión con la base de datos.
      * @throws Exception
-     * @author Martins Ezequiel & Quesada Matías
+     * @author Martins Ezequiel
+     * @author Quesada Manuel
      */
     public void disconnectDB() throws Exception {
         try {
@@ -95,7 +96,8 @@ public class DataBaseDAO {
      * Getter del atributo connection.
      * @return Connection
      * @see Connection
-     * @author Martins Ezequiel & Quesada Matías
+     * @author Martins Ezequiel
+     * @author Quesada Manuel
      */
     public Connection getConnection() {
         return connection;
@@ -109,10 +111,5 @@ public class DataBaseDAO {
      */
     public ResultSet getResultset() {
         return resultset;
-    }
-
-    // ELIMINARLO??? LO LLEGARÉ A USAR???
-    public Statement getStatement() {
-        return statement;
     }
 }
