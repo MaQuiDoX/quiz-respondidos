@@ -1,14 +1,27 @@
-import DAOs.UsuariosDAO;
 import Game.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-/*
-REVISAR MEJOR FORMA DE OPTIMIZARLO.
+/**
+ * La clase Ranking es la encargada de ordenar e imprimir la lista de jugadores teniendo en cuenta sus puntajes
+ * ordenándolos de mayor a menor.
+ *
+ * La clase permite:
+ * - Mostrar por pantalla el ranking de jugadores actualizado al momento.
+ *
+ * @author Giraudo Ignacio
+ * @author Martins Ezequiel
  */
 public class Ranking {
     private ArrayList<Jugador> ranking = new ArrayList<>();;
 
+    /**
+     * Constructor de la clase Ranking
+     *
+     * @author Giraudo Ignacio
+     * @author Martins Ezequiel
+     *
+     */
     public Ranking() {
         try{
             Usuarios usu = new Usuarios();
@@ -19,8 +32,8 @@ public class Ranking {
     }
 
     /**
-     * Ordena e imprime el ranking del primer al último elemento de la lista. (de mayor a menor puntaje).
-     * @author Nacho
+     * Imprime el ranking del primer al último elemento de la lista.
+     * @author Giraudo Ignacio
      */
     public void imprimirRanking() {
         this.ordenarRanking();
@@ -34,12 +47,12 @@ public class Ranking {
             posicion++;
         }
     }
-    public void agregarJugador(Jugador jugador){
-        ranking.add(jugador);
-    }
 
-    public void ordenarRanking() {
-        ranking.sort(Comparator.comparingInt(Jugador::getPuntaje).reversed());
+    /**
+     * Ordena el ranking de mayor a menor puntaje.
+     *
+     * @author Giraudo Ignacio
+     */
+    private void ordenarRanking() {ranking.sort(Comparator.comparingInt(Jugador::getPuntaje).reversed());
     }
-
 }

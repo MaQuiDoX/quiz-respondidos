@@ -4,7 +4,8 @@ import java.sql.*;
 
 /**
  * Clase que sirve como 'enlace' hacía la base de datos, definiendo los comportamientos más básicos.
- * @author Martins Ezequiel & Quesada Matías
+ * @author Martis Ezequiel
+ * @author Quesada Manuel
  * @version 2.0
  */
 public class DataBaseDAO {
@@ -15,7 +16,8 @@ public class DataBaseDAO {
     /**
      * Método que realiza la conexión con la base de datos 'mydb.db'.
      * @throws Exception
-     * @author Martins Ezequiel & Quesada Matias
+     * @author Martins Ezequiel
+     * @author Quesada Matias
      */
     public void connectDB() throws Exception {
         String url = "jdbc:sqlite:mydb.db";

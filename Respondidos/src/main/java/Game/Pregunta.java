@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
+/**
+ * Representa una pregunta con sus detalles asociados como categoría, respuesta correcta y respuestas incorrectas.
+ * @author Quesada Manuel
+ * @author Martins Ezequiel
+ * @author Villegas Joaquin
+ */
 public class Pregunta {
     private int indicadorCategoria;
     private int idPregunta;
@@ -23,7 +29,15 @@ public class Pregunta {
     private String respuestaCorrecta;
     private ArrayList<String> respuestasIncorrectas;
 
-
+    /**
+     * Constructor para la clase de Pregunta.
+     *
+     * @param indicador El indicador de categoría para la pregunta.
+     * @param id El identificador único para la pregunta.
+     * @param preg El texto de la pregunta.
+     * @param respCorr La respuesta correcta a la pregunta.
+     * @param respIncorr Una lista de respuestas incorrectas para la pregunta.
+     */
     public Pregunta(int indicador, int id, String preg, String respCorr,ArrayList<String> respIncorr){
         this.indicadorCategoria = indicador;
         this.idPregunta = id;
@@ -34,8 +48,13 @@ public class Pregunta {
 
 
     /**
-     * Función que al ser llamada devuelve un objeto Pregunta construído a partir del acceso aleatorio a cualquier lista de preguntas de la base de datos.
-     * @return Objeto pregunta
+     * Obtiene una pregunta aleatoria de la base de datos basada
+     * en la categoría proporcionada o elige una categoría aleatoria si el número de categoría proporcionada es -1.
+     *
+     * @param validarNumero el número de categoría que debe validarse. Si -1, se elegirá una categoría aleatoria.
+     * @param categoriasAgotadas un conjunto de números de categoría que están agotados y no deben elegirse.
+     * @return Objeto pregunta que contiene la pregunta y sus detalles o nulo si no se encuentra ninguna pregunta.
+     * @throws Exception si se produce algún error de acceso a la base de datos
      */
     public static Pregunta obtenerPregunta(int validarNumero, Set<Integer> categoriasAgotadas) throws Exception {
         DataBaseDAO conn = new DataBaseDAO();
@@ -124,44 +143,49 @@ public class Pregunta {
         return null;
     }
 
+    /**
+     * Obtiene el indicador de categoría de la pregunta.
+     *
+     * @return un entero que representa el indicador de categoría de la pregunta.
+     */
     public int getIndicadorCategoria() {
         return indicadorCategoria;
     }
 
-    public void setIndicadorCategoria(int indicadorCategoria) {
-        this.indicadorCategoria = indicadorCategoria;
-    }
-
+    /**
+     * Obtiene el texto de la pregunta.
+     *
+     * @return la cadena de texto que representa la pregunta.
+     */
     public String getPregunta() {
         return pregunta;
     }
 
-    public void setPregunta(String pregunta) {
-        this.pregunta = pregunta;
-    }
-
+    /**
+     * Obtiene la respuesta correcta de la pregunta.
+     *
+     * @return la cadena de texto que representa la respuesta correcta de la pregunta.
+     */
     public String getRespuestaCorrecta() {
         return respuestaCorrecta;
     }
 
-    public void setRespuestaCorrecta(String respuestaCorrecta) {
-        this.respuestaCorrecta = respuestaCorrecta;
-    }
-
+    /**
+     * Obtiene la lista de respuestas incorrectas asociadas a la pregunta.
+     *
+     * @return una lista de cadenas representando las respuestas incorrectas.
+     */
     public ArrayList<String> getRespuestasIncorrectas() {
         return respuestasIncorrectas;
     }
 
-    public void setRespuestasIncorrectas(ArrayList<String> respuestasIncorrectas) {
-        this.respuestasIncorrectas = respuestasIncorrectas;
-    }
-
+    /**
+     * Obtiene el identificador único de la pregunta.
+     *
+     * @return un entero que representa el identificador único de la pregunta.
+     */
     public int getIdPregunta() {
         return idPregunta;
-    }
-
-    public void setIdPregunta(int idPregunta) {
-        this.idPregunta = idPregunta;
     }
 }
 

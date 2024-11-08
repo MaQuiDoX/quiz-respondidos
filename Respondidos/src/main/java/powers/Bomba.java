@@ -5,17 +5,13 @@ import utilities.Tupla;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
 /**
  * Bomba es una sub-clase Abstracta de Poder, tiene como finalidad mostrar los comportamientos iguales de sus hijos.
  * @see Bombita
  * @see Dinamita
  * @see TNT
- * @author Usuario
+ * @author Villegas Joaquin
  */
 public abstract class Bomba extends Poder {
     /**

@@ -3,7 +3,7 @@ package utilities;
 /**
  * Clase encargada de eliminar lo mostrado en consola
  * @version 1.1, 18/9/23
- * @author Manuel Matias Quesada Riccieri
+ * @author Quesada Manuel
  */
 public class ClearScreen {
     /**

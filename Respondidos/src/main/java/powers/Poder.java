@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  * Clase abstracta que representa las caracteristicas basicas de los poderes o habilidades (ayuda al usuario) y su funcionamiento.
- * @author Usuario
+ * @author Villegas Joaquin
  */
 public abstract class Poder {
     protected String nombre;
@@ -41,11 +41,11 @@ public abstract class Poder {
     public Pregunta gastarPoder(int respuestaUsuario, ArrayList<ArrayList<Integer>> preguntasRealizadas, Set<Integer> categoriasTerminadas) throws Exception {
         return null;
     }
-    
-    public void imprimirInfo(){
-        System.out.println("Este es: " + this.nombre + " , " + descripcion);
-    }
-    
 
-   public int getPrecio(){ return this.precio; }
+    /**
+     * Obtiene el precio del poder.
+     *
+     * @return el precio del poder.
+     */
+    public int getPrecio(){ return this.precio; }
 }

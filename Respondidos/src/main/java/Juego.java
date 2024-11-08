@@ -1,31 +1,45 @@
-import DAOs.DataBaseDAO;
+
 import Game.Jugador;
 import Game.PartidaIndividual;
 import Game.PartidaVersus;
-import Game.Partida;
-import DAOs.UsuariosDAO;
 import utilities.*;
-import utilities.Tupla;
 
-import javax.swing.*;
-import java.awt.*;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ * La clase Juego representa el punto de entrada principal de la aplicación.
+ * Se encarga de manejar el flujo principal del juego.
+ *
+ * La clase permite a los jugadores:
+ * - Registrarse
+ * - Iniciar partidas individuales o versus
+ * - Ver estadísticas y ranking
+ * - Seleccionar otros jugadores
+ * - Salir del juego
+ *
+ * El juego tiene una lista de administradores que tienen opciones adicionales
+ * tales como la eliminación de usuarios.
+ *
+ * @author Giraudo Ignacio
+ * @author Villegas Joaco
+ * @author Ferrari Paulina
+ * @author Martins Ezequiel
+ * @author Quesada Manuel
+ */
 
 public class Juego {
     public static void main(String[] args) throws Exception {
-
         boolean salir = false;
-        int contadorIdPartida = 1;
-
-        UsuariosDAO db = new UsuariosDAO();
 
         Usuarios usuarios = new Usuarios();
         Scanner sc = new Scanner(System.in);
-        String titulo = " R E S P O N D I D O S ";
         ClearScreen.cls();
+
+        /*
+        String titulo = " R E S P O N D I D O S ";
         System.out.println(" ");
         System.out.println(" ");
         System.out.println("**************************************");
@@ -33,6 +47,33 @@ public class Juego {
         System.out.println("*       " + titulo + "      *");
         System.out.println("* * * * * * * * * * * * * * * * * *  *");
         System.out.println("**************************************");
+         */
+
+        /*
+        System.out.println("   ____     U _____ u   ____       ____       U  ___ u   _   _       ____                    ____       U  ___ u   ____     ");
+        System.out.println("U |  _\"\\ u  \\| ___\"|/  / __\"| u  U|  _\"\\ u     \\/\"_ \\/  | \\ |\"|     |  _\"\\        ___       |  _\"\\       \\/\"_ \\/  / __\"| u  ");
+        System.out.println(" \\| |_) |/   |  _|\"   <\\___ \\/   \\| |_) |/     | | | | <|  \\| |>   /| | | |      |_\"_|     /| | | |      | | | | <\\___ \\/   ");
+        System.out.println("  |  _ <     | |___    u___) |    |  __/   .-,_| |_| | U| |\\  |u   U| |_| |\\      | |      U| |_| |\\ .-,_| |_| |  u___) |   ");
+        System.out.println("  |_| \\_\\    |_____|   |____/>>   |_|       \\_)-\\___/   |_| \\_|     |____/ u    U/| |\\u     |____/ u  \\_)-\\___/   |____/>>  ");
+        System.out.println("  //   \\\\_   <<   >>    )(  (__)  ||>>_          \\\\     ||   \\\\,-.   |||_    .-,_|___|_,-.   |||_          \\\\      )(  (__) ");
+        System.out.println(" (__)  (__) (__) (__)  (__)      (__)__)        (__)    (_\")  (_/   (__)_)    \\_)-' '-(_/   (__)_)        (__)    (__)      ");
+         */
+
+        System.out.println("╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n" +
+                "║                                                                                                                                                                                        ║\n" +
+                "║  -###%%%%#*+:     -##%%%%%%%%%#    =#%@@@@%*+.  .####%%%#*+-        -*%@@@@%*=.     :#%%%-      ****.   ##%%%%%#*=:       *%%%+   =##%%%%##+-.         :+#%@@@%#+:       :+#@@@@%#+-   ║\n" +
+                "║  *@@@@@@@@@@@@=   +@@@@@@@@@@@@  =@@@@@@@@@@@-  -@@@@@@@@@@@@+    +@@@@@@@@@@@@*.   =@@@@@=    .@@@@:  .@@@@@@@@@@@@*.    @@@@#   #@@@@@@@@@@@#-     :%@@@@@@@@@@@%-    #@@@@@@@@@@%   ║\n" +
+                "║  #@@@@-::-#@@@@-  +@@@@:::::::.  @@@@*.  .:=-   -@@@@#--=*@@@@+ .%@@@@*-..:+@@@@@.  =@@@@@@#   .@@@@-  :@@@@+--+#@@@@@-   @@@@#   #@@@@--=*@@@@@#   +@@@@%=:.:-%@@@@+  *@@@@:  .:-+    ║\n" +
+                "║  #@@@@:   :@@@@=  +@@@@......    @@@@@*=:.      -@@@@*    %@@@% *@@@@=      -@@@@*  =@@@@@@@@. .@@@@-  :@@@@-    .@@@@@.  @@@@#   %@@@%     *@@@@+ .@@@@%       @@@@@: +@@@@#+-.       ║\n" +
+                "║  #@@@@+==+%@@@@.  +@@@@@@@@@@.   -@@@@@@@@@#=   -@@@@#::-+@@@@+ @@@@@        @@@@%  =@@@@+@@@@:.@@@@:  :@@@@-     =@@@@=  @@@@%   %@@@%      @@@@% =@@@@=       +@@@@=  *@@@@@@@@%+:   ║\n" +
+                "║  %@@@@@@@@@@%+.   *@@@@######      :=+*%@@@@@%  -@@@@@@@@@@@@+  %@@@@.       @@@@%  =@@@@.:@@@@+@@@@:  :@@@@-     =@@@@-  @@@@#   %@@@%      @@@@% -@@@@+       *@@@@=    -=*#%@@@@@=  ║\n" +
+                "║  %@@@@:-%@@@%:    *@@@@          .:      #@@@@. -@@@@@###*=-    =@@@@*      #@@@@+  =@@@@. .#@@@@@@@:  :@@@@:    :@@@@@   @@@@#   %@@@%     *@@@@=  @@@@@:     :@@@@@.  :.     -@@@@#  ║\n" +
+                "║  %@@@@   *@@@@+   *@@@@+++++++-  #@@#+++*@@@@%  -@@@@#           +@@@@@*==+%@@@@#   =@@@@.   *@@@@@@.  :@@@@#++*%@@@@%:   @@@@#   %@@@@*+*#@@@@@+   :@@@@@#+=+#@@@@@-  :@@%*+++%@@@@=  ║\n" +
+                "║  #@@@@    -@@@@*  *@@@@@@@@@@@*  *%@@@@@@@@#=   -@@@@#            :#@@@@@@@@@@#-    =@@@@.    =@@@@@.  :@@@@@@@@@@@#=     @@@@#   %@@@@@@@@@@%+:      +@@@@@@@@@@@+    =#@@@@@@@@@*:   ║\n" +
+                "║                                                                                                                                                                                        ║\n" +
+                "╚════════════════════════════════════════════════════════════════╦══════════════════════════════════════════════════════╦════════════════════════════════════════════════════════════════╝\n" +
+                "                                                                 ║ Poli - xXGiraudoXx - Rumblet - MaQuiDoX - cocoproman ║\n" +
+                "                                                                 ╚══════════════════════════════════════════════════════╝");
 
         try {
             // Pausa la ejecución del programa por 4 segundos (4,000 milisegundos)
@@ -48,15 +89,6 @@ public class Juego {
         admins.add("Rumblet");
         admins.add("MaQuiDoX");
         admins.add("poli");
-
-
-
-//        Jugador samu = new Jugador("Samu", 500);
-//        Jugador jug2 = new Jugador("JUGADOR 2", 50);
-//        Jugador jug3 = new Jugador("ILLOJUAN", 100);
-//        ranking.agregarJugador(samu);
-//        ranking.agregarJugador(jug2);
-//        ranking.agregarJugador(jug3);
 
         while (!salir){
             ClearScreen.cls();
@@ -205,8 +237,6 @@ public class Juego {
                                 break;
                             }
                         } else if (Objects.equals(contraNewCambio, jugadorCambio.getContrasena())){
-                            // ACTUALIZAR ACA ANTES DE PERDER LA DATA (POR LAS DUDAS, NO SE DEBERIA PERDER POR QUE SE ACTUALIZA DURANTE LAS PARTIDAS
-                            // PERO UN UPDATE NO VIENE MAL
                             jugadorActivo = jugadorCambio;
                             break;
                         }
@@ -221,7 +251,6 @@ public class Juego {
                     ClearScreen.cls();
                     break;
             }
-            // Actualizar jugador activo aca !!
 
         }
     }

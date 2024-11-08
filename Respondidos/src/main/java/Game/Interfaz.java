@@ -5,8 +5,8 @@
 package Game;
 
 /**
- *
- * @author Usuario
+ * Interfaz que define la estructura básica para calcular el puntaje de un jugador en distintas modalidades de partida.
+ * @author Villegas Joaco
  */
 public interface Interfaz {
     public void calcularPuntaje(Jugador jugador);

@@ -8,14 +8,36 @@ import utilities.Libreria;
 import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * La clase Usuario es responsable de manejar operaciones relacionadas con el usuario como el Registro,
+ * el Logueo, la carga de datos, y la actualizacion del mismo. Este interactua con UsuariosDAO para operar la
+ * información del usuario en la database.
+ * @author Giraudo Ignacio
+ * @author Martins Ezequiel
+ * @author Villegas Joaquín
+ * @author Quesada Manuel
+ */
 public class Usuarios {
+
+    /**
+     * Instancia de Gson configurada para manejar la serialización y deserialización de objetos de tipo Logros.
+     * Utiliza un LogrosTypeAdapter personalizado para resolver el problema de deserialización de objetos Logros abstractos,
+     * permitiendo la conversión adecuada de JSON a subclases específicas de Logros.
+     */
     private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(Logros.class, new LogrosTypeAdapter())
             .create();
+
+    /**
+     * Registra un nuevo usuario solicitando al usuario un nombre de usuario y una contraseña,}
+     * confirmando la contraseña y asegurándose de que el nombre de usuario sea único.
+     *
+     * @return un objeto Jugador recién registrado con el nombre de usuario y contraseña proporcionados.
+     * @throws Exception si un error ocurre durante el Registro
+     */
     public static Jugador registerUsuario() throws Exception {
         UsuariosDAO db = new UsuariosDAO();
         Scanner sc = new Scanner(System.in);
@@ -57,6 +79,15 @@ public class Usuarios {
         return jugador;
     }
 
+    /**
+     * Inicia sesión para un usuario existente solicitando el nombre de usuario y la contraseña.
+     * Si la autenticación es exitosa, devuelve un objeto Jugador con los detalles del jugador.
+     * En caso de fallar la autenticación, permite al usuario intentar nuevamente
+     * o registrar un nuevo usuario.
+     *
+     * @return un objeto Jugador correspondiente al usuario autenticado o recién registrado.
+     * @throws Exception si ocurre un error durante el proceso de inicio de sesión o registro.
+     */
     public Jugador logUsuario() throws Exception {
         UsuariosDAO db = new UsuariosDAO();
         Scanner scanner = new Scanner(System.in);
@@ -100,6 +131,12 @@ public class Usuarios {
         }
     }
 
+    /**
+     * Carga todos los usuarios de la base de datos y los devuelve como una lista de objetos Jugador.
+     *
+     * @return un ArrayLista de objetos Jugador que representan a todos los usuarios cargados desde la base de datos.
+     * @throws Exception si hay un error al cargar los usuarios.
+     */
     public ArrayList<Jugador> loadAllUsuarios() throws Exception {
         UsuariosDAO db = new UsuariosDAO();
         try {
@@ -124,6 +161,12 @@ public class Usuarios {
         }
     }
 
+    /**
+     * Actualiza los logros de un jugador en la base de datos.
+     *
+     * @param jugador El objeto Jugador cuyos logros se actualizarán en la base de datos.
+     * @throws Exception Si ocurre un error durante la actualización de los logros en la base de datos.
+     */
     public void actualizarLogrosBase(Jugador jugador) throws Exception {
         UsuariosDAO db = new UsuariosDAO();
         ArrayList<Logros> logrosList = jugador.getLogros();
@@ -131,39 +174,38 @@ public class Usuarios {
         db.updateUserLogros(jugador.getNombre(), logrosText);
     }
 
+    /**
+     * Actualiza los puntos de un jugador en la base de datos.
+     *
+     * @param jugador El objeto Jugador cuyos puntos se actualizarán en la base de datos.
+     * @throws Exception Si ocurre un error durante la actualización de los puntos en la base de datos.
+     */
     public void actualizarPuntosUsuario(Jugador jugador) throws Exception {
         UsuariosDAO db = new UsuariosDAO();
 
         db.updateUserPoints(jugador.getNombre(),jugador.getPuntaje());
     }
-    // ++++++++++++++++++++++++++++++++++++
-    // ++++++ ¿¿BORRAR ESTE METODO?? ++++++
-    // ++++++++++++++++++++++++++++++++++++
-    public void printUsuarios() throws Exception {
-        UsuariosDAO db = new UsuariosDAO();
 
-        db.consultarDB("SELECT * FROM usuarios");
-
-        ResultSet resultSet = db.getResultset();
-
-        System.out.println("BASE DE DATOS DE USUARIOS");
-        System.out.println("ID\tNombre\tContrasena   \tPuntaje\tRacha\t");
-        while (resultSet.next()) {
-            int id = resultSet.getInt("id");
-            String pregunta = resultSet.getString("nombre");
-            String respuestacorrecta = resultSet.getString("contrasena");
-            String respuestafallida1 = resultSet.getString("puntaje");
-            String respuestafallida2 = resultSet.getString("racha");
-            System.out.println(id + "\t" + pregunta + "\t" + respuestacorrecta + "\t" + respuestafallida1 + "\t" + respuestafallida2 + "\t");
-        }
-    }
-    // ++++++++++++++++++++++++++++++++++++
-
+    /**
+     * Convierte una cadena JSON en una lista de objetos Logros.
+     *
+     * @param logros la cadena JSON que representa una lista de objetos Logros.
+     * @return una lista de objetos Logros.
+     * @throws Exception si ocurre un error al deserializar la cadena JSON.
+     */
     public ArrayList<Logros> reinstanciarLogros(String logros) throws Exception {
         Type listType = new TypeToken<ArrayList<Logros>>() {}.getType();
         return gson.fromJson(logros, listType);
     }
 
+    /**
+     * Elimina un jugador de la lista de usuarios, asegurándose de que el jugador activo y los administradores no sean eliminados.
+     * Luego solicita al usuario que seleccione a un jugador de la lista filtrada que desea eliminar de la base de datos.
+     *
+     * @param admins Una lista de nombres de usuario que tienen privilegios de administrador y no deben ser eliminados.
+     * @param jugadorActivo El jugador actualmente activo que no debe ser eliminado.
+     * @throws Exception Si ocurre un error al eliminar el usuario de la base de datos.
+     */
     public void eliminarJugador(ArrayList<String> admins, Jugador jugadorActivo) throws Exception {
         UsuariosDAO db =new UsuariosDAO();
 
@@ -176,9 +218,9 @@ public class Usuarios {
         listaDeleteJugador.removeIf(jugador -> admins.contains(jugador.getNombre()));
 
         int contadorCambioJugador = 0;
-        System.out.println("0. SALIR");
         System.out.println("Elija de la lista, indicando el número que lo acompaña, el Jugador que desea eliminar:");
         System.out.println(" ");
+        System.out.println("0. SALIR");
         for (Jugador jugador : listaDeleteJugador) {
             contadorCambioJugador++;
             System.out.println(contadorCambioJugador + ". " + jugador.getNombre());

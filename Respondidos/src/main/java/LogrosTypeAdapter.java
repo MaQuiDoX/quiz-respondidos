@@ -8,23 +8,20 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogrosTypeAdapter implements JsonSerializer<ArrayList<Logros>>, JsonDeserializer<Logros> {
-    public JsonElement serialize1(Logros logro, Type typeOfSrc, JsonSerializationContext context) {
-        System.out.println("estoy serializando carajo");
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("type", logro.getClass().getSimpleName());
-        jsonObject.add("properties", context.serialize(logro));
-        return jsonObject;
-    }
-    @Override
-    public JsonElement serialize(ArrayList<Logros> logrosList, Type typeOfSrc, JsonSerializationContext context) {
-        JsonArray jsonArray = new JsonArray();
-        for (Logros logro : logrosList) {
-            jsonArray.add(serialize1(logro, logro.getClass(), context));
-        }
-        return jsonArray;
-    }
+/**
+ * LogrosTypeAdapter es la clase encargada de resolver el problema de la deserializacion (¡No podemos crear objetos de logros abstractos!).
+ * @author Villegas Joaco
+ */
+public class LogrosTypeAdapter implements JsonDeserializer<Logros> {
 
+    /**
+     * metodo deserializar, la encargada de al recibir un argumento de tipo logro, le busca el tipo exacto que es.
+     * @param json el objeto json que se va a deserializar
+     * @param typeOfT el tipo de dato (o clase) que se quiere retonar al final
+     * @param context la encargada de la deserializacion de los JsonElement
+     * @return un objeto del tipo Logro
+     * @throws JsonParseException
+     */
     @Override
     public Logros deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
