@@ -163,4 +163,43 @@ public class Usuarios {
         Type listType = new TypeToken<ArrayList<Logros>>() {}.getType();
         return gson.fromJson(logros, listType);
     }
+
+    public void eliminarJugador(ArrayList<String> admins, Jugador jugadorActivo) throws Exception {
+        UsuariosDAO db =new UsuariosDAO();
+
+        System.out.println("ELIMINAR JUGADOR"); System.out.println(" ");
+        ArrayList<Jugador> listaDeleteJugador;
+        listaDeleteJugador = this.loadAllUsuarios();
+
+        //Remueve a los admins de la lista de posibles eliminados.
+        listaDeleteJugador.removeIf(jugador -> jugador.getNombre().equals(jugadorActivo.getNombre()));
+        listaDeleteJugador.removeIf(jugador -> admins.contains(jugador.getNombre()));
+
+        int contadorCambioJugador = 0;
+        System.out.println("0. SALIR");
+        System.out.println("Elija de la lista, indicando el número que lo acompaña, el Jugador que desea eliminar:");
+        System.out.println(" ");
+        for (Jugador jugador : listaDeleteJugador) {
+            contadorCambioJugador++;
+            System.out.println(contadorCambioJugador + ". " + jugador.getNombre());
+        }
+        System.out.println(" ");
+        if (listaDeleteJugador.isEmpty()){
+            return;
+        }else{
+
+            int seleccion = Libreria.catchInt(0,contadorCambioJugador);
+            if (seleccion==0){
+                return;
+            }
+            Jugador jugadorEliminar = listaDeleteJugador.get(seleccion-1);
+
+            try {
+                db.deleteUser(jugadorEliminar.getNombre());
+            }catch (Exception ex) {
+                System.out.println("Error al eliminar el usuario");
+                throw ex;
+            }
+        }
+    }
 }

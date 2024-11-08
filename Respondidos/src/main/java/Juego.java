@@ -42,6 +42,13 @@ public class Juego {
         }
         ClearScreen.cls();
         Jugador jugadorActivo = usuarios.logUsuario();
+        ArrayList<String> admins = new ArrayList<>();
+        admins.add("xXGiraudoXx");
+        admins.add("cocoproman");
+        admins.add("Rumblet");
+        admins.add("MaQuiDoX");
+        admins.add("poli");
+
 
 
 //        Jugador samu = new Jugador("Samu", 500);
@@ -62,8 +69,15 @@ public class Juego {
             System.out.println("5. Ranking");
             System.out.println("6. Seleccionar Jugador");
             System.out.println("7. Salir");
+            int opcion=0;
+            //Si es admin se le permite acceder a la 8va opcion (DELETE USER)
+            if (admins.contains(jugadorActivo.getNombre())){
+                 opcion = Libreria.catchInt(1,8);
+            } else{
+                 opcion = Libreria.catchInt(1,7);
+            }
 
-            int opcion = Libreria.catchInt(1,7);
+
             ClearScreen.cls();
             switch (opcion){
                 case 1:
@@ -201,6 +215,10 @@ public class Juego {
                     break;
                 case 7:
                     salir = true;
+                    break;
+                case 8:
+                    usuarios.eliminarJugador(admins, jugadorActivo);
+                    ClearScreen.cls();
                     break;
             }
             // Actualizar jugador activo aca !!

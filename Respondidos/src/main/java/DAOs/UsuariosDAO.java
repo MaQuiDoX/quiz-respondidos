@@ -133,6 +133,19 @@ public class UsuariosDAO extends DataBaseDAO{
             actualizarDB(sql);
         } catch (Exception ex) {
             throw ex;
+        } finally {
+            disconnectDB();
+        }
+    }
+
+    public void deleteUser(String nameDB) throws Exception {
+        try {
+            String sql = "DELETE FROM usuarios WHERE nombre='"+nameDB+"'";
+            actualizarDB(sql);
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            disconnectDB();
         }
     }
 }
